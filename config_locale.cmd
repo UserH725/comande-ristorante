@@ -1,0 +1,5 @@
+set "NOME_LOCALE=Ristorante La Stella del Mare di Asia e Mauro Bigoni" 
+set "INDIRIZZO_LOCALE=Via del Mare, 1" 
+set "TEL_LOCALE=3315659744 / 3518238233" 
+set "PIVA_LOCALE=01234567891" 
+set "NOTE_INTESTAZIONE=Benvenuti e buon appetito" 
