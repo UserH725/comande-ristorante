@@ -15,7 +15,7 @@
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4">
 
-    <div class="max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700 p-6">
+    <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700 p-6">
         
         <!-- HEADER LOCALE DINAMICO -->
         <div class="border-b border-gray-700 pb-4 mb-6 text-center">
@@ -34,7 +34,7 @@
         <!-- ============================================================ -->
         <!-- MENU PRINCIPALE                                              -->
         <!-- ============================================================ -->
-        <div id="sec-menu-principale" class="space-y-2.5">
+        <div id="sec-menu-principale" class="space-y-2.5 max-w-xl mx-auto">
             <p class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">Seleziona un'opzione del menu:</p>
             
             <button onclick="apriSezione('sec-1-anagrafica')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
@@ -69,7 +69,7 @@
         <!-- ============================================================ -->
         <!-- 1. PERSONALIZZAZIONE LOCALE                                  -->
         <!-- ============================================================ -->
-        <div id="sec-1-anagrafica" class="sezione hidden">
+        <div id="sec-1-anagrafica" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">1. Personalizzazione Anagrafica Locale</h2>
             <div class="space-y-3">
                 <div>
@@ -105,22 +105,25 @@
         <div id="sec-2-menu" class="sezione hidden">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">2. Caricamento Pietanze (Menu)</h2>
             
-            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3">
+            <!-- Inserimento Nuova Pietanza -->
+            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3 max-w-xl mx-auto">
                 <h3 class="text-sm font-bold text-gray-300">Aggiungi Nuova Pietanza</h3>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Tipologia</label>
-                    <select id="p-tipo" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
-                        <option value="Antipasto">Antipasto</option>
-                        <option value="Primo">Primo</option>
-                        <option value="Secondo">Secondo</option>
-                        <option value="Contorno">Contorno</option>
-                        <option value="Dolce">Dolce</option>
-                        <option value="Bevande">Bevande</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Descrizione Pietanza</label>
-                    <input type="text" id="p-desc" placeholder="Es. Spaghetti alla Carbonara" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                <div class="grid grid-cols-3 gap-2">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Tipologia</label>
+                        <select id="p-tipo" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                            <option value="Antipasto">Antipasto</option>
+                            <option value="Primo">Primo</option>
+                            <option value="Secondo">Secondo</option>
+                            <option value="Contorno">Contorno</option>
+                            <option value="Dolce">Dolce</option>
+                            <option value="Bevande">Bevande</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs text-gray-400 mb-1">Descrizione Pietanza</label>
+                        <input type="text" id="p-desc" placeholder="Es. Spaghetti Carbonara" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                    </div>
                 </div>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">Prezzo (€)</label>
@@ -129,26 +132,19 @@
                 <button onclick="aggiungiPietanzaMenu()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded font-bold text-sm">+ Aggiungi al Menu</button>
             </div>
 
-            <h3 class="text-sm font-bold text-gray-300 mb-2">Menu Pietanze Attuale</h3>
-            <div class="overflow-x-auto border border-gray-700 rounded-lg mb-4">
-                <table class="w-full text-left text-xs">
-                    <thead class="bg-gray-900 text-amber-400 border-b border-gray-700 font-mono">
-                        <tr>
-                            <th class="p-2.5">TIPOLOGIA</th>
-                            <th class="p-2.5">DESCRIZIONE</th>
-                            <th class="p-2.5">PREZZO</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbl-menu-body" class="divide-y divide-gray-800 font-mono text-gray-300"></tbody>
-                </table>
+            <!-- TABELLA / GRIGLIA MENU PER TIPOLOGIA -->
+            <h3 class="text-sm font-bold text-gray-300 mb-3">Menu Pietanze Diviso per Categoria</h3>
+            <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                <!-- Generato via JS: colonne per Antipasto, Primo, Secondo, ecc. -->
             </div>
-            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2 rounded text-sm">Indietro al Menu Principale</button>
+
+            <button onclick="tornaMenu()" class="w-full max-w-xl mx-auto block bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Indietro al Menu Principale</button>
         </div>
 
         <!-- ============================================================ -->
         <!-- 3. GESTIONE CAMERIERI                                         -->
         <!-- ============================================================ -->
-        <div id="sec-3-camerieri" class="sezione hidden">
+        <div id="sec-3-camerieri" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">3. Gestione Camerieri</h2>
             
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3">
@@ -170,7 +166,7 @@
         <!-- ============================================================ -->
         <!-- 4. EMISSIONE COMANDA                                         -->
         <!-- ============================================================ -->
-        <div id="sec-4-comanda" class="sezione hidden">
+        <div id="sec-4-comanda" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
             
             <div class="grid grid-cols-3 gap-2 mb-4">
@@ -227,10 +223,9 @@
         <!-- ============================================================ -->
         <!-- 5. RICERCA COMANDA                                           -->
         <!-- ============================================================ -->
-        <div id="sec-5-ricerca" class="sezione hidden">
+        <div id="sec-5-ricerca" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">5. Ricerca Comanda</h2>
             
-            <!-- Filtri Ricerca -->
             <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4 space-y-2">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -245,11 +240,9 @@
                 <button onclick="caricaEParseArchivioComande()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-1.5 rounded font-bold text-xs">🔄 Aggiorna Archivio Cloud</button>
             </div>
 
-            <!-- Lista Risultati -->
             <div id="loading-ricerca" class="text-center text-xs text-gray-400 py-4 hidden">Caricamento archivio da GitHub...</div>
             <div id="lista-ricerca-comande" class="space-y-2 max-h-80 overflow-y-auto mb-4 pr-1"></div>
 
-            <!-- Dettaglio Comanda Selezionata -->
             <div id="box-dettaglio-comanda" class="bg-gray-950 p-4 border border-gray-700 rounded-lg mb-4 hidden">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-xs font-bold text-amber-400 uppercase">Anteprima Comanda</h3>
@@ -264,7 +257,7 @@
         <!-- ============================================================ -->
         <!-- 6. REPORT INCASSI ED ELENCO PIETANZE                         -->
         <!-- ============================================================ -->
-        <div id="sec-6-report" class="sezione hidden">
+        <div id="sec-6-report" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">6. Report Pietanze & Incassi</h2>
             
             <div class="flex gap-2 mb-4">
@@ -272,7 +265,6 @@
                 <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold">Totale Storico</button>
             </div>
 
-            <!-- Cards Totali -->
             <div class="grid grid-cols-2 gap-2 mb-4">
                 <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
                     <span class="block text-xs text-gray-400">INCASSO TOTALE</span>
@@ -292,7 +284,6 @@
                 </div>
             </div>
 
-            <!-- Dettaglio Pietanze Vendute -->
             <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Dettaglio Pietanze Servite</h3>
             <div class="overflow-x-auto border border-gray-700 rounded-lg mb-4">
                 <table class="w-full text-left text-xs">
@@ -407,25 +398,48 @@
             salvaMenuCSVCloud();
         }
 
+        // VISUALIZZAZIONE A COLONNE PER CATEGORIA
         function renderizzaMenuGUI() {
-            const tbody = document.getElementById('tbl-menu-body');
+            const gridDiv = document.getElementById('grid-menu-categorie');
             const quickDiv = document.getElementById('quick-menu-buttons');
-            tbody.innerHTML = '';
+            
+            const categorie = ["Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Bevande"];
+            
+            gridDiv.innerHTML = '';
             quickDiv.innerHTML = '';
 
+            // Tasti Rapidi per la Comanda (Punto 4)
             menuPietanze.forEach(p => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-gray-800">
-                        <td class="p-2.5 text-amber-300">${p.tipo}</td>
-                        <td class="p-2.5 font-bold">${p.desc}</td>
-                        <td class="p-2.5 text-emerald-400">€ ${p.prezzo}</td>
-                    </tr>
-                `;
-
                 quickDiv.innerHTML += `
                     <button onclick="selezionaPiattoRapido('${p.desc.replace(/'/g, "\\'")}')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 px-2 py-1 rounded text-xs">
                         + ${p.desc}
                     </button>
+                `;
+            });
+
+            // Generazione Colonne per ogni Categoria
+            categorie.forEach(cat => {
+                const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
+                
+                let listHtml = '';
+                if (piattiCat.length === 0) {
+                    listHtml = `<div class="text-gray-500 text-xs italic py-1">- Nessun piatto -</div>`;
+                } else {
+                    piattiCat.forEach(p => {
+                        listHtml += `
+                            <div class="flex justify-between items-center text-xs py-1 border-b border-gray-800 last:border-0">
+                                <span class="font-bold text-gray-200 truncate pr-1">${p.desc}</span>
+                                <span class="text-emerald-400 font-mono font-semibold whitespace-nowrap">€ ${p.prezzo}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                gridDiv.innerHTML += `
+                    <div class="bg-gray-900 border border-gray-700 rounded-lg p-3">
+                        <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-700 pb-1">${cat}</h4>
+                        <div class="space-y-0.5">${listHtml}</div>
+                    </div>
                 `;
             });
         }
@@ -564,7 +578,7 @@
             tornaMenu();
         }
 
-        // --- CARICAMENTO & PARSING ARCHIVIO PER RICERCA E REPORT (PUNTI 5 e 6) ---
+        // --- CARICAMENTO & PARSING ARCHIVIO (PUNTI 5 e 6) ---
         async function apriSezioneRicerca() {
             apriSezione('sec-5-ricerca');
             await caricaEParseArchivioComande();
@@ -665,7 +679,7 @@
                 return;
             }
 
-            filtrate.reverse().forEach((c, idx) => {
+            filtrate.reverse().forEach((c) => {
                 divLista.innerHTML += `
                     <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-gray-900 hover:bg-gray-700 p-3 rounded-lg border border-gray-700 cursor-pointer flex justify-between items-center transition">
                         <div>
@@ -724,7 +738,6 @@
                 c.articoli.forEach(art => {
                     totaleQtaPietanze += art.qta;
                     
-                    // Cerca prezzo dal menu
                     const trovato = menuPietanze.find(m => m.desc.toLowerCase() === art.desc.toLowerCase());
                     const prezzoUnitario = trovato ? parseFloat(trovato.prezzo) : 0;
                     const totaleArt = prezzoUnitario * art.qta;
