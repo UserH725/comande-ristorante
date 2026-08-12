@@ -6,12 +6,12 @@
     <title>Gestionale Ristorante</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* VISUALIZZAZIONE SU SCHERMO (NASCONDE L'AREA STAMPA) */
+        /* NASCONDE L'AREA DI STAMPA SULLO SCHERMO */
         @media screen {
             #printable-area { display: none !important; }
         }
 
-        /* VISUALIZZAZIONE SU STAMPANTE (NASCONDE L'APP, MOSTRA SOLO LO SCONTRINO) */
+        /* CONFIGURAZIONE PERFETTA PER LA STAMPANTE */
         @media print {
             @page { 
                 size: A4 portrait; 
@@ -22,32 +22,32 @@
                 margin: 0; 
                 padding: 0; 
             }
-            /* Nascondiamo l'applicazione grafica */
+            /* Nasconde forzatamente l'app gestionale e lo spazio vuoto */
             #main-app { 
                 display: none !important; 
             }
-            /* Mostriamo solo l'area dello scontrino */
+            /* Mostra in grande solo lo scontrino riempiendo il foglio */
             #printable-area { 
                 display: block !important; 
                 width: 100%; 
-                font-family: 'Courier New', Courier, monospace; 
-                color: #000;
-                font-size: 13px;
-                line-height: 1.4;
+                font-family: 'Courier New', Courier, monospace !important; 
+                color: black !important;
             }
             .ticket-copy pre { 
-                white-space: pre-wrap; 
-                font-family: inherit; 
-                margin: 0; 
+                white-space: pre-wrap !important; 
+                font-family: inherit !important; 
+                margin: 0 !important; 
+                font-size: 15px !important; /* Testo leggibile su A4 */
+                line-height: 1.4 !important;
             }
             .cut-line {
-                text-align: center; 
-                font-size: 12px; 
-                font-weight: bold;
-                margin: 40px 0; 
-                border-bottom: 2px dashed #000; 
-                padding-bottom: 10px;
-                color: #000;
+                text-align: center !important; 
+                font-size: 13px !important; 
+                font-weight: bold !important;
+                margin: 35px 0 !important; 
+                border-bottom: 2px dashed black !important; 
+                padding-bottom: 10px !important;
+                color: black !important;
             }
         }
     </style>
@@ -211,10 +211,9 @@
             
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-2xl font-black text-indigo-700">📝 Nuova Comanda</h2>
-                <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Annulla</button>
+                <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Annulla</button>
             </div>
             
-            <!-- 1. INTESTAZIONE -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tavolo</label>
@@ -232,13 +231,11 @@
                 </div>
             </div>
 
-            <!-- 2. SCELTA PIETANZE -->
             <div class="mb-6">
                 <label class="block text-sm font-black text-slate-700 uppercase tracking-widest mb-3 text-center">👇 Tocca i piatti per aggiungerli 👇</label>
                 <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
 
-            <!-- INSERIMENTO MANUALE EXTRA -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Variazione / Piatto Fuori Menu</label>
                 <div class="flex flex-wrap sm:flex-nowrap gap-2">
@@ -249,7 +246,6 @@
                 </div>
             </div>
 
-            <!-- ANTEPRIMA COMANDA -->
             <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
                 <div class="absolute -top-3 left-4 bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-emerald-200">SCONTRINO</div>
                 <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
@@ -259,7 +255,6 @@
                 <div id="cmd-lista-articoli" class="space-y-1 text-slate-700"></div>
             </div>
 
-            <!-- 3. PAGAMENTO E AZIONI -->
             <div class="max-w-xl mx-auto space-y-4">
                 <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 shadow-sm">
                     <label class="block text-xs font-bold text-indigo-800 uppercase mb-2">Stato Pagamento</label>
@@ -361,10 +356,10 @@
             <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu Principale</button>
         </div>
 
-    </div>
+    </div> <!-- FINE #main-app -->
 
     <!-- ============================================================ -->
-    <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA (NASCOSTA A SCHERMO)-->
+    <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA                     -->
     <!-- ============================================================ -->
     <div id="printable-area"></div>
 
@@ -747,25 +742,28 @@
             const txtOriginale = generaTestoComandaTicket("ORIGINALE", tavolo, persone, cameriere, pagamento, note, data, ora);
             const txtCameriere = generaTestoComandaTicket("COPIA X CAMERIERE", tavolo, persone, cameriere, pagamento, note, data, ora);
 
-            const printArea = document.getElementById('printable-area');
-            printArea.innerHTML = `
+            document.getElementById('printable-area').innerHTML = `
                 <div class="ticket-copy"><pre>${txtOriginale}</pre></div>
                 <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
                 <div class="ticket-copy"><pre>${txtCameriere}</pre></div>
             `;
-            window.print();
+            
+            // Pausa ritardata per dare al browser il tempo di isolare il livello grafico e applicare i font
+            setTimeout(async () => {
+                window.print();
 
-            const timestamp = Date.now();
-            const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
-            await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
+                const timestamp = Date.now();
+                const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
+                await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
 
-            alert("Comanda salvata su GitHub e inviata in stampa!");
-            comandaCorrente = [];
-            document.getElementById('cmd-tavolo').value = '';
-            document.getElementById('cmd-note').value = '';
-            renderizzaMenuGUI();
-            renderizzaComandaGUI();
-            tornaMenu();
+                alert("Comanda salvata su GitHub e inviata in stampa!");
+                comandaCorrente = [];
+                document.getElementById('cmd-tavolo').value = '';
+                document.getElementById('cmd-note').value = '';
+                renderizzaMenuGUI();
+                renderizzaComandaGUI();
+                tornaMenu();
+            }, 500);
         }
 
         async function apriSezioneRicerca() { apriSezione('sec-5-ricerca'); await caricaEParseArchivioComande(); }
@@ -839,8 +837,14 @@
         function ristampaComandaSelezionata() {
             if(!testoComandaSelezionata) return;
             const copiaCameriere = testoComandaSelezionata.replace("*** ORIGINALE ***", "*** COPIA X CAMERIERE ***");
-            document.getElementById('printable-area').innerHTML = `<div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div><div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div><div class="ticket-copy"><pre>${copiaCameriere}</pre></div>`;
-            window.print();
+            document.getElementById('printable-area').innerHTML = `
+                <div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div>
+                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
+                <div class="ticket-copy"><pre>${copiaCameriere}</pre></div>
+            `;
+            setTimeout(() => {
+                window.print();
+            }, 500);
         }
 
         function generaReportFinanziario(tipoFiltro) {
