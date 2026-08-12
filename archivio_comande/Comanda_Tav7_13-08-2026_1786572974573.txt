@@ -1,0 +1,17 @@
+Tavolo: 7
+Coperti: 1
+Cameriere: Mauro
+Stato: POS
+Data: 13-08-2026
+
+2 x Penne al pomodoro (€ 7) = € 14.00
+2 x Pennette al salmone (€ 12,50) = € 24.00
+1 x Antipasto Misto Mare (€ 10) = € 10.00
+3 x Salsiccia alla brace 2 pezzi (€ 6.50) = € 19.50
+1 x Patate arrosto (€ 4.00) = € 4.00
+1 x Cheesecake alle fragole (€ 5.00) = € 5.00
+1 x Birra Moretti 66cl. (€ 4.00) = € 4.00
+1 x Acqua Frizzante 1 lt (€ 2.00) = € 2.00
+1 x Coperto (€ 2.00) = € 2.00
+
+TOTALE COMANDA: € 84.50
