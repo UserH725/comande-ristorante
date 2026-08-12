@@ -6,57 +6,85 @@
     <title>Gestionale Ristorante</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* NASCONDE L'AREA DI STAMPA SULLO SCHERMO */
+        /* ========================================= */
+        /* STILI DI STAMPA (A4 ORIZZONTALE - 2 METÀ) */
+        /* ========================================= */
         @media screen {
             #printable-area { display: none !important; }
         }
 
-        /* CONFIGURAZIONE PERFETTA PER LA STAMPANTE */
         @media print {
+            /* Imposta foglio A4 Orizzontale */
             @page { 
-                size: A4 portrait; 
-                margin: 15mm; 
+                size: A4 landscape; 
+                margin: 8mm; 
             }
             body { 
                 background: white !important; 
                 margin: 0; 
                 padding: 0; 
             }
-            /* Nasconde forzatamente l'app gestionale e lo spazio vuoto */
+            /* Nascondi applicazione */
             #main-app { 
                 display: none !important; 
             }
-            /* Mostra in grande solo lo scontrino riempiendo il foglio */
+            /* Mostra Area Stampa */
             #printable-area { 
                 display: block !important; 
                 width: 100%; 
                 font-family: 'Courier New', Courier, monospace !important; 
                 color: black !important;
+                font-size: 11.5px !important; /* Testo piccolo e leggibile */
             }
-            .ticket-copy pre { 
-                white-space: pre-wrap !important; 
-                font-family: inherit !important; 
-                margin: 0 !important; 
-                font-size: 15px !important; /* Testo leggibile su A4 */
-                line-height: 1.4 !important;
+
+            /* Struttura Foglio 50/50 */
+            table.page-layout { 
+                width: 100%; 
+                border-collapse: collapse; 
             }
-            .cut-line {
-                text-align: center !important; 
-                font-size: 13px !important; 
-                font-weight: bold !important;
-                margin: 35px 0 !important; 
-                border-bottom: 2px dashed black !important; 
-                padding-bottom: 10px !important;
-                color: black !important;
+            table.page-layout > tbody > tr > td { 
+                vertical-align: top; 
+            }
+            .ticket-half { 
+                padding: 0 15px; 
+                line-height: 1.15 !important; 
+            }
+            .cut-line-vertical {
+                border-right: 2px dashed black;
+                width: 1px;
+            }
+
+            /* Tabella Interna Pietanze */
+            .ticket-table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin: 5px 0; 
+            }
+            .ticket-table th { 
+                border-top: 1px dashed black; 
+                border-bottom: 1px dashed black; 
+                padding: 3px 0; 
+                text-align: left; 
+            }
+            .ticket-table td { 
+                padding: 1.5px 0; /* Interlinea ridotta */
+                vertical-align: top;
+            }
+            
+            .text-right { text-align: right !important; }
+            .text-center { text-align: center !important; }
+            .bold { font-weight: bold !important; }
+            .cat-header { 
+                font-weight: bold; 
+                text-transform: uppercase; 
+                padding-top: 6px !important; 
+                padding-bottom: 2px !important; 
             }
         }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 sm:p-6">
 
-    <!-- ============================================================ -->
-    <!-- INTERFACCIA APPLICAZIONE SCHERMO                             -->
-    <!-- ============================================================ -->
     <div id="main-app" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-6 sm:p-8">
         
         <!-- HEADER LOCALE DINAMICO -->
@@ -479,7 +507,6 @@
             if(gridDiv) gridDiv.innerHTML = '';
             if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
-            // Sezione 2: Visualizzazione
             if(gridDiv) {
                 ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                     const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
@@ -505,7 +532,6 @@
                 });
             }
 
-            // Sezione 4: Bottoni Comanda
             if(cmdMenuCategorizzato) {
                 ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                     const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
@@ -668,7 +694,8 @@
             renderizzaComandaGUI();
         }
 
-        function generaTestoComandaTicket(intestazioneCopia, tavolo, persone, cameriere, pagamento, note, data, ora) {
+        // --- CREAZIONE HTML FORMATTATO PER LA STAMPA (TABELLA PERFETTA) ---
+        function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, pagamento, note, data, ora) {
             let statoPagamentoTesto = "";
             if (pagamento === 'Contanti') statoPagamentoTesto = "PAGATO (CONTANTI)";
             else if (pagamento === 'POS') statoPagamentoTesto = "PAGATO (POS / CARTA)";
@@ -677,20 +704,31 @@
             const numPersone = parseInt(persone) || 0;
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
 
-            let txt = `==========================================\n`;
-            txt += `           *** ${intestazioneCopia.toUpperCase()} ***\n`;
-            txt += `==========================================\n`;
-            txt += anagrafica.nome ? `          ${anagrafica.nome}\n` : `          COMANDA RISTORANTE\n`;
-            if(anagrafica.indirizzo) txt += `${anagrafica.indirizzo}\n`;
-            if(anagrafica.tel) txt += `Tel: ${anagrafica.tel}\n`;
-            txt += `==========================================\n`;
-            txt += `Data: ${data}  -  Ora: ${ora}\n`;
-            txt += `Tavolo: ${tavolo}   -   Coperti: ${numPersone}\n`;
-            txt += `Cameriere: ${cameriere}\n`;
-            txt += `Stato: ${statoPagamentoTesto}\n`;
-            txt += `------------------------------------------\n`;
-            txt += `QTA  | ARTICOLO / PIATTO          | TOTALE\n`;
-            txt += `------------------------------------------\n`;
+            let html = `
+                <div class="text-center" style="margin-bottom: 10px;">
+                    <h2 class="bold" style="margin:0; font-size: 14px;">*** ${intestazioneCopia} ***</h2>
+                    <h1 class="bold" style="margin:5px 0; font-size: 18px;">${anagrafica.nome || 'COMANDA RISTORANTE'}</h1>
+                    ${anagrafica.indirizzo ? `<div>${anagrafica.indirizzo}</div>` : ''}
+                    ${anagrafica.tel ? `<div>Tel: ${anagrafica.tel}</div>` : ''}
+                </div>
+
+                <div style="border-top: 1px dashed black; border-bottom: 1px dashed black; padding: 5px 0; margin-bottom: 10px;">
+                    <div><span class="bold">Data:</span> ${data} &nbsp;|&nbsp; <span class="bold">Ora:</span> ${ora}</div>
+                    <div><span class="bold">Tavolo:</span> ${tavolo} &nbsp;|&nbsp; <span class="bold">Coperti:</span> ${numPersone}</div>
+                    <div><span class="bold">Cameriere:</span> ${cameriere}</div>
+                    <div><span class="bold">Stato:</span> ${statoPagamentoTesto}</div>
+                </div>
+
+                <table class="ticket-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;" class="text-center">QTA</th>
+                            <th style="width: 60%;">ARTICOLO</th>
+                            <th style="width: 25%;" class="text-right">TOTALE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
 
             let raggruppati = {};
             let totaleGenerale = totaleCoperto;
@@ -706,24 +744,51 @@
 
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
-                    txt += `--- ${cat.toUpperCase()} ---\n`;
+                    html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
                     raggruppati[cat].forEach(item => {
-                        txt += `${item.qta} x ${item.desc} (€ ${item.prezzo}) = € ${item.totRiga.toFixed(2)}\n`;
+                        html += `
+                            <tr>
+                                <td class="text-center bold">${item.qta}</td>
+                                <td>${item.desc}</td>
+                                <td class="text-right">€ ${item.totRiga.toFixed(2)}</td>
+                            </tr>
+                        `;
                     });
-                    txt += `\n`;
                 }
             });
 
             if(numPersone > 0) {
-                txt += `--- SERVIZIO ---\n`;
-                txt += `${numPersone} x Coperto (€ 2.00) = € ${totaleCoperto.toFixed(2)}\n\n`;
+                html += `<tr><td colspan="3" class="cat-header">--- SERVIZIO ---</td></tr>`;
+                html += `
+                    <tr>
+                        <td class="text-center bold">${numPersone}</td>
+                        <td>Coperto</td>
+                        <td class="text-right">€ ${totaleCoperto.toFixed(2)}</td>
+                    </tr>
+                `;
             }
 
-            txt += `------------------------------------------\n`;
-            txt += `TOTALE COMANDA: € ${totaleGenerale.toFixed(2)}\n`;
-            txt += `------------------------------------------\n`;
-            if(note) txt += `NOTE: ${note}\n------------------------------------------\n`;
-            txt += `==========================================\n`;
+            html += `
+                    </tbody>
+                </table>
+                
+                <div style="border-top: 2px dashed black; margin-top: 10px; padding-top: 10px; text-align: right; font-size: 16px;">
+                    <span class="bold">TOTALE: € ${totaleGenerale.toFixed(2)}</span>
+                </div>
+            `;
+
+            if(note) {
+                html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE:</span> ${note}</div>`;
+            }
+
+            return html;
+        }
+
+        // --- TESTO NUDO PER SALVATAGGIO CLOUD ---
+        function generaTestoNudoPerCloud(tavolo, persone, cameriere, pagamento, note, data, ora) {
+            let txt = `Tavolo: ${tavolo}\nCoperti: ${persone}\nCameriere: ${cameriere}\nStato: ${pagamento}\nData: ${data}\n\n`;
+            comandaCorrente.forEach(i => { txt += `${i.qta} x ${i.desc}\n`; });
+            if(note) txt += `\nNOTE: ${note}`;
             return txt;
         }
 
@@ -739,24 +804,36 @@
             const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
 
-            const txtOriginale = generaTestoComandaTicket("ORIGINALE", tavolo, persone, cameriere, pagamento, note, data, ora);
-            const txtCameriere = generaTestoComandaTicket("COPIA X CAMERIERE", tavolo, persone, cameriere, pagamento, note, data, ora);
+            // Generazione Blocchi HTML Perfetti per Stampa A4
+            const htmlOriginale = generaHTMLComandaTicket("ORIGINALE", tavolo, persone, cameriere, pagamento, note, data, ora);
+            const htmlCameriere = generaHTMLComandaTicket("COPIA X CAMERIERE", tavolo, persone, cameriere, pagamento, note, data, ora);
 
-            document.getElementById('printable-area').innerHTML = `
-                <div class="ticket-copy"><pre>${txtOriginale}</pre></div>
-                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
-                <div class="ticket-copy"><pre>${txtCameriere}</pre></div>
+            const printArea = document.getElementById('printable-area');
+            printArea.innerHTML = `
+                <table class="page-layout">
+                    <tr>
+                        <td class="ticket-half" style="width: 48%; padding-right: 20px;">
+                            ${htmlOriginale}
+                        </td>
+                        <td class="cut-line-vertical" style="width: 4%;"></td>
+                        <td class="ticket-half" style="width: 48%; padding-left: 20px;">
+                            ${htmlCameriere}
+                        </td>
+                    </tr>
+                </table>
             `;
             
-            // Pausa ritardata per dare al browser il tempo di isolare il livello grafico e applicare i font
+            // Pausa per renderizzare il DOM di stampa prima di lanciare il comando
             setTimeout(async () => {
                 window.print();
 
+                const txtCloud = generaTestoNudoPerCloud(tavolo, persone, cameriere, pagamento, note, data, ora);
                 const timestamp = Date.now();
                 const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
-                await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
+                
+                await salvaFileSuGitHub(filename, txtCloud, `Comanda Tavolo ${tavolo}`);
 
-                alert("Comanda salvata su GitHub e inviata in stampa!");
+                alert("Comanda stampata (A4 - 2 Colonne) e salvata sul Cloud!");
                 comandaCorrente = [];
                 document.getElementById('cmd-tavolo').value = '';
                 document.getElementById('cmd-note').value = '';
@@ -799,7 +876,7 @@
             const lineTav = text.match(/Tavolo:\s*([^\s]+)/); if(lineTav) tavolo = lineTav[1].trim();
             const lineCam = text.match(/Cameriere:\s*(.+)/); if(lineCam) cameriere = lineCam[1].trim();
             const linePag = text.match(/Stato:\s*(.+)/) || text.match(/Stato Pagamento:\s*(.+)/); if(linePag) pagamento = linePag[1].trim();
-            const regexArticoli = /([0-9]+)\s*x\s*([^\(]+)/g;
+            const regexArticoli = /([0-9]+)\s*x\s*([^\n]+)/g;
             let match;
             while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
             archivioComandeParsed.push({ filename, tavolo, cameriere, pagamento, data, articoli, testoCompleto: text });
@@ -836,15 +913,12 @@
 
         function ristampaComandaSelezionata() {
             if(!testoComandaSelezionata) return;
-            const copiaCameriere = testoComandaSelezionata.replace("*** ORIGINALE ***", "*** COPIA X CAMERIERE ***");
             document.getElementById('printable-area').innerHTML = `
-                <div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div>
-                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
-                <div class="ticket-copy"><pre>${copiaCameriere}</pre></div>
+                <div style="font-family: monospace; white-space: pre-wrap;">
+                    ${testoComandaSelezionata}
+                </div>
             `;
-            setTimeout(() => {
-                window.print();
-            }, 500);
+            setTimeout(() => { window.print(); }, 500);
         }
 
         function generaReportFinanziario(tipoFiltro) {
