@@ -7,85 +7,72 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 8mm;
-            }
+            @page { size: A4 portrait; margin: 8mm; }
             body * { visibility: hidden; }
             #printable-area, #printable-area * { visibility: visible; }
             #printable-area { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100%; 
-                font-family: monospace; 
-                color: #000;
+                position: absolute; left: 0; top: 0; width: 100%; 
+                font-family: monospace; color: #000;
             }
-            .ticket-copy {
-                margin-bottom: 15px;
-                padding-bottom: 10px;
-            }
+            .ticket-copy { margin-bottom: 15px; padding-bottom: 10px; }
             .cut-line {
-                text-align: center;
-                font-size: 11px;
-                font-weight: bold;
-                margin: 20px 0;
-                border-bottom: 2px dashed #000;
-                padding-bottom: 5px;
+                text-align: center; font-size: 11px; font-weight: bold;
+                margin: 20px 0; border-bottom: 2px dashed #000; padding-bottom: 5px;
             }
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 sm:p-6">
 
-    <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700 p-6">
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-6 sm:p-8">
         
         <!-- HEADER LOCALE DINAMICO -->
-        <div class="border-b border-gray-700 pb-4 mb-6 text-center">
-            <h1 id="header-nome-locale" class="text-2xl font-bold text-amber-400 uppercase tracking-wide">GESTIONALE RISTORANTE</h1>
-            <p id="header-sub-locale" class="text-xs text-gray-400 mt-1">SISTEMA EMISSIONE COMANDE CLOUD</p>
+        <div class="border-b border-slate-200 pb-5 mb-6 text-center">
+            <h1 id="header-nome-locale" class="text-3xl font-black text-indigo-700 uppercase tracking-tight">GESTIONALE RISTORANTE</h1>
+            <p id="header-sub-locale" class="text-sm font-semibold text-slate-500 mt-1 uppercase tracking-widest">SISTEMA EMISSIONE COMANDE</p>
         </div>
 
         <!-- SETUP TOKEN GITHUB -->
-        <div id="sec-token" class="mb-6 bg-amber-950 p-4 rounded-lg border border-amber-600/50 hidden">
-            <h3 class="font-bold text-amber-400 mb-2">⚙️ Configurazione Iniziale GitHub</h3>
-            <p class="text-xs text-gray-300 mb-3">Inserisci il tuo Personal Access Token per sincronizzare i dati sul cloud.</p>
-            <input type="password" id="input-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white mb-3">
-            <button onclick="salvaToken()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-2 rounded font-bold text-sm">Connetti a GitHub</button>
+        <div id="sec-token" class="mb-6 bg-orange-50 p-5 rounded-xl border border-orange-200 hidden shadow-sm">
+            <h3 class="font-bold text-orange-800 mb-2 text-lg">⚙️ Configurazione Iniziale GitHub</h3>
+            <p class="text-sm text-orange-700 mb-4">Inserisci il tuo Personal Access Token per sincronizzare i dati sul cloud.</p>
+            <input type="password" id="input-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full p-3 bg-white border border-orange-300 rounded-lg text-slate-800 mb-3 focus:ring-2 focus:ring-orange-400 outline-none">
+            <button onclick="salvaToken()" class="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-bold shadow-md transition">Connetti a GitHub</button>
         </div>
 
         <!-- ============================================================ -->
         <!-- MENU PRINCIPALE                                              -->
         <!-- ============================================================ -->
-        <div id="sec-menu-principale" class="space-y-2.5 max-w-xl mx-auto">
-            <p class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">Seleziona un'opzione del menu:</p>
+        <div id="sec-menu-principale" class="space-y-3 max-w-xl mx-auto">
+            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Seleziona un'opzione</p>
             
-            <button onclick="apriSezione('sec-1-anagrafica')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
-                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[1]</span> Personalizzazione Locale
+            <button onclick="apriSezione('sec-4-comanda')" class="w-full text-left p-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl border border-indigo-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5">
+                <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[4]</span> 
+                <span class="text-lg">📝 Nuova Comanda</span>
+            </button>
+
+            <button onclick="apriSezione('sec-1-anagrafica')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[1]</span> Personalizzazione Locale
             </button>
             
-            <button onclick="apriSezione('sec-2-menu')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
-                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[2]</span> Caricamento Pietanze (Menu)
+            <button onclick="apriSezione('sec-2-menu')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[2]</span> Gestione Menu Pietanze
             </button>
             
-            <button onclick="apriSezione('sec-3-camerieri')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
-                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[3]</span> Gestione Camerieri
+            <button onclick="apriSezione('sec-3-camerieri')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[3]</span> Gestione Staff (Camerieri)
             </button>
             
-            <button onclick="apriSezione('sec-4-comanda')" class="w-full text-left p-3.5 bg-emerald-700 hover:bg-emerald-600 rounded-lg border border-emerald-500 font-bold text-white flex items-center gap-3 shadow-lg">
-                <span class="bg-white/20 text-white px-2.5 py-1 rounded text-xs font-bold">[4]</span> Emissione Comanda
+            <button onclick="apriSezioneRicerca()" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[5]</span> Ricerca Comande Passate
             </button>
             
-            <button onclick="apriSezioneRicerca()" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
-                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[5]</span> Ricerca Comanda (Tavolo / Cameriere)
+            <button onclick="apriSezioneReport()" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[6]</span> Report Finanziario / Incassi
             </button>
             
-            <button onclick="apriSezioneReport()" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
-                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[6]</span> Report: Totale Pietanze / Incassi
-            </button>
-            
-            <button onclick="resetToken()" class="w-full text-left p-3.5 bg-red-900/30 hover:bg-red-900/50 text-red-300 rounded-lg border border-red-800 font-semibold flex items-center gap-3 mt-4">
-                <span class="bg-red-500/20 text-red-400 px-2.5 py-1 rounded text-xs font-bold">[9]</span> Uscita / Cambia Token
+            <button onclick="resetToken()" class="w-full text-left p-4 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl border border-red-200 font-semibold flex items-center gap-4 mt-6 shadow-sm transition">
+                <span class="bg-red-200 text-red-800 px-3 py-1.5 rounded-lg text-sm font-bold">[9]</span> Scollega Dispositivo (Reset Token)
             </button>
         </div>
 
@@ -93,31 +80,31 @@
         <!-- 1. PERSONALIZZAZIONE LOCALE                                  -->
         <!-- ============================================================ -->
         <div id="sec-1-anagrafica" class="sezione hidden max-w-xl mx-auto">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">1. Personalizzazione Anagrafica Locale</h2>
-            <div class="space-y-3">
+            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">1. Impostazioni Locale</h2>
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Nome Ristorante</label>
-                    <input type="text" id="cfg-nome" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Nome Ristorante</label>
+                    <input type="text" id="cfg-nome" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Indirizzo (Via, Civico, Città)</label>
-                    <input type="text" id="cfg-indirizzo" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Indirizzo</label>
+                    <input type="text" id="cfg-indirizzo" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Telefono</label>
-                    <input type="text" id="cfg-tel" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Telefono</label>
+                    <input type="text" id="cfg-tel" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Partita IVA / Codice Fiscale</label>
-                    <input type="text" id="cfg-piva" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">P. IVA</label>
+                    <input type="text" id="cfg-piva" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Messaggio in calce / Note</label>
-                    <input type="text" id="cfg-note" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Note a piè di scontrino</label>
+                    <input type="text" id="cfg-note" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition">
                 </div>
-                <div class="flex gap-2 pt-3">
-                    <button onclick="salvaAnagrafica()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white py-2.5 rounded font-bold text-sm">Salva Anagrafica</button>
-                    <button onclick="tornaMenu()" class="px-4 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded text-sm">Indietro</button>
+                <div class="flex gap-3 pt-4">
+                    <button onclick="salvaAnagrafica()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold shadow-md transition">Salva Modifiche</button>
+                    <button onclick="tornaMenu()" class="px-6 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition">Indietro</button>
                 </div>
             </div>
         </div>
@@ -126,14 +113,14 @@
         <!-- 2. CARICAMENTO PIETANZE (MENU)                               -->
         <!-- ============================================================ -->
         <div id="sec-2-menu" class="sezione hidden">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">2. Caricamento Pietanze (Menu)</h2>
+            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">2. Gestione Menu Pietanze</h2>
             
-            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3 max-w-xl mx-auto">
-                <h3 class="text-sm font-bold text-gray-300">Aggiungi Nuova Pietanza</h3>
-                <div class="grid grid-cols-3 gap-2">
+            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-8 max-w-xl mx-auto shadow-sm">
+                <h3 class="text-sm font-bold text-indigo-800 mb-3 uppercase tracking-wider">Aggiungi Piatto</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">Tipologia</label>
-                        <select id="p-tipo" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                        <label class="block text-xs font-bold text-indigo-700 mb-1">Tipologia</label>
+                        <select id="p-tipo" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                             <option value="Antipasto">Antipasto</option>
                             <option value="Primo">Primo</option>
                             <option value="Secondo">Secondo</option>
@@ -142,205 +129,211 @@
                             <option value="Bevande">Bevande</option>
                         </select>
                     </div>
-                    <div class="col-span-2">
-                        <label class="block text-xs text-gray-400 mb-1">Descrizione Pietanza</label>
-                        <input type="text" id="p-desc" placeholder="Es. Spaghetti Carbonara" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-indigo-700 mb-1">Descrizione</label>
+                        <input type="text" id="p-desc" placeholder="Es. Tiramisù" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Prezzo (€)</label>
-                    <input type="text" id="p-prezzo" placeholder="Es. 12,50 o 10" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                <div class="flex items-end gap-3">
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-indigo-700 mb-1">Prezzo (€)</label>
+                        <input type="text" id="p-prezzo" placeholder="Es. 5,50" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <button onclick="aggiungiPietanzaMenu()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold shadow-md transition">+ Aggiungi</button>
                 </div>
-                <button onclick="aggiungiPietanzaMenu()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded font-bold text-sm">+ Aggiungi al Menu</button>
             </div>
 
-            <h3 class="text-sm font-bold text-gray-300 mb-3">Menu Pietanze Diviso per Categoria</h3>
-            <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6"></div>
+            <h3 class="text-sm font-black text-slate-500 uppercase tracking-widest mb-4 text-center">Menu Attuale</h3>
+            <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
 
-            <button onclick="tornaMenu()" class="w-full max-w-xl mx-auto block bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Indietro al Menu Principale</button>
+            <button onclick="tornaMenu()" class="w-full max-w-xl mx-auto block bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Indietro al Menu Principale</button>
         </div>
 
         <!-- ============================================================ -->
         <!-- 3. GESTIONE CAMERIERI                                         -->
         <!-- ============================================================ -->
         <div id="sec-3-camerieri" class="sezione hidden max-w-xl mx-auto">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">3. Gestione Camerieri</h2>
+            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">3. Gestione Staff</h2>
             
-            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3">
-                <h3 class="text-sm font-bold text-gray-300">Registra Nuovo Cameriere</h3>
-                <div class="flex gap-2">
-                    <input type="text" id="cam-nome" placeholder="Nome cameriere (es. Marco)" class="flex-1 p-2.5 bg-gray-800 border border-gray-700 rounded text-sm text-white">
-                    <button onclick="aggiungiCameriere()" class="bg-emerald-600 hover:bg-emerald-500 px-5 py-2.5 rounded font-bold text-sm text-white">+ Aggiungi</button>
+            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-6 shadow-sm">
+                <h3 class="text-sm font-bold text-indigo-800 mb-3 uppercase tracking-wider">Nuovo Operatore</h3>
+                <div class="flex gap-3">
+                    <input type="text" id="cam-nome" placeholder="Nome (es. Marco)" class="flex-1 p-3 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <button onclick="aggiungiCameriere()" class="bg-indigo-600 hover:bg-indigo-700 px-6 rounded-lg font-bold text-white shadow-md transition">+ Inserisci</button>
                 </div>
             </div>
 
-            <h3 class="text-sm font-bold text-gray-300 mb-2">Elenco Camerieri Registrati</h3>
-            <div class="border border-gray-700 rounded-lg p-3 bg-gray-900 mb-6 min-h-[100px]">
-                <ul id="lista-camerieri" class="divide-y divide-gray-800 text-sm"></ul>
+            <h3 class="text-sm font-black text-slate-500 uppercase tracking-widest mb-3">Staff Registrato</h3>
+            <div class="border border-slate-200 rounded-xl p-2 bg-slate-50 mb-6 min-h-[100px] shadow-inner">
+                <ul id="lista-camerieri" class="divide-y divide-slate-200 text-sm"></ul>
             </div>
 
-            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Torna al Menu Principale</button>
+            <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Indietro al Menu</button>
         </div>
 
         <!-- ============================================================ -->
         <!-- 4. EMISSIONE COMANDA                                         -->
         <!-- ============================================================ -->
         <div id="sec-4-comanda" class="sezione hidden">
-            <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
             
-            <!-- 1. TAVOLO, NUMERO PERSONE (COPERTO 2€) E CAMERIERE -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4 bg-gray-900 p-3 rounded-lg border border-gray-700">
+            <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
+                <h2 class="text-2xl font-black text-indigo-700">📝 Nuova Comanda</h2>
+                <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Annulla</button>
+            </div>
+            
+            <!-- 1. INTESTAZIONE -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Tavolo</label>
-                    <input type="text" id="cmd-tavolo" placeholder="Es. 12" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tavolo</label>
+                    <input type="text" id="cmd-tavolo" placeholder="Num." class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-lg font-bold text-center text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">N. Persone (Coperto 2.00€)</label>
-                    <input type="number" id="cmd-persone" value="1" min="1" onchange="renderizzaComandaGUI()" onkeyup="renderizzaComandaGUI()" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white font-bold text-amber-300">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Persone (Coperto 2€)</label>
+                    <input type="number" id="cmd-persone" value="1" min="1" onchange="renderizzaComandaGUI()" onkeyup="renderizzaComandaGUI()" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-lg font-bold text-center text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Cameriere</label>
-                    <select id="cmd-cameriere" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cameriere</label>
+                    <select id="cmd-cameriere" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none h-full">
                         <option value="Cassa">Cassa</option>
                     </select>
                 </div>
             </div>
 
-            <!-- 2. SCELTA PIETANZE DIVISA PER TIPOLOGIA CON CONTATORE SELEZIONI -->
-            <div class="mb-5">
-                <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">🍽️ Seleziona Pietanze dal Menu (Tocca per aggiungere)</label>
-                <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+            <!-- 2. SCELTA PIETANZE -->
+            <div class="mb-6">
+                <label class="block text-sm font-black text-slate-700 uppercase tracking-widest mb-3 text-center">👇 Tocca i piatti per aggiungerli 👇</label>
+                <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
 
             <!-- INSERIMENTO MANUALE EXTRA -->
-            <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4">
-                <label class="block text-xs text-gray-400 mb-1">Piatto Fuori Menu / Personalizzato</label>
-                <div class="flex gap-2">
-                    <input type="number" id="cmd-qta" value="1" min="1" class="w-16 p-2 bg-gray-800 border border-gray-700 rounded text-center text-sm font-bold text-white">
-                    <input type="text" id="cmd-desc" placeholder="Nome piatto fuori menu..." class="flex-1 p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
-                    <input type="text" id="cmd-prezzo-manuale" placeholder="Prezzo (€)" class="w-24 p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
-                    <button onclick="aggiungiRigaComandaManuale()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded text-xs font-bold text-white">+ Aggiungi</button>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 shadow-sm">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Variazione / Piatto Fuori Menu</label>
+                <div class="flex flex-wrap sm:flex-nowrap gap-2">
+                    <input type="number" id="cmd-qta" value="1" min="1" class="w-16 p-2.5 bg-white border border-slate-300 rounded-lg text-center text-sm font-bold text-slate-700">
+                    <input type="text" id="cmd-desc" placeholder="Descrizione..." class="flex-1 p-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 min-w-[150px]">
+                    <input type="text" id="cmd-prezzo-manuale" placeholder="Prezzo €" class="w-24 p-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700">
+                    <button onclick="aggiungiRigaComandaManuale()" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg font-bold shadow-md">Aggiungi</button>
                 </div>
             </div>
 
-            <!-- ANTEPRIMA COMANDA CON PREZZI E COPERTO -->
-            <div class="border border-gray-700 rounded-lg p-4 mb-4 bg-gray-950 font-mono text-sm">
-                <div class="text-xs font-bold text-gray-400 border-b border-gray-800 pb-2 mb-2 flex justify-between">
-                    <span>QTA | ARTICOLO / PIATTO</span>
+            <!-- ANTEPRIMA COMANDA -->
+            <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
+                <div class="absolute -top-3 left-4 bg-emerald-100 text-emerald-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-emerald-200">SCONTRINO</div>
+                <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
+                    <span>QTA | ARTICOLO</span>
                     <span>PREZZO</span>
                 </div>
-                <div id="cmd-lista-articoli" class="space-y-1"></div>
+                <div id="cmd-lista-articoli" class="space-y-1 text-slate-700"></div>
             </div>
 
-            <!-- 3. TIPO PAGAMENTO IN BASSO -->
-            <div class="mb-4 bg-gray-900 p-3 rounded-lg border border-gray-700">
-                <label class="block text-xs text-gray-400 mb-1">Modalità Pagamento</label>
-                <select id="cmd-pagamento" onchange="renderizzaComandaGUI()" class="w-full p-2.5 bg-gray-800 border border-gray-700 rounded text-sm text-white font-bold text-amber-300">
-                    <option value="Contanti">Pagato - Contanti</option>
-                    <option value="POS">Pagato - POS / Carta</option>
-                    <option value="Sospeso">Non Pagato - Sospeso</option>
-                </select>
-            </div>
+            <!-- 3. PAGAMENTO E AZIONI -->
+            <div class="max-w-xl mx-auto space-y-4">
+                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 shadow-sm">
+                    <label class="block text-xs font-bold text-indigo-800 uppercase mb-2">Stato Pagamento</label>
+                    <select id="cmd-pagamento" onchange="renderizzaComandaGUI()" class="w-full p-3 bg-white border border-indigo-300 rounded-lg text-base font-black text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm cursor-pointer">
+                        <option value="Contanti">🟢 SALDATO - In Contanti</option>
+                        <option value="POS">💳 SALDATO - POS / Carta</option>
+                        <option value="Sospeso">🔴 DA PAGARE - Conto Sospeso</option>
+                    </select>
+                </div>
 
-            <div class="mb-4">
-                <input type="text" id="cmd-note" placeholder="Note o allergeni (es. no cipolla)" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
-            </div>
+                <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
 
-            <div class="space-y-2 max-w-xl mx-auto">
-                <button onclick="stampaESalvaComanda()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-lg font-bold shadow-lg text-sm">
-                    🖨️ Stampa A4 (2 Copie A5) & Salva Cloud
+                <button onclick="stampaESalvaComanda()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-emerald-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
+                    🖨️ Stampa A4 & Salva Comanda
                 </button>
-                <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2 rounded text-sm">Annulla e Torna al Menu</button>
             </div>
         </div>
 
-        <!-- AREA STAMPA A4 CON 2 COPIE A5 -->
+        <!-- AREA STAMPA -->
         <div id="printable-area" class="hidden"></div>
 
         <!-- ============================================================ -->
         <!-- 5. RICERCA COMANDA                                           -->
         <!-- ============================================================ -->
         <div id="sec-5-ricerca" class="sezione hidden max-w-xl mx-auto">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">5. Ricerca Comanda</h2>
+            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">5. Archivio Comande</h2>
             
-            <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4 space-y-2">
-                <div class="grid grid-cols-2 gap-2">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-5 shadow-sm space-y-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">Tavolo</label>
-                        <input type="text" id="src-tavolo" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-xs text-white">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cerca Tavolo</label>
+                        <input type="text" id="src-tavolo" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">Cameriere</label>
-                        <input type="text" id="src-cameriere" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-xs text-white">
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cerca Cameriere</label>
+                        <input type="text" id="src-cameriere" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                 </div>
-                <button onclick="caricaEParseArchivioComande()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-1.5 rounded font-bold text-xs">🔄 Aggiorna Archivio Cloud</button>
+                <button onclick="caricaEParseArchivioComande()" class="w-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 rounded-lg font-bold text-sm transition">🔄 Aggiorna dal Cloud</button>
             </div>
 
-            <div id="loading-ricerca" class="text-center text-xs text-gray-400 py-4 hidden">Caricamento archivio da GitHub...</div>
-            <div id="lista-ricerca-comande" class="space-y-2 max-h-80 overflow-y-auto mb-4 pr-1"></div>
+            <div id="loading-ricerca" class="text-center text-sm font-bold text-indigo-500 py-6 hidden animate-pulse">Caricamento archivio in corso...</div>
+            <div id="lista-ricerca-comande" class="space-y-3 max-h-[400px] overflow-y-auto mb-5 pr-2"></div>
 
-            <div id="box-dettaglio-comanda" class="bg-gray-950 p-4 border border-gray-700 rounded-lg mb-4 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <h3 class="text-xs font-bold text-amber-400 uppercase">Anteprima Comanda</h3>
-                    <button onclick="ristampaComandaSelezionata()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1 rounded font-bold">🖨️ Ristampa A4</button>
+            <div id="box-dettaglio-comanda" class="bg-white p-5 border border-slate-300 rounded-xl mb-5 hidden shadow-lg">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Anteprima</h3>
+                    <button onclick="ristampaComandaSelezionata()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow-md transition">🖨️ Ristampa</button>
                 </div>
-                <pre id="testo-dettaglio-comanda" class="font-mono text-xs text-gray-300 bg-gray-900 p-3 rounded border border-gray-800 overflow-x-auto"></pre>
+                <pre id="testo-dettaglio-comanda" class="font-mono text-xs text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200 overflow-x-auto shadow-inner"></pre>
             </div>
 
-            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Torna al Menu Principale</button>
+            <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu</button>
         </div>
 
         <!-- ============================================================ -->
         <!-- 6. REPORT INCASSI ED ELENCO PIETANZE                         -->
         <!-- ============================================================ -->
         <div id="sec-6-report" class="sezione hidden max-w-xl mx-auto">
-            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">6. Report Pietanze & Incassi</h2>
+            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">6. Analisi Finanziaria</h2>
             
-            <div class="flex gap-2 mb-4">
-                <button onclick="generaReportFinanziario('oggi')" id="btn-rep-oggi" class="flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold">Oggi</button>
-                <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold">Totale Storico</button>
+            <div class="flex gap-2 mb-6 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                <button onclick="generaReportFinanziario('oggi')" id="btn-rep-oggi" class="flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm">Solo Oggi</button>
+                <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition">Totale Storico</button>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 mb-4">
-                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
-                    <span class="block text-xs text-gray-400">INCASSO TOTALE</span>
-                    <span id="rep-tot-incasso" class="text-xl font-extrabold text-emerald-400">€ 0.00</span>
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Totale</span>
+                    <span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span>
                 </div>
-                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
-                    <span class="block text-xs text-gray-400">PIETANZE SERVITE</span>
-                    <span id="rep-tot-pietanze" class="text-xl font-extrabold text-amber-400">0</span>
+                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span>
+                    <span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span>
                 </div>
-                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
-                    <span class="block text-xs text-gray-400">CONTANTI</span>
-                    <span id="rep-tot-contanti" class="text-sm font-bold text-gray-200">€ 0.00</span>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Contanti</span>
+                    <span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span>
                 </div>
-                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
-                    <span class="block text-xs text-gray-400">POS / CARTA</span>
-                    <span id="rep-tot-carta" class="text-sm font-bold text-gray-200">€ 0.00</span>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">POS / Carta</span>
+                    <span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span>
                 </div>
             </div>
 
-            <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Dettaglio Pietanze Servite</h3>
-            <div class="overflow-x-auto border border-gray-700 rounded-lg mb-4">
-                <table class="w-full text-left text-xs">
-                    <thead class="bg-gray-900 text-amber-400 border-b border-gray-700 font-mono">
-                        <tr>
-                            <th class="p-2">PIATTO</th>
-                            <th class="p-2 text-center">QTA</th>
-                            <th class="p-2 text-right">TOTALE</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbl-report-pietanze" class="divide-y divide-gray-800 font-mono text-gray-300"></tbody>
-                </table>
+            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
+                <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest bg-slate-50 p-3 border-b border-slate-200">Top Piatti Venduti</h3>
+                <div class="max-h-64 overflow-y-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-white text-slate-400 font-mono text-xs sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="p-3">PIATTO</th>
+                                <th class="p-3 text-center">QTA</th>
+                                <th class="p-3 text-right">INCASSO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-report-pietanze" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody>
+                    </table>
+                </div>
             </div>
 
-            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Torna al Menu Principale</button>
+            <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu Principale</button>
         </div>
 
     </div>
 
-    <!-- LOGICA JAVASCRIPT COMPLETA -->
+    <!-- LOGICA JAVASCRIPT -->
     <script>
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
@@ -415,16 +408,14 @@
             return tot;
         }
 
-        // --- GESTIONE ANAGRAFICA (PUNTO 1) ---
         function salvaAnagrafica() {
             anagrafica.nome = document.getElementById('cfg-nome').value.trim();
             anagrafica.indirizzo = document.getElementById('cfg-indirizzo').value.trim();
             anagrafica.tel = document.getElementById('cfg-tel').value.trim();
             anagrafica.piva = document.getElementById('cfg-piva').value.trim();
             anagrafica.note = document.getElementById('cfg-note').value.trim();
-
             aggiornaHeaderGUI();
-            salvaFileSuGitHub("config_locale.json", JSON.stringify(anagrafica, null, 2), "Aggiornata anagrafica locale");
+            salvaFileSuGitHub("config_locale.json", JSON.stringify(anagrafica, null, 2), "Aggiornata anagrafica");
             alert("Anagrafica salvata con successo!");
             tornaMenu();
         }
@@ -436,16 +427,12 @@
             }
         }
 
-        // --- GESTIONE MENU PIETANZE (PUNTO 2) ---
         function aggiungiPietanzaMenu() {
             const tipo = document.getElementById('p-tipo').value;
             const desc = document.getElementById('p-desc').value.trim();
             const prezzo = normalizzaPrezzo(document.getElementById('p-prezzo').value);
 
-            if(!desc) {
-                alert("Inserisci la descrizione della pietanza!");
-                return;
-            }
+            if(!desc) return alert("Inserisci la descrizione della pietanza!");
 
             menuPietanze.push({ tipo, desc, prezzo });
             document.getElementById('p-desc').value = '';
@@ -462,61 +449,58 @@
             if(gridDiv) gridDiv.innerHTML = '';
             if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
-            // 1. Tabella Categorie nel Punto 2
+            // Sezione 2: Visualizzazione
             if(gridDiv) {
                 ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                     const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
-                    
                     let listHtml = '';
                     if (piattiCat.length === 0) {
-                        listHtml = `<div class="text-gray-500 text-xs italic py-1">- Nessun piatto -</div>`;
+                        listHtml = `<div class="text-slate-400 text-xs italic py-1">- Vuoto -</div>`;
                     } else {
                         piattiCat.forEach(p => {
                             listHtml += `
-                                <div class="flex justify-between items-center text-xs py-1 border-b border-gray-800 last:border-0">
-                                    <span class="font-bold text-gray-200 truncate pr-1">${p.desc}</span>
-                                    <span class="text-emerald-400 font-mono font-semibold whitespace-nowrap">€ ${p.prezzo}</span>
+                                <div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-100 last:border-0">
+                                    <span class="font-bold text-slate-700 truncate pr-1">${p.desc}</span>
+                                    <span class="text-emerald-600 font-mono font-bold whitespace-nowrap">€ ${p.prezzo}</span>
                                 </div>
                             `;
                         });
                     }
-
                     gridDiv.innerHTML += `
-                        <div class="bg-gray-900 border border-gray-700 rounded-lg p-3">
-                            <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-700 pb-1">${cat}</h4>
+                        <div class="bg-white border border-slate-200 shadow-sm rounded-xl p-4">
+                            <h4 class="text-xs font-black text-indigo-600 uppercase tracking-widest mb-2 border-b border-slate-100 pb-1">${cat}</h4>
                             <div class="space-y-0.5">${listHtml}</div>
                         </div>
                     `;
                 });
             }
 
-            // 2. Selettore Categorizzato nel Punto 4 (Emissione Comanda) con Contatore Selezioni
+            // Sezione 4: Bottoni Comanda
             if(cmdMenuCategorizzato) {
                 ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                     const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
-                    
                     if(piattiCat.length > 0) {
                         let btnsHtml = '';
                         piattiCat.forEach(p => {
                             const qtaSel = getQtaPiattoInComanda(p.desc);
-                            const badge = qtaSel > 0 ? `<span class="bg-amber-400 text-gray-950 font-black px-2 py-0.5 rounded-full text-xs ml-1.5 shadow">${qtaSel}</span>` : '';
+                            const badge = qtaSel > 0 ? `<span class="bg-orange-500 text-white font-black px-2 py-0.5 rounded-full text-[10px] ml-2 shadow-sm">${qtaSel}</span>` : '';
 
                             btnsHtml += `
                                 <button onclick="selezionaEAggiungiRapido('${p.desc.replace(/'/g, "\\'")}', '${p.prezzo}')" 
-                                        class="w-full text-left bg-gray-800 hover:bg-emerald-900/40 hover:border-emerald-500 border border-gray-700 p-2 rounded text-xs transition flex justify-between items-center">
+                                        class="w-full text-left bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 p-2.5 rounded-lg text-xs transition shadow-sm flex justify-between items-center focus:ring-2 focus:ring-indigo-200">
                                     <div class="flex items-center">
-                                        <span class="font-bold text-gray-200">${p.desc}</span>
+                                        <span class="font-bold text-slate-700 truncate">${p.desc}</span>
                                         ${badge}
                                     </div>
-                                    <span class="text-emerald-400 font-mono font-semibold">€ ${p.prezzo}</span>
+                                    <span class="text-emerald-600 font-mono font-bold whitespace-nowrap ml-1">€ ${p.prezzo}</span>
                                 </button>
                             `;
                         });
 
                         cmdMenuCategorizzato.innerHTML += `
-                            <div class="bg-gray-900 border border-gray-700 rounded-lg p-2.5">
-                                <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-800 pb-1">${cat}</h4>
-                                <div class="space-y-1.5">${btnsHtml}</div>
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 shadow-inner">
+                                <h4 class="text-xs font-black text-indigo-700 uppercase tracking-widest mb-3 border-b border-slate-200 pb-1">${cat}</h4>
+                                <div class="space-y-2">${btnsHtml}</div>
                             </div>
                         `;
                     }
@@ -527,15 +511,13 @@
         function salvaMenuCSVCloud() {
             let csv = "TIPOLOGIA;DESCRIZIONE;PREZZO\n";
             menuPietanze.forEach(p => csv += `${p.tipo};${p.desc};${p.prezzo}\n`);
-            salvaFileSuGitHub("menu_pietanze.csv", csv, "Aggiornato menu pietanze");
+            salvaFileSuGitHub("menu_pietanze.csv", csv, "Aggiornato menu");
         }
 
-        // --- GESTIONE CAMERIERI (PUNTO 3) ---
         function aggiungiCameriere() {
             const nome = document.getElementById('cam-nome').value.trim();
             if(!nome) return alert("Inserisci il nome!");
             if(listaCamerieri.includes(nome)) return alert("Cameriere già presente!");
-
             listaCamerieri.push(nome);
             document.getElementById('cam-nome').value = '';
             renderizzaCamerieriGUI();
@@ -551,19 +533,16 @@
         function renderizzaCamerieriGUI() {
             const ul = document.getElementById('lista-camerieri');
             const selectComanda = document.getElementById('cmd-cameriere');
-            
             ul.innerHTML = '';
             selectComanda.innerHTML = '<option value="Cassa">Cassa</option>';
-
             if(listaCamerieri.length === 0) {
-                ul.innerHTML = '<li class="text-gray-500 text-xs py-2">Nessun cameriere registrato.</li>';
+                ul.innerHTML = '<li class="text-slate-400 text-xs py-2 px-2 italic">Nessun cameriere registrato.</li>';
             }
-
             listaCamerieri.forEach((nome, idx) => {
                 ul.innerHTML += `
-                    <li class="py-2 flex justify-between items-center text-gray-200">
+                    <li class="py-2.5 px-2 flex justify-between items-center text-slate-700">
                         <span class="font-bold">👤 ${nome}</span>
-                        <button onclick="rimuoviCameriere(${idx})" class="text-red-400 text-xs hover:bg-red-900/40 px-2 py-1 rounded">❌ Rimuovi</button>
+                        <button onclick="rimuoviCameriere(${idx})" class="text-red-500 text-xs hover:bg-red-50 px-2 py-1 rounded border border-red-200 font-bold transition">Rimuovi</button>
                     </li>
                 `;
                 selectComanda.innerHTML += `<option value="${nome}">${nome}</option>`;
@@ -571,10 +550,9 @@
         }
 
         function salvaCamerieriCloud() {
-            salvaFileSuGitHub("camerieri.json", JSON.stringify(listaCamerieri, null, 2), "Aggiornata lista camerieri");
+            salvaFileSuGitHub("camerieri.json", JSON.stringify(listaCamerieri, null, 2), "Aggiornata lista staff");
         }
 
-        // --- EMISSIONE COMANDA (PUNTO 4) ---
         function selezionaEAggiungiRapido(desc, prezzo) {
             comandaCorrente.push({ qta: 1, desc, prezzo });
             renderizzaMenuGUI();
@@ -585,12 +563,9 @@
             const qta = parseInt(document.getElementById('cmd-qta').value) || 1;
             const desc = document.getElementById('cmd-desc').value.trim();
             let prezzoInput = document.getElementById('cmd-prezzo-manuale').value.trim();
-
             if(!desc) return;
-
             const info = trovaInfoPiatto(desc);
             const prezzo = prezzoInput ? normalizzaPrezzo(prezzoInput) : info.prezzo;
-
             comandaCorrente.push({ qta, desc, prezzo });
             document.getElementById('cmd-desc').value = '';
             document.getElementById('cmd-prezzo-manuale').value = '';
@@ -601,14 +576,12 @@
 
         function renderizzaComandaGUI() {
             const div = document.getElementById('cmd-lista-articoli');
-            const modoPag = document.getElementById('cmd-pagamento').value;
             const numPersone = parseInt(document.getElementById('cmd-persone').value) || 0;
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
 
             div.innerHTML = '';
-
             if(comandaCorrente.length === 0 && numPersone === 0) {
-                div.innerHTML = '<div class="text-gray-500 text-xs py-2 italic">Nessun articolo inserito.</div>';
+                div.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center italic">Lo scontrino è vuoto.</div>';
                 return;
             }
 
@@ -619,23 +592,21 @@
                 const info = trovaInfoPiatto(item.desc);
                 const cat = info.tipo;
                 if (!raggruppati[cat]) raggruppati[cat] = [];
-
                 const totRiga = parseFloat(item.prezzo) * parseInt(item.qta);
                 totaleGenerale += totRiga;
-
                 raggruppati[cat].push({ ...item, totRiga, originalIdx });
             });
 
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
-                    div.innerHTML += `<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-gray-800 pb-0.5">--- ${cat} ---</div>`;
+                    div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
                     raggruppati[cat].forEach(item => {
                         div.innerHTML += `
-                            <div class="flex justify-between items-center text-gray-200 text-xs py-1">
-                                <span><b>${item.qta}x</b> ${item.desc} <span class="text-gray-500 text-[10px]">(€ ${item.prezzo}/cad)</span></span>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-emerald-400 font-bold">€ ${item.totRiga.toFixed(2)}</span>
-                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-400 hover:text-red-300 text-xs px-1">✕</button>
+                            <div class="flex justify-between items-center text-slate-800 text-xs py-1.5">
+                                <span><b class="text-slate-900">${item.qta}x</b> ${item.desc} <span class="text-slate-400 text-[10px]">(€ ${item.prezzo}/cad)</span></span>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-800 font-bold">€ ${item.totRiga.toFixed(2)}</span>
+                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-full w-5 h-5 flex items-center justify-center font-bold transition">✕</button>
                                 </div>
                             </div>
                         `;
@@ -643,29 +614,20 @@
                 }
             });
 
-            // Riga del Coperto
             if(numPersone > 0) {
                 div.innerHTML += `
-                    <div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-gray-800 pb-0.5">--- SERVIZIO ---</div>
-                    <div class="flex justify-between items-center text-gray-200 text-xs py-1">
-                        <span><b>${numPersone}x</b> Coperto <span class="text-gray-500 text-[10px]">(€ 2.00/persona)</span></span>
-                        <span class="text-emerald-400 font-bold">€ ${totaleCoperto.toFixed(2)}</span>
+                    <div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div>
+                    <div class="flex justify-between items-center text-slate-800 text-xs py-1.5">
+                        <span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00/persona)</span></span>
+                        <span class="text-slate-800 font-bold">€ ${totaleCoperto.toFixed(2)}</span>
                     </div>
                 `;
             }
 
-            let labelPagamento = "";
-            if (modoPag === 'Contanti') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (CONTANTI)</span>';
-            else if (modoPag === 'POS') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (POS / CARTA)</span>';
-            else labelPagamento = '<span class="text-red-400 font-bold">NON PAGATO (SOSPESO)</span>';
-
             div.innerHTML += `
-                <div class="mt-4 pt-2 border-t border-gray-700 flex justify-between items-center text-sm font-bold">
-                    <span>TOTALE COMANDA:</span>
-                    <span class="text-emerald-400 text-base">€ ${totaleGenerale.toFixed(2)}</span>
-                </div>
-                <div class="text-xs text-right mt-1">
-                    Stato Pagamento: ${labelPagamento}
+                <div class="mt-5 pt-3 border-t-2 border-slate-300 flex justify-between items-center font-black">
+                    <span class="text-slate-600">TOTALE:</span>
+                    <span class="text-emerald-600 text-xl tracking-tight">€ ${totaleGenerale.toFixed(2)}</span>
                 </div>
             `;
         }
@@ -676,7 +638,6 @@
             renderizzaComandaGUI();
         }
 
-        // --- CREAZIONE CONTENUTO SCONTRINO (ORIGINALE E COPIA CAMERIERE) ---
         function generaTestoComandaTicket(intestazioneCopia, tavolo, persone, cameriere, pagamento, note, data, ora) {
             let statoPagamentoTesto = "";
             if (pagamento === 'Contanti') statoPagamentoTesto = "PAGATO (CONTANTI)";
@@ -694,9 +655,9 @@
             if(anagrafica.tel) txt += `Tel: ${anagrafica.tel}\n`;
             txt += `==========================================\n`;
             txt += `Data: ${data}  -  Ora: ${ora}\n`;
-            txt += `Tavolo: ${tavolo}   -   Coperti/Persone: ${numPersone}\n`;
+            txt += `Tavolo: ${tavolo}   -   Coperti: ${numPersone}\n`;
             txt += `Cameriere: ${cameriere}\n`;
-            txt += `Stato Pagamento: ${statoPagamentoTesto}\n`;
+            txt += `Stato: ${statoPagamentoTesto}\n`;
             txt += `------------------------------------------\n`;
             txt += `QTA  | ARTICOLO / PIATTO          | TOTALE\n`;
             txt += `------------------------------------------\n`;
@@ -708,10 +669,8 @@
                 const info = trovaInfoPiatto(item.desc);
                 const cat = info.tipo;
                 if (!raggruppati[cat]) raggruppati[cat] = [];
-                
                 const totRiga = parseFloat(item.prezzo) * parseInt(item.qta);
                 totaleGenerale += totRiga;
-
                 raggruppati[cat].push({ ...item, totRiga });
             });
 
@@ -735,7 +694,6 @@
             txt += `------------------------------------------\n`;
             if(note) txt += `NOTE: ${note}\n------------------------------------------\n`;
             txt += `==========================================\n`;
-
             return txt;
         }
 
@@ -746,10 +704,7 @@
             const pagamento = document.getElementById('cmd-pagamento').value;
             const note = document.getElementById('cmd-note').value.trim();
 
-            if(!tavolo || comandaCorrente.length === 0) {
-                alert("Inserisci il numero di tavolo e almeno un piatto!");
-                return;
-            }
+            if(!tavolo || comandaCorrente.length === 0) return alert("Inserisci il tavolo e almeno un piatto!");
 
             const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
@@ -763,14 +718,13 @@
                 <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
                 <div class="ticket-copy"><pre>${txtCameriere}</pre></div>
             `;
-
             window.print();
 
             const timestamp = Date.now();
             const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
             await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
 
-            alert("Comanda stampata su A4 (2 copie con coperto) e salvata su GitHub!");
+            alert("Comanda salvata su GitHub e inviata in stampa!");
             comandaCorrente = [];
             document.getElementById('cmd-tavolo').value = '';
             document.getElementById('cmd-note').value = '';
@@ -779,30 +733,16 @@
             tornaMenu();
         }
 
-        // --- CARICAMENTO & PARSING ARCHIVIO (PUNTI 5 e 6) ---
-        async function apriSezioneRicerca() {
-            apriSezione('sec-5-ricerca');
-            await caricaEParseArchivioComande();
-        }
-
-        async function apriSezioneReport() {
-            apriSezione('sec-6-report');
-            await caricaEParseArchivioComande();
-            generaReportFinanziario('oggi');
-        }
+        async function apriSezioneRicerca() { apriSezione('sec-5-ricerca'); await caricaEParseArchivioComande(); }
+        async function apriSezioneReport() { apriSezione('sec-6-report'); await caricaEParseArchivioComande(); generaReportFinanziario('oggi'); }
 
         async function caricaEParseArchivioComande() {
             const token = localStorage.getItem("gh_token");
             if(!token) return;
-
             document.getElementById('loading-ricerca').classList.remove('hidden');
             archivioComandeParsed = [];
-
             try {
-                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/archivio_comande`, {
-                    headers: { "Authorization": `token ${token}` }
-                });
-
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/archivio_comande`, { headers: { "Authorization": `token ${token}` } });
                 if(res.ok) {
                     const files = await res.json();
                     for(let file of files) {
@@ -815,79 +755,39 @@
                         }
                     }
                 }
-            } catch(e) {
-                console.error("Errore caricamento archivio:", e);
-            }
-
+            } catch(e) {}
             document.getElementById('loading-ricerca').classList.add('hidden');
             filtraComandeGUI();
         }
 
         function parseSingleComandaText(filename, text) {
-            let tavolo = "ND";
-            let cameriere = "ND";
-            let pagamento = "Contanti";
-            let data = "";
-            let articoli = [];
-
-            const lineData = text.match(/Data:\s*([0-9\-]+)/);
-            if(lineData) data = lineData[1];
-
-            const lineTav = text.match(/Tavolo:\s*([^\s]+)/);
-            if(lineTav) tavolo = lineTav[1].trim();
-
-            const lineCam = text.match(/Cameriere:\s*(.+)/);
-            if(lineCam) cameriere = lineCam[1].trim();
-
-            const linePag = text.match(/Stato Pagamento:\s*(.+)/) || text.match(/Pagamento:\s*(.+)/);
-            if(linePag) pagamento = linePag[1].trim();
-
+            let tavolo = "ND", cameriere = "ND", pagamento = "Contanti", data = "", articoli = [];
+            const lineData = text.match(/Data:\s*([0-9\-]+)/); if(lineData) data = lineData[1];
+            const lineTav = text.match(/Tavolo:\s*([^\s]+)/); if(lineTav) tavolo = lineTav[1].trim();
+            const lineCam = text.match(/Cameriere:\s*(.+)/); if(lineCam) cameriere = lineCam[1].trim();
+            const linePag = text.match(/Stato:\s*(.+)/) || text.match(/Stato Pagamento:\s*(.+)/); if(linePag) pagamento = linePag[1].trim();
             const regexArticoli = /([0-9]+)\s*x\s*([^\(]+)/g;
             let match;
-            while ((match = regexArticoli.exec(text)) !== null) {
-                articoli.push({
-                    qta: parseInt(match[1]),
-                    desc: match[2].trim()
-                });
-            }
-
-            archivioComandeParsed.push({
-                filename,
-                tavolo,
-                cameriere,
-                pagamento,
-                data,
-                articoli,
-                testoCompleto: text
-            });
+            while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
+            archivioComandeParsed.push({ filename, tavolo, cameriere, pagamento, data, articoli, testoCompleto: text });
         }
 
-        // --- RICERCA COMANDA (PUNTO 5) ---
         function filtraComandeGUI() {
             const srcTav = document.getElementById('src-tavolo').value.trim().toLowerCase();
             const srcCam = document.getElementById('src-cameriere').value.trim().toLowerCase();
             const divLista = document.getElementById('lista-ricerca-comande');
             divLista.innerHTML = '';
-
-            const filtrate = archivioComandeParsed.filter(c => {
-                const matchTav = !srcTav || c.tavolo.toLowerCase().includes(srcTav);
-                const matchCam = !srcCam || c.cameriere.toLowerCase().includes(srcCam);
-                return matchTav && matchCam;
-            });
-
-            if(filtrate.length === 0) {
-                divLista.innerHTML = '<div class="text-center text-xs text-gray-500 py-3">Nessuna comanda trovata.</div>';
-                return;
-            }
-
+            const filtrate = archivioComandeParsed.filter(c => (!srcTav || c.tavolo.toLowerCase().includes(srcTav)) && (!srcCam || c.cameriere.toLowerCase().includes(srcCam)));
+            if(filtrate.length === 0) return divLista.innerHTML = '<div class="text-center text-sm font-bold text-slate-400 py-6">Nessuna comanda trovata.</div>';
+            
             filtrate.reverse().forEach((c) => {
                 divLista.innerHTML += `
-                    <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-gray-900 hover:bg-gray-700 p-3 rounded-lg border border-gray-700 cursor-pointer flex justify-between items-center transition">
+                    <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-white border border-slate-200 hover:border-indigo-300 p-4 rounded-xl cursor-pointer flex justify-between items-center shadow-sm transition">
                         <div>
-                            <div class="text-sm font-bold text-amber-400">Tavolo ${c.tavolo} <span class="text-xs font-normal text-gray-400">(${c.data})</span></div>
-                            <div class="text-xs text-gray-300">Cam: ${c.cameriere} | ${c.pagamento}</div>
+                            <div class="text-base font-black text-indigo-700">Tavolo ${c.tavolo} <span class="text-xs font-semibold text-slate-400 ml-2">(${c.data})</span></div>
+                            <div class="text-xs font-bold text-slate-500 mt-1">Cam: ${c.cameriere} &nbsp;|&nbsp; ${c.pagamento}</div>
                         </div>
-                        <span class="text-xs font-bold bg-gray-800 text-emerald-400 px-2 py-1 rounded border border-gray-700">${c.articoli.length} art.</span>
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-800 px-3 py-1.5 rounded-lg">${c.articoli.length} Voci</span>
                     </div>
                 `;
             });
@@ -896,7 +796,6 @@
         function mostraDettaglioComanda(filename) {
             const comanda = archivioComandeParsed.find(c => c.filename === filename);
             if(!comanda) return;
-
             testoComandaSelezionata = comanda.testoCompleto;
             document.getElementById('testo-dettaglio-comanda').innerText = comanda.testoCompleto;
             document.getElementById('box-dettaglio-comanda').classList.remove('hidden');
@@ -904,61 +803,40 @@
 
         function ristampaComandaSelezionata() {
             if(!testoComandaSelezionata) return;
-
             const copiaCameriere = testoComandaSelezionata.replace("*** ORIGINALE ***", "*** COPIA X CAMERIERE ***");
-
-            const printArea = document.getElementById('printable-area');
-            printArea.innerHTML = `
-                <div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div>
-                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
-                <div class="ticket-copy"><pre>${copiaCameriere}</pre></div>
-            `;
+            document.getElementById('printable-area').innerHTML = `<div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div><div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div><div class="ticket-copy"><pre>${copiaCameriere}</pre></div>`;
             window.print();
         }
 
-        // --- REPORT FINANZIARIO & PIETANZE (PUNTO 6) ---
         function generaReportFinanziario(tipoFiltro) {
             const dataOggi = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
-
             const btnOggi = document.getElementById('btn-rep-oggi');
             const btnTutto = document.getElementById('btn-rep-tutto');
 
             if(tipoFiltro === 'oggi') {
-                btnOggi.className = "flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold";
-                btnTutto.className = "flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold";
+                btnOggi.className = "flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm";
+                btnTutto.className = "flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition";
             } else {
-                btnTutto.className = "flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold";
-                btnOggi.className = "flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold";
+                btnTutto.className = "flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm";
+                btnOggi.className = "flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition";
             }
 
-            const targetComande = archivioComandeParsed.filter(c => {
-                if(tipoFiltro === 'oggi') return c.data === dataOggi;
-                return true;
-            });
-
-            let incassoTotale = 0;
-            let incassoContanti = 0;
-            let incassoCarta = 0;
-            let totaleQtaPietanze = 0;
+            const targetComande = archivioComandeParsed.filter(c => tipoFiltro === 'tutto' || c.data === dataOggi);
+            let incassoTotale = 0, incassoContanti = 0, incassoCarta = 0, totaleQtaPietanze = 0;
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
                 c.articoli.forEach(art => {
                     if(art.desc.toLowerCase().includes("coperto")) return;
-
                     totaleQtaPietanze += art.qta;
-                    
                     const info = trovaInfoPiatto(art.desc);
-                    const prezzoUnitario = parseFloat(info.prezzo);
-                    const totaleArt = prezzoUnitario * art.qta;
-
+                    const totaleArt = parseFloat(info.prezzo) * art.qta;
                     incassoTotale += totaleArt;
+                    
                     if(c.pagamento.includes('POS') || c.pagamento.includes('Carta')) incassoCarta += totaleArt;
                     else if(c.pagamento.includes('CONTANTI') || c.pagamento.includes('Contanti')) incassoContanti += totaleArt;
 
-                    if(!pietanzeCountMap[art.desc]) {
-                        pietanzeCountMap[art.desc] = { qta: 0, incasso: 0 };
-                    }
+                    if(!pietanzeCountMap[art.desc]) pietanzeCountMap[art.desc] = { qta: 0, incasso: 0 };
                     pietanzeCountMap[art.desc].qta += art.qta;
                     pietanzeCountMap[art.desc].incasso += totaleArt;
                 });
@@ -971,72 +849,39 @@
 
             const tbody = document.getElementById('tbl-report-pietanze');
             tbody.innerHTML = '';
-
-            const pietanzeArray = Object.keys(pietanzeCountMap).map(k => ({
-                desc: k,
-                qta: pietanzeCountMap[k].qta,
-                incasso: pietanzeCountMap[k].incasso
-            })).sort((a,b) => b.qta - a.qta);
-
-            if(pietanzeArray.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-gray-500">Nessun dato per il periodo selezionato.</td></tr>';
-                return;
-            }
-
+            const pietanzeArray = Object.keys(pietanzeCountMap).map(k => ({ desc: k, qta: pietanzeCountMap[k].qta, incasso: pietanzeCountMap[k].incasso })).sort((a,b) => b.qta - a.qta);
+            
+            if(pietanzeArray.length === 0) return tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-sm font-bold text-slate-400">Nessun dato presente.</td></tr>';
+            
             pietanzeArray.forEach(p => {
                 tbody.innerHTML += `
-                    <tr class="hover:bg-gray-800">
-                        <td class="p-2 font-bold">${p.desc}</td>
-                        <td class="p-2 text-center text-amber-400 font-bold">${p.qta}</td>
-                        <td class="p-2 text-right text-emerald-400">€ ${p.incasso.toFixed(2)}</td>
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3 font-bold text-slate-700">${p.desc}</td>
+                        <td class="p-3 text-center text-indigo-600 font-black">${p.qta}</td>
+                        <td class="p-3 text-right text-emerald-600 font-bold">€ ${p.incasso.toFixed(2)}</td>
                     </tr>
                 `;
             });
         }
 
-        // --- COMUNICAZIONE API GITHUB ---
         async function salvaFileSuGitHub(path, contenuto, commitMsg) {
             const token = localStorage.getItem("gh_token");
             if(!token) return;
-
             try {
                 let sha = "";
-                const getRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
-                    headers: { "Authorization": `token ${token}` }
-                });
-                if(getRes.ok) {
-                    const fileData = await getRes.json();
-                    sha = fileData.sha;
-                }
-
-                const body = {
-                    message: commitMsg,
-                    content: btoa(unescape(encodeURIComponent(contenuto)))
-                };
+                const getRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, { headers: { "Authorization": `token ${token}` } });
+                if(getRes.ok) { const fileData = await getRes.json(); sha = fileData.sha; }
+                const body = { message: commitMsg, content: btoa(unescape(encodeURIComponent(contenuto))) };
                 if(sha) body.sha = sha;
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                });
-            } catch(e) {
-                console.error("Errore Sync GitHub:", e);
-            }
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, { method: "PUT", headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+            } catch(e) {}
         }
 
         async function caricaDatiCloud() {
             const token = localStorage.getItem("gh_token");
             if(!token) return;
-
-            // Carica Anagrafica
             try {
-                const resAnag = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/config_locale.json`, {
-                    headers: { "Authorization": `token ${token}` }
-                });
+                const resAnag = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/config_locale.json`, { headers: { "Authorization": `token ${token}` } });
                 if(resAnag.ok) {
                     const data = await resAnag.json();
                     anagrafica = JSON.parse(decodeURIComponent(escape(atob(data.content))));
@@ -1048,12 +893,8 @@
                     aggiornaHeaderGUI();
                 }
             } catch(e){}
-
-            // Carica Menu Pietanze
             try {
-                const resMenu = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/menu_pietanze.csv`, {
-                    headers: { "Authorization": `token ${token}` }
-                });
+                const resMenu = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/menu_pietanze.csv`, { headers: { "Authorization": `token ${token}` } });
                 if(resMenu.ok) {
                     const data = await resMenu.json();
                     const csvText = decodeURIComponent(escape(atob(data.content)));
@@ -1061,19 +902,12 @@
                     menuPietanze = [];
                     lines.forEach(line => {
                         const parts = line.split(';');
-                        if(parts.length >= 3) {
-                            menuPietanze.push({ tipo: parts[0].trim(), desc: parts[1].trim(), prezzo: parts[2].trim() });
-                        }
+                        if(parts.length >= 3) menuPietanze.push({ tipo: parts[0].trim(), desc: parts[1].trim(), prezzo: parts[2].trim() });
                     });
-                    renderizzaMenuGUI();
                 }
             } catch(e){}
-
-            // Carica Camerieri
             try {
-                const resCam = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/camerieri.json`, {
-                    headers: { "Authorization": `token ${token}` }
-                });
+                const resCam = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/camerieri.json`, { headers: { "Authorization": `token ${token}` } });
                 if(resCam.ok) {
                     const data = await resCam.json();
                     listaCamerieri = JSON.parse(decodeURIComponent(escape(atob(data.content))));
