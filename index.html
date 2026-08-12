@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionale Ristorante</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #printable-area, #printable-area * { visibility: visible; }
+            #printable-area { position: absolute; left: 0; top: 0; width: 100%; font-family: monospace; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4">
+
+    <div class="max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700 p-6">
+        
+        <!-- HEADER LOCALE DINAMICO -->
+        <div class="border-b border-gray-700 pb-4 mb-6 text-center">
+            <h1 id="header-nome-locale" class="text-2xl font-bold text-amber-400 uppercase tracking-wide">GESTIONALE RISTORANTE</h1>
+            <p id="header-sub-locale" class="text-xs text-gray-400 mt-1">SISTEMA EMISSIONE COMANDE CLOUD</p>
+        </div>
+
+        <!-- SETUP TOKEN GITHUB (Se non presente) -->
+        <div id="sec-token" class="mb-6 bg-amber-950 p-4 rounded-lg border border-amber-600/50 hidden">
+            <h3 class="font-bold text-amber-400 mb-2">⚙️ Configurazione Iniziale GitHub</h3>
+            <p class="text-xs text-gray-300 mb-3">Inserisci il tuo Personal Access Token per sincronizzare i dati sul cloud.</p>
+            <input type="password" id="input-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white mb-3">
+            <button onclick="salvaToken()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-2 rounded font-bold text-sm">Connetti a GitHub</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- MENU PRINCIPALE (STRUTTURA IDENTICA AL BAT)                  -->
+        <!-- ============================================================ -->
+        <div id="sec-menu-principale" class="space-y-2.5">
+            <p class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">Seleziona un'opzione del menu:</p>
+            
+            <button onclick="apriSezione('sec-1-anagrafica')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[1]</span> Personalizzazione Locale
+            </button>
+            
+            <button onclick="apriSezione('sec-2-menu')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[2]</span> Caricamento Pietanze (Menu)
+            </button>
+            
+            <button onclick="apriSezione('sec-3-camerieri')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[3]</span> Gestione Camerieri
+            </button>
+            
+            <button onclick="apriSezione('sec-4-comanda')" class="w-full text-left p-3.5 bg-emerald-700 hover:bg-emerald-600 rounded-lg border border-emerald-500 font-bold text-white flex items-center gap-3 shadow-lg">
+                <span class="bg-white/20 text-white px-2.5 py-1 rounded text-xs font-bold">[4]</span> Emissione Comanda
+            </button>
+            
+            <button onclick="apriSezione('sec-5-ricerca')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[5]</span> Ricerca Comanda (Tavolo / Cameriere)
+            </button>
+            
+            <button onclick="apriSezione('sec-6-report')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+                <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[6]</span> Report: Totale Pietanze / Incassi
+            </button>
+            
+            <button onclick="resetToken()" class="w-full text-left p-3.5 bg-red-900/30 hover:bg-red-900/50 text-red-300 rounded-lg border border-red-800 font-semibold flex items-center gap-3 mt-4">
+                <span class="bg-red-500/20 text-red-400 px-2.5 py-1 rounded text-xs font-bold">[9]</span> Uscita / Cambia Token
+            </button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 1. PERSONALIZZAZIONE LOCALE                                  -->
+        <!-- ============================================================ -->
+        <div id="sec-1-anagrafica" class="sezione hidden">
+            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">1. Personalizzazione Anagrafica Locale</h2>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Nome Ristorante</label>
+                    <input type="text" id="cfg-nome" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Indirizzo (Via, Civico, Città)</label>
+                    <input type="text" id="cfg-indirizzo" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Telefono</label>
+                    <input type="text" id="cfg-tel" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Partita IVA / Codice Fiscale</label>
+                    <input type="text" id="cfg-piva" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Messaggio in calce / Note</label>
+                    <input type="text" id="cfg-note" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div class="flex gap-2 pt-3">
+                    <button onclick="salvaAnagrafica()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white py-2.5 rounded font-bold text-sm">Salva Anagrafica</button>
+                    <button onclick="tornaMenu()" class="px-4 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded text-sm">Indietro</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 2. CARICAMENTO PIETANZE (MENU)                               -->
+        <!-- ============================================================ -->
+        <div id="sec-2-menu" class="sezione hidden">
+            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">2. Caricamento Pietanze (Menu)</h2>
+            
+            <!-- Inserimento Nuova Pietanza -->
+            <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3">
+                <h3 class="text-sm font-bold text-gray-300">Aggiungi Nuova Pietanza</h3>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Tipologia</label>
+                    <select id="p-tipo" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                        <option value="Antipasto">Antipasto</option>
+                        <option value="Primo">Primo</option>
+                        <option value="Secondo">Secondo</option>
+                        <option value="Contorno">Contorno</option>
+                        <option value="Dolce">Dolce</option>
+                        <option value="Bevande">Bevande</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Descrizione Pietanza</label>
+                    <input type="text" id="p-desc" placeholder="Es. Spaghetti alla Carbonara" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Prezzo (€)</label>
+                    <input type="text" id="p-prezzo" placeholder="Es. 12,50 o 10" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <button onclick="aggiungiPietanzaMenu()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded font-bold text-sm">+ Aggiungi al Menu</button>
+            </div>
+
+            <!-- Tabella Menu -->
+            <h3 class="text-sm font-bold text-gray-300 mb-2">Menu Pietanze Attuale</h3>
+            <div class="overflow-x-auto border border-gray-700 rounded-lg mb-4">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-gray-900 text-amber-400 border-b border-gray-700 font-mono">
+                        <tr>
+                            <th class="p-2.5">TIPOLOGIA</th>
+                            <th class="p-2.5">DESCRIZIONE</th>
+                            <th class="p-2.5">PREZZO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl-menu-body" class="divide-y divide-gray-800 font-mono text-gray-300">
+                        <!-- Generato via JS -->
+                    </tbody>
+                </table>
+            </div>
+            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2 rounded text-sm">Indietro al Menu Principale</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 3. CAMERIERI (IN SVILUPPO)                                    -->
+        <!-- ============================================================ -->
+        <div id="sec-3-camerieri" class="sezione hidden text-center py-8">
+            <h2 class="text-lg font-bold text-amber-400 mb-2">3. Gestione Camerieri</h2>
+            <p class="text-sm text-gray-400 mb-6">[Funzionalità in fase di sviluppo...]</p>
+            <button onclick="tornaMenu()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-2 rounded text-sm">Torna Indietro</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 4. EMISSIONE COMANDA                                         -->
+        <!-- ============================================================ -->
+        <div id="sec-4-comanda" class="sezione hidden">
+            <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
+            
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Numero Tavolo</label>
+                    <input type="text" id="cmd-tavolo" placeholder="Es. 12" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Cameriere / Operatore</label>
+                    <input type="text" id="cmd-cameriere" placeholder="Es. Mauro" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                </div>
+            </div>
+
+            <!-- Selettore Rapido da Menu o Inserimento Libero -->
+            <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4">
+                <label class="block text-xs text-gray-400 mb-1">Aggiungi Articolo</label>
+                <div class="flex gap-2">
+                    <input type="number" id="cmd-qta" value="1" min="1" class="w-16 p-2 bg-gray-800 border border-gray-700 rounded text-center text-sm font-bold text-white">
+                    <input type="text" id="cmd-desc" placeholder="Piatto o Seleziona sotto..." class="flex-1 p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                    <button onclick="aggiungiRigaComanda()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded text-xs font-bold text-white">+ OK</button>
+                </div>
+                <!-- Selettore Veloce Pietanze salvate -->
+                <div id="quick-menu-buttons" class="flex flex-wrap gap-1.5 mt-3 pt-2 border-t border-gray-800">
+                    <!-- Popolato via JS -->
+                </div>
+            </div>
+
+            <!-- Anteprima Articoli Inseriti -->
+            <div class="border border-gray-700 rounded-lg p-3 mb-4 bg-gray-950 font-mono text-sm min-h-[100px]">
+                <div class="text-xs text-gray-500 border-b border-gray-800 pb-1 mb-2">QTA | ARTICOLO / PIATTO</div>
+                <div id="cmd-lista-articoli" class="space-y-1"></div>
+            </div>
+
+            <div class="mb-4">
+                <input type="text" id="cmd-note" placeholder="Note o allergeni (es. no cipolla)" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+            </div>
+
+            <!-- Pulsanti Azione -->
+            <div class="space-y-2">
+                <button onclick="stampaESalvaComanda()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-lg font-bold shadow-lg text-sm">
+                    🖨️ Stampa & Salva Comanda
+                </button>
+                <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2 rounded text-sm">Annulla e Torna al Menu</button>
+            </div>
+        </div>
+
+        <!-- AREA DI STAMPA NASCOSTA (Per Stampante Termica / POS) -->
+        <div id="printable-area" class="hidden"></div>
+
+        <!-- ============================================================ -->
+        <!-- 5. RICERCA COMANDA (IN SVILUPPO)                             -->
+        <!-- ============================================================ -->
+        <div id="sec-5-ricerca" class="sezione hidden text-center py-8">
+            <h2 class="text-lg font-bold text-amber-400 mb-2">5. Ricerca Comanda</h2>
+            <p class="text-sm text-gray-400 mb-6">[Funzionalità in fase di sviluppo...]</p>
+            <button onclick="tornaMenu()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-2 rounded text-sm">Torna Indietro</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- 6. REPORT INCASSI (IN SVILUPPO)                              -->
+        <!-- ============================================================ -->
+        <div id="sec-6-report" class="sezione hidden text-center py-8">
+            <h2 class="text-lg font-bold text-amber-400 mb-2">6. Report Incassi e Pietanze</h2>
+            <p class="text-sm text-gray-400 mb-6">[Funzionalità in fase di sviluppo...]</p>
+            <button onclick="tornaMenu()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-2 rounded text-sm">Torna Indietro</button>
+        </div>
+
+    </div>
+
+    <!-- LOGICA JAVASCRIPT APP -->
+    <script>
+        const GH_USER = "UserH725";
+        const GH_REPO = "comande-ristorante";
+        
+        let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
+        let menuPietanze = [];
+        let comandaCorrente = [];
+
+        window.onload = function() {
+            const token = localStorage.getItem("gh_token");
+            if (!token) {
+                document.getElementById("sec-token").classList.remove("hidden");
+            } else {
+                caricaDatiCloud();
+            }
+        };
+
+        function salvaToken() {
+            const t = document.getElementById("input-token").value.trim();
+            if(t) {
+                localStorage.setItem("gh_token", t);
+                document.getElementById("sec-token").classList.add("hidden");
+                caricaDatiCloud();
+            }
+        }
+
+        function resetToken() {
+            if(confirm("Vuoi scollegare il token GitHub da questo dispositivo?")) {
+                localStorage.removeItem("gh_token");
+                location.reload();
+            }
+        }
+
+        function apriSezione(idSezione) {
+            document.getElementById('sec-menu-principale').classList.add('hidden');
+            document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
+            document.getElementById(idSezione).classList.remove('hidden');
+        }
+
+        function tornaMenu() {
+            document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
+            document.getElementById('sec-menu-principale').classList.remove('hidden');
+        }
+
+        // --- NORMALIZZAZIONE PREZZO (Punto/Virgola + 2 Decimali) ---
+        function normalizzaPrezzo(val) {
+            if(!val) return "0.00";
+            let p = val.toString().replace(',', '.');
+            let num = parseFloat(p);
+            return isNaN(num) ? "0.00" : num.toFixed(2);
+        }
+
+        // --- GESTIONE ANAGRAFICA (PUNTO 1) ---
+        function salvaAnagrafica() {
+            anagrafica.nome = document.getElementById('cfg-nome').value.trim();
+            anagrafica.indirizzo = document.getElementById('cfg-indirizzo').value.trim();
+            anagrafica.tel = document.getElementById('cfg-tel').value.trim();
+            anagrafica.piva = document.getElementById('cfg-piva').value.trim();
+            anagrafica.note = document.getElementById('cfg-note').value.trim();
+
+            localStorage.setItem("cfg_anagrafica", JSON.stringify(anagrafica));
+            aggiornaHeaderGUI();
+            salvaFileSuGitHub("config_locale.json", JSON.stringify(anagrafica, null, 2), "Aggiornata anagrafica locale");
+            alert("Anagrafica salvata con successo!");
+            tornaMenu();
+        }
+
+        function aggiornaHeaderGUI() {
+            if(anagrafica.nome) {
+                document.getElementById('header-nome-locale').innerText = anagrafica.nome;
+                document.getElementById('header-sub-locale').innerText = `${anagrafica.indirizzo} - Tel: ${anagrafica.tel}`;
+            }
+        }
+
+        // --- GESTIONE MENU PIETANZE (PUNTO 2) ---
+        function aggiungiPietanzaMenu() {
+            const tipo = document.getElementById('p-tipo').value;
+            const desc = document.getElementById('p-desc').value.trim();
+            const prezzo = normalizzaPrezzo(document.getElementById('p-prezzo').value);
+
+            if(!desc) {
+                alert("Inserisci la descrizione della pietanza!");
+                return;
+            }
+
+            menuPietanze.push({ tipo, desc, prezzo });
+            document.getElementById('p-desc').value = '';
+            document.getElementById('p-prezzo').value = '';
+
+            renderizzaMenuGUI();
+            salvaMenuCSVCloud();
+        }
+
+        function renderizzaMenuGUI() {
+            const tbody = document.getElementById('tbl-menu-body');
+            const quickDiv = document.getElementById('quick-menu-buttons');
+            tbody.innerHTML = '';
+            quickDiv.innerHTML = '';
+
+            menuPietanze.forEach(p => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-800">
+                        <td class="p-2.5 text-amber-300">${p.tipo}</td>
+                        <td class="p-2.5 font-bold">${p.desc}</td>
+                        <td class="p-2.5 text-emerald-400">€ ${p.prezzo}</td>
+                    </tr>
+                `;
+
+                // Pulsanti Selezione Rapida in Comanda
+                quickDiv.innerHTML += `
+                    <button onclick="selezionaPiattoRapido('${p.desc.replace(/'/g, "\\'")}')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 px-2 py-1 rounded text-xs">
+                        + ${p.desc}
+                    </button>
+                `;
+            });
+        }
+
+        function salvaMenuCSVCloud() {
+            let csv = "TIPOLOGIA;DESCRIZIONE;PREZZO\n";
+            menuPietanze.forEach(p => csv += `${p.tipo};${p.desc};${p.prezzo}\n`);
+            salvaFileSuGitHub("menu_pietanze.csv", csv, "Aggiornato menu pietanze");
+        }
+
+        // --- EMISSIONE COMANDA (PUNTO 4) ---
+        function selezionaPiattoRapido(desc) {
+            document.getElementById('cmd-desc').value = desc;
+        }
+
+        function aggiungiRigaComanda() {
+            const qta = document.getElementById('cmd-qta').value || "1";
+            const desc = document.getElementById('cmd-desc').value.trim();
+
+            if(!desc) return;
+
+            comandaCorrente.push({ qta, desc });
+            document.getElementById('cmd-desc').value = '';
+            document.getElementById('cmd-qta').value = '1';
+            renderizzaComandaGUI();
+        }
+
+        function renderizzaComandaGUI() {
+            const div = document.getElementById('cmd-lista-articoli');
+            div.innerHTML = '';
+            comandaCorrente.forEach((item, idx) => {
+                div.innerHTML += `
+                    <div class="flex justify-between items-center text-gray-200">
+                        <span><b>${item.qta} x</b> ${item.desc}</span>
+                        <button onclick="rimuoviRigaComanda(${idx})" class="text-red-400 text-xs px-1">✕</button>
+                    </div>
+                `;
+            });
+        }
+
+        function rimuoviRigaComanda(idx) {
+            comandaCorrente.splice(idx, 1);
+            renderizzaComandaGUI();
+        }
+
+        async function stampaESalvaComanda() {
+            const tavolo = document.getElementById('cmd-tavolo').value.trim();
+            const cameriere = document.getElementById('cmd-cameriere').value.trim() || 'Cassa';
+            const note = document.getElementById('cmd-note').value.trim();
+
+            if(!tavolo || comandaCorrente.length === 0) {
+                alert("Inserisci il numero di tavolo e almeno un piatto!");
+                return;
+            }
+
+            const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
+            const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
+
+            // Formattazione per Stampante Termica (Uguale al file BAT)
+            let txt = `==========================================\n`;
+            txt += anagrafica.nome ? `          ${anagrafica.nome}\n` : `          COMANDA RISTORANTE\n`;
+            if(anagrafica.indirizzo) txt += `${anagrafica.indirizzo}\n`;
+            if(anagrafica.tel) txt += `Tel: ${anagrafica.tel}\n`;
+            txt += `==========================================\n`;
+            txt += `Data: ${data}  -  Ora: ${ora}\n`;
+            txt += `Tavolo: ${tavolo}\n`;
+            txt += `Cameriere: ${cameriere}\n`;
+            txt += `------------------------------------------\n`;
+            txt += `QTA  | ARTICOLO / PIATTO\n`;
+            txt += `------------------------------------------\n`;
+            comandaCorrente.forEach(item => {
+                txt += `${item.qta}  x   ${item.desc}\n`;
+            });
+            txt += `------------------------------------------\n`;
+            if(note) txt += `NOTE: ${note}\n------------------------------------------\n`;
+            txt += `==========================================\n`;
+
+            // Stampa Fisica via Browser
+            const printArea = document.getElementById('printable-area');
+            printArea.innerHTML = `<pre>${txt}</pre>`;
+            window.print();
+
+            // Salvataggio Cloud su GitHub
+            const timestamp = Date.now();
+            const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
+            await salvaFileSuGitHub(filename, txt, `Comanda Tavolo ${tavolo}`);
+
+            alert("Comanda inviata in stampa e salvata su GitHub!");
+            comandaCorrente = [];
+            document.getElementById('cmd-tavolo').value = '';
+            document.getElementById('cmd-note').value = '';
+            renderizzaComandaGUI();
+            tornaMenu();
+        }
+
+        // --- COMUNICAZIONE API GITHUB ---
+        async function salvaFileSuGitHub(path, contenuto, commitMsg) {
+            const token = localStorage.getItem("gh_token");
+            if(!token) return;
+
+            try {
+                // Recupera sha del file se esiste già
+                let sha = "";
+                const getRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    headers: { "Authorization": `token ${token}` }
+                });
+                if(getRes.ok) {
+                    const fileData = await getRes.json();
+                    sha = fileData.sha;
+                }
+
+                const body = {
+                    message: commitMsg,
+                    content: btoa(unescape(encodeURIComponent(contenuto)))
+                };
+                if(sha) body.sha = sha;
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+            } catch(e) {
+                console.error("Errore Sync GitHub:", e);
+            }
+        }
+
+        async function caricaDatiCloud() {
+            const token = localStorage.getItem("gh_token");
+            if(!token) return;
+
+            // Carica Anagrafica
+            try {
+                const resAnag = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/config_locale.json`, {
+                    headers: { "Authorization": `token ${token}` }
+                });
+                if(resAnag.ok) {
+                    const data = await resAnag.json();
+                    anagrafica = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                    document.getElementById('cfg-nome').value = anagrafica.nome || '';
+                    document.getElementById('cfg-indirizzo').value = anagrafica.indirizzo || '';
+                    document.getElementById('cfg-tel').value = anagrafica.tel || '';
+                    document.getElementById('cfg-piva').value = anagrafica.piva || '';
+                    document.getElementById('cfg-note').value = anagrafica.note || '';
+                    aggiornaHeaderGUI();
+                }
+            } catch(e){}
+
+            // Carica Menu Pietanze
+            try {
+                const resMenu = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/menu_pietanze.csv`, {
+                    headers: { "Authorization": `token ${token}` }
+                });
+                if(resMenu.ok) {
+                    const data = await resMenu.json();
+                    const csvText = decodeURIComponent(escape(atob(data.content)));
+                    const lines = csvText.split('\n').slice(1);
+                    menuPietanze = [];
+                    lines.forEach(line => {
+                        const parts = line.split(';');
+                        if(parts.length >= 3) {
+                            menuPietanze.push({ tipo: parts[0].trim(), desc: parts[1].trim(), prezzo: parts[2].trim() });
+                        }
+                    });
+                    renderizzaMenuGUI();
+                }
+            } catch(e){}
+        }
+    </script>
+</body>
+</html>
