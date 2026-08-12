@@ -14,7 +14,6 @@
         }
 
         @media print {
-            /* Imposta foglio A4 Orizzontale */
             @page { 
                 size: A4 landscape; 
                 margin: 8mm; 
@@ -24,20 +23,17 @@
                 margin: 0; 
                 padding: 0; 
             }
-            /* Nascondi applicazione */
             #main-app { 
                 display: none !important; 
             }
-            /* Mostra Area Stampa */
             #printable-area { 
                 display: block !important; 
                 width: 100%; 
                 font-family: 'Courier New', Courier, monospace !important; 
                 color: black !important;
-                font-size: 11.5px !important; /* Testo piccolo e leggibile */
+                font-size: 11.5px !important; 
             }
 
-            /* Struttura Foglio 50/50 */
             table.page-layout { 
                 width: 100%; 
                 border-collapse: collapse; 
@@ -54,7 +50,6 @@
                 width: 1px;
             }
 
-            /* Tabella Interna Pietanze */
             .ticket-table { 
                 width: 100%; 
                 border-collapse: collapse; 
@@ -67,7 +62,7 @@
                 text-align: left; 
             }
             .ticket-table td { 
-                padding: 1.5px 0; /* Interlinea ridotta */
+                padding: 2.5px 0; 
                 vertical-align: top;
             }
             
@@ -79,6 +74,11 @@
                 text-transform: uppercase; 
                 padding-top: 6px !important; 
                 padding-bottom: 2px !important; 
+            }
+            .unit-price {
+                font-size: 9px;
+                color: #333;
+                font-weight: normal;
             }
         }
     </style>
@@ -329,7 +329,7 @@
                     <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Anteprima</h3>
                     <button onclick="ristampaComandaSelezionata()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 py-1.5 rounded-lg font-bold shadow-md transition">🖨️ Ristampa</button>
                 </div>
-                <pre id="testo-dettaglio-comanda" class="font-mono text-xs text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200 overflow-x-auto shadow-inner"></pre>
+                <div id="testo-dettaglio-comanda" class="font-mono text-xs text-slate-700 bg-slate-50 p-4 rounded-lg border border-slate-200 overflow-x-auto shadow-inner"></div>
             </div>
 
             <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu</button>
@@ -403,7 +403,7 @@
         let listaCamerieri = [];
         let comandaCorrente = [];
         let archivioComandeParsed = [];
-        let testoComandaSelezionata = "";
+        let htmlComandaSelezionata = "";
 
         window.onload = function() {
             const token = localStorage.getItem("gh_token");
@@ -609,8 +609,14 @@
             salvaFileSuGitHub("camerieri.json", JSON.stringify(listaCamerieri, null, 2), "Aggiornata lista staff");
         }
 
+        // AGGREGAZIONE AUTOMATICA QUANTITA (SMART GROUPING)
         function selezionaEAggiungiRapido(desc, prezzo) {
-            comandaCorrente.push({ qta: 1, desc, prezzo });
+            const existing = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === prezzo);
+            if(existing) {
+                existing.qta += 1;
+            } else {
+                comandaCorrente.push({ qta: 1, desc, prezzo });
+            }
             renderizzaMenuGUI();
             renderizzaComandaGUI();
         }
@@ -622,10 +628,33 @@
             if(!desc) return;
             const info = trovaInfoPiatto(desc);
             const prezzo = prezzoInput ? normalizzaPrezzo(prezzoInput) : info.prezzo;
-            comandaCorrente.push({ qta, desc, prezzo });
+            
+            const existing = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === prezzo);
+            if(existing) {
+                existing.qta += qta;
+            } else {
+                comandaCorrente.push({ qta, desc, prezzo });
+            }
+            
             document.getElementById('cmd-desc').value = '';
             document.getElementById('cmd-prezzo-manuale').value = '';
             document.getElementById('cmd-qta').value = '1';
+            renderizzaMenuGUI();
+            renderizzaComandaGUI();
+        }
+
+        function decrementaRigaComanda(idx) {
+            if(comandaCorrente[idx].qta > 1) {
+                comandaCorrente[idx].qta -= 1;
+            } else {
+                comandaCorrente.splice(idx, 1);
+            }
+            renderizzaMenuGUI();
+            renderizzaComandaGUI();
+        }
+
+        function rimuoviRigaComanda(idx) {
+            comandaCorrente.splice(idx, 1);
             renderizzaMenuGUI();
             renderizzaComandaGUI();
         }
@@ -634,6 +663,7 @@
             const div = document.getElementById('cmd-lista-articoli');
             const numPersone = parseInt(document.getElementById('cmd-persone').value) || 0;
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
+            const modoPag = document.getElementById('cmd-pagamento').value;
 
             div.innerHTML = '';
             if(comandaCorrente.length === 0 && numPersone === 0) {
@@ -659,10 +689,11 @@
                     raggruppati[cat].forEach(item => {
                         div.innerHTML += `
                             <div class="flex justify-between items-center text-slate-800 text-xs py-1.5">
-                                <span><b class="text-slate-900">${item.qta}x</b> ${item.desc} <span class="text-slate-400 text-[10px]">(€ ${item.prezzo}/cad)</span></span>
-                                <div class="flex items-center gap-3">
-                                    <span class="text-slate-800 font-bold">€ ${item.totRiga.toFixed(2)}</span>
-                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-full w-5 h-5 flex items-center justify-center font-bold transition">✕</button>
+                                <span><b class="text-slate-900">${item.qta}x</b> ${item.desc} ${item.qta > 1 ? `<span class="text-slate-400 text-[10px]">(€ ${item.prezzo} cad.)</span>` : ''}</span>
+                                <div class="flex items-center gap-1 sm:gap-2">
+                                    <span class="text-slate-800 font-bold pr-2">€ ${item.totRiga.toFixed(2)}</span>
+                                    <button onclick="decrementaRigaComanda(${item.originalIdx})" class="bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">-</button>
+                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">✕</button>
                                 </div>
                             </div>
                         `;
@@ -675,26 +706,27 @@
                     <div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div>
                     <div class="flex justify-between items-center text-slate-800 text-xs py-1.5">
                         <span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00/persona)</span></span>
-                        <span class="text-slate-800 font-bold">€ ${totaleCoperto.toFixed(2)}</span>
+                        <span class="text-slate-800 font-bold pr-16">€ ${totaleCoperto.toFixed(2)}</span>
                     </div>
                 `;
             }
+
+            let labelPagamento = "";
+            if (modoPag === 'Contanti') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (CONTANTI)</span>';
+            else if (modoPag === 'POS') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (POS / CARTA)</span>';
+            else labelPagamento = '<span class="text-red-400 font-bold">NON PAGATO (SOSPESO)</span>';
 
             div.innerHTML += `
                 <div class="mt-5 pt-3 border-t-2 border-slate-300 flex justify-between items-center font-black">
                     <span class="text-slate-600">TOTALE:</span>
                     <span class="text-emerald-600 text-xl tracking-tight">€ ${totaleGenerale.toFixed(2)}</span>
                 </div>
+                <div class="text-xs text-right mt-1">
+                    Stato Pagamento: ${labelPagamento}
+                </div>
             `;
         }
 
-        function rimuoviRigaComanda(originalIdx) {
-            comandaCorrente.splice(originalIdx, 1);
-            renderizzaMenuGUI();
-            renderizzaComandaGUI();
-        }
-
-        // --- CREAZIONE HTML FORMATTATO PER LA STAMPA (TABELLA PERFETTA) ---
         function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, pagamento, note, data, ora) {
             let statoPagamentoTesto = "";
             if (pagamento === 'Contanti') statoPagamentoTesto = "PAGATO (CONTANTI)";
@@ -749,7 +781,10 @@
                         html += `
                             <tr>
                                 <td class="text-center bold">${item.qta}</td>
-                                <td>${item.desc}</td>
+                                <td>
+                                    ${item.desc}
+                                    ${item.qta > 1 ? `<br><span class="unit-price">(€ ${parseFloat(item.prezzo).toFixed(2)} cad.)</span>` : ''}
+                                </td>
                                 <td class="text-right">€ ${item.totRiga.toFixed(2)}</td>
                             </tr>
                         `;
@@ -762,7 +797,7 @@
                 html += `
                     <tr>
                         <td class="text-center bold">${numPersone}</td>
-                        <td>Coperto</td>
+                        <td>Coperto <br><span class="unit-price">(€ 2.00 cad.)</span></td>
                         <td class="text-right">€ ${totaleCoperto.toFixed(2)}</td>
                     </tr>
                 `;
@@ -778,16 +813,24 @@
             `;
 
             if(note) {
-                html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE:</span> ${note}</div>`;
+                html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE CUCINA:</span><br>${note}</div>`;
             }
 
             return html;
         }
 
-        // --- TESTO NUDO PER SALVATAGGIO CLOUD ---
         function generaTestoNudoPerCloud(tavolo, persone, cameriere, pagamento, note, data, ora) {
             let txt = `Tavolo: ${tavolo}\nCoperti: ${persone}\nCameriere: ${cameriere}\nStato: ${pagamento}\nData: ${data}\n\n`;
-            comandaCorrente.forEach(i => { txt += `${i.qta} x ${i.desc}\n`; });
+            let totaleGenerale = parseInt(persone) * PREZZO_COPERTO_UNITARIO;
+            comandaCorrente.forEach(i => { 
+                const tot = parseFloat(i.prezzo) * i.qta;
+                totaleGenerale += tot;
+                txt += `${i.qta} x ${i.desc} (€ ${i.prezzo}) = € ${tot.toFixed(2)}\n`; 
+            });
+            if(parseInt(persone) > 0) {
+                txt += `${persone} x Coperto (€ ${PREZZO_COPERTO_UNITARIO.toFixed(2)}) = € ${(parseInt(persone) * PREZZO_COPERTO_UNITARIO).toFixed(2)}\n`;
+            }
+            txt += `\nTOTALE COMANDA: € ${totaleGenerale.toFixed(2)}\n`;
             if(note) txt += `\nNOTE: ${note}`;
             return txt;
         }
@@ -804,7 +847,6 @@
             const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
 
-            // Generazione Blocchi HTML Perfetti per Stampa A4
             const htmlOriginale = generaHTMLComandaTicket("ORIGINALE", tavolo, persone, cameriere, pagamento, note, data, ora);
             const htmlCameriere = generaHTMLComandaTicket("COPIA X CAMERIERE", tavolo, persone, cameriere, pagamento, note, data, ora);
 
@@ -823,7 +865,6 @@
                 </table>
             `;
             
-            // Pausa per renderizzare il DOM di stampa prima di lanciare il comando
             setTimeout(async () => {
                 window.print();
 
@@ -833,7 +874,7 @@
                 
                 await salvaFileSuGitHub(filename, txtCloud, `Comanda Tavolo ${tavolo}`);
 
-                alert("Comanda stampata (A4 - 2 Colonne) e salvata sul Cloud!");
+                alert("Comanda stampata e salvata sul Cloud!");
                 comandaCorrente = [];
                 document.getElementById('cmd-tavolo').value = '';
                 document.getElementById('cmd-note').value = '';
@@ -876,9 +917,14 @@
             const lineTav = text.match(/Tavolo:\s*([^\s]+)/); if(lineTav) tavolo = lineTav[1].trim();
             const lineCam = text.match(/Cameriere:\s*(.+)/); if(lineCam) cameriere = lineCam[1].trim();
             const linePag = text.match(/Stato:\s*(.+)/) || text.match(/Stato Pagamento:\s*(.+)/); if(linePag) pagamento = linePag[1].trim();
-            const regexArticoli = /([0-9]+)\s*x\s*([^\n]+)/g;
+            
+            // Estrazione robusta degli articoli per i report
+            const regexArticoli = /([0-9]+)\s*x\s*(.+?)\s*\(/g; 
             let match;
-            while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
+            while ((match = regexArticoli.exec(text)) !== null) { 
+                articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); 
+            }
+            
             archivioComandeParsed.push({ filename, tavolo, cameriere, pagamento, data, articoli, testoCompleto: text });
         }
 
@@ -906,16 +952,16 @@
         function mostraDettaglioComanda(filename) {
             const comanda = archivioComandeParsed.find(c => c.filename === filename);
             if(!comanda) return;
-            testoComandaSelezionata = comanda.testoCompleto;
-            document.getElementById('testo-dettaglio-comanda').innerText = comanda.testoCompleto;
+            htmlComandaSelezionata = comanda.testoCompleto;
+            document.getElementById('testo-dettaglio-comanda').innerHTML = comanda.testoCompleto.replace(/\n/g, '<br>');
             document.getElementById('box-dettaglio-comanda').classList.remove('hidden');
         }
 
         function ristampaComandaSelezionata() {
-            if(!testoComandaSelezionata) return;
+            if(!htmlComandaSelezionata) return;
             document.getElementById('printable-area').innerHTML = `
-                <div style="font-family: monospace; white-space: pre-wrap;">
-                    ${testoComandaSelezionata}
+                <div style="font-family: monospace; white-space: pre-wrap; font-size: 14px; line-height: 1.4; padding: 20px;">
+                    ${htmlComandaSelezionata}
                 </div>
             `;
             setTimeout(() => { window.print(); }, 500);
