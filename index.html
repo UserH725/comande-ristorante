@@ -53,11 +53,11 @@
                 <span class="bg-white/20 text-white px-2.5 py-1 rounded text-xs font-bold">[4]</span> Emissione Comanda
             </button>
             
-            <button onclick="apriSezione('sec-5-ricerca')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+            <button onclick="apriSezioneRicerca()" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
                 <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[5]</span> Ricerca Comanda (Tavolo / Cameriere)
             </button>
             
-            <button onclick="apriSezione('sec-6-report')" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
+            <button onclick="apriSezioneReport()" class="w-full text-left p-3.5 bg-gray-700 hover:bg-gray-600 rounded-lg border border-gray-600 font-semibold flex items-center gap-3">
                 <span class="bg-amber-500/20 text-amber-400 px-2.5 py-1 rounded text-xs font-bold">[6]</span> Report: Totale Pietanze / Incassi
             </button>
             
@@ -173,20 +173,27 @@
         <div id="sec-4-comanda" class="sezione hidden">
             <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
             
-            <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="grid grid-cols-3 gap-2 mb-4">
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Numero Tavolo</label>
-                    <input type="text" id="cmd-tavolo" placeholder="Es. 12" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs text-gray-400 mb-1">Tavolo</label>
+                    <input type="text" id="cmd-tavolo" placeholder="Es. 12" class="w-full p-2 bg-gray-900 border border-gray-700 rounded text-sm text-white">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">Cameriere / Operatore</label>
-                    <select id="cmd-cameriere" class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                    <label class="block text-xs text-gray-400 mb-1">Cameriere</label>
+                    <select id="cmd-cameriere" class="w-full p-2 bg-gray-900 border border-gray-700 rounded text-sm text-white">
                         <option value="Cassa">Cassa</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Pagamento</label>
+                    <select id="cmd-pagamento" class="w-full p-2 bg-gray-900 border border-gray-700 rounded text-sm text-white">
+                        <option value="Contanti">Contanti</option>
+                        <option value="Carta/POS">Carta/POS</option>
+                        <option value="Sospeso">Sospeso</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Inserimento Articolo -->
             <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4">
                 <label class="block text-xs text-gray-400 mb-1">Aggiungi Articolo</label>
                 <div class="flex gap-2">
@@ -197,7 +204,6 @@
                 <div id="quick-menu-buttons" class="flex flex-wrap gap-1.5 mt-3 pt-2 border-t border-gray-800"></div>
             </div>
 
-            <!-- Anteprima Comanda -->
             <div class="border border-gray-700 rounded-lg p-3 mb-4 bg-gray-950 font-mono text-sm min-h-[100px]">
                 <div class="text-xs text-gray-500 border-b border-gray-800 pb-1 mb-2">QTA | ARTICOLO / PIATTO</div>
                 <div id="cmd-lista-articoli" class="space-y-1"></div>
@@ -215,28 +221,98 @@
             </div>
         </div>
 
+        <!-- AREA STAMPA FISICA -->
         <div id="printable-area" class="hidden"></div>
 
         <!-- ============================================================ -->
-        <!-- 5. RICERCA COMANDA (IN SVILUPPO)                             -->
+        <!-- 5. RICERCA COMANDA                                           -->
         <!-- ============================================================ -->
-        <div id="sec-5-ricerca" class="sezione hidden text-center py-8">
-            <h2 class="text-lg font-bold text-amber-400 mb-2">5. Ricerca Comanda</h2>
-            <p class="text-sm text-gray-400 mb-6">[Funzionalità in fase di sviluppo...]</p>
-            <button onclick="tornaMenu()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-2 rounded text-sm">Torna Indietro</button>
+        <div id="sec-5-ricerca" class="sezione hidden">
+            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">5. Ricerca Comanda</h2>
+            
+            <!-- Filtri Ricerca -->
+            <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 mb-4 space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Tavolo</label>
+                        <input type="text" id="src-tavolo" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Cameriere</label>
+                        <input type="text" id="src-cameriere" onkeyup="filtraComandeGUI()" placeholder="Tutti" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-xs text-white">
+                    </div>
+                </div>
+                <button onclick="caricaEParseArchivioComande()" class="w-full bg-amber-600 hover:bg-amber-500 text-white py-1.5 rounded font-bold text-xs">🔄 Aggiorna Archivio Cloud</button>
+            </div>
+
+            <!-- Lista Risultati -->
+            <div id="loading-ricerca" class="text-center text-xs text-gray-400 py-4 hidden">Caricamento archivio da GitHub...</div>
+            <div id="lista-ricerca-comande" class="space-y-2 max-h-80 overflow-y-auto mb-4 pr-1"></div>
+
+            <!-- Dettaglio Comanda Selezionata -->
+            <div id="box-dettaglio-comanda" class="bg-gray-950 p-4 border border-gray-700 rounded-lg mb-4 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase">Anteprima Comanda</h3>
+                    <button onclick="ristampaComandaSelezionata()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1 rounded font-bold">🖨️ Ristampa</button>
+                </div>
+                <pre id="testo-dettaglio-comanda" class="font-mono text-xs text-gray-300 bg-gray-900 p-3 rounded border border-gray-800 overflow-x-auto"></pre>
+            </div>
+
+            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Torna al Menu Principale</button>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 6. REPORT INCASSI (IN SVILUPPO)                              -->
+        <!-- 6. REPORT INCASSI ED ELENCO PIETANZE                         -->
         <!-- ============================================================ -->
-        <div id="sec-6-report" class="sezione hidden text-center py-8">
-            <h2 class="text-lg font-bold text-amber-400 mb-2">6. Report Incassi e Pietanze</h2>
-            <p class="text-sm text-gray-400 mb-6">[Funzionalità in fase di sviluppo...]</p>
-            <button onclick="tornaMenu()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-2 rounded text-sm">Torna Indietro</button>
+        <div id="sec-6-report" class="sezione hidden">
+            <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">6. Report Pietanze & Incassi</h2>
+            
+            <div class="flex gap-2 mb-4">
+                <button onclick="generaReportFinanziario('oggi')" id="btn-rep-oggi" class="flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold">Oggi</button>
+                <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold">Totale Storico</button>
+            </div>
+
+            <!-- Cards Totali -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
+                    <span class="block text-xs text-gray-400">INCASSO TOTALE</span>
+                    <span id="rep-tot-incasso" class="text-xl font-extrabold text-emerald-400">€ 0.00</span>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
+                    <span class="block text-xs text-gray-400">PIETANZE SERVITE</span>
+                    <span id="rep-tot-pietanze" class="text-xl font-extrabold text-amber-400">0</span>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
+                    <span class="block text-xs text-gray-400">CONTANTI</span>
+                    <span id="rep-tot-contanti" class="text-sm font-bold text-gray-200">€ 0.00</span>
+                </div>
+                <div class="bg-gray-900 border border-gray-700 p-3 rounded-lg text-center">
+                    <span class="block text-xs text-gray-400">CARTA / POS</span>
+                    <span id="rep-tot-carta" class="text-sm font-bold text-gray-200">€ 0.00</span>
+                </div>
+            </div>
+
+            <!-- Dettaglio Pietanze Vendute -->
+            <h3 class="text-xs font-bold text-gray-400 mb-2 uppercase">Dettaglio Pietanze Servite</h3>
+            <div class="overflow-x-auto border border-gray-700 rounded-lg mb-4">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-gray-900 text-amber-400 border-b border-gray-700 font-mono">
+                        <tr>
+                            <th class="p-2">PIATTO</th>
+                            <th class="p-2 text-center">QTA</th>
+                            <th class="p-2 text-right">TOTALE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl-report-pietanze" class="divide-y divide-gray-800 font-mono text-gray-300"></tbody>
+                </table>
+            </div>
+
+            <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Torna al Menu Principale</button>
         </div>
 
     </div>
 
+    <!-- LOGICA JAVASCRIPT COMPLETA -->
     <script>
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
@@ -245,6 +321,8 @@
         let menuPietanze = [];
         let listaCamerieri = [];
         let comandaCorrente = [];
+        let archivioComandeParsed = [];
+        let testoComandaSelezionata = "";
 
         window.onload = function() {
             const token = localStorage.getItem("gh_token");
@@ -361,14 +439,8 @@
         // --- GESTIONE CAMERIERI (PUNTO 3) ---
         function aggiungiCameriere() {
             const nome = document.getElementById('cam-nome').value.trim();
-            if(!nome) {
-                alert("Inserisci il nome del cameriere!");
-                return;
-            }
-            if(listaCamerieri.includes(nome)) {
-                alert("Cameriere già presente!");
-                return;
-            }
+            if(!nome) return alert("Inserisci il nome!");
+            if(listaCamerieri.includes(nome)) return alert("Cameriere già presente!");
 
             listaCamerieri.push(nome);
             document.getElementById('cam-nome').value = '';
@@ -400,7 +472,6 @@
                         <button onclick="rimuoviCameriere(${idx})" class="text-red-400 text-xs hover:bg-red-900/40 px-2 py-1 rounded">❌ Rimuovi</button>
                     </li>
                 `;
-
                 selectComanda.innerHTML += `<option value="${nome}">${nome}</option>`;
             });
         }
@@ -447,6 +518,7 @@
         async function stampaESalvaComanda() {
             const tavolo = document.getElementById('cmd-tavolo').value.trim();
             const cameriere = document.getElementById('cmd-cameriere').value;
+            const pagamento = document.getElementById('cmd-pagamento').value;
             const note = document.getElementById('cmd-note').value.trim();
 
             if(!tavolo || comandaCorrente.length === 0) {
@@ -465,6 +537,7 @@
             txt += `Data: ${data}  -  Ora: ${ora}\n`;
             txt += `Tavolo: ${tavolo}\n`;
             txt += `Cameriere: ${cameriere}\n`;
+            txt += `Pagamento: ${pagamento}\n`;
             txt += `------------------------------------------\n`;
             txt += `QTA  | ARTICOLO / PIATTO\n`;
             txt += `------------------------------------------\n`;
@@ -489,6 +562,213 @@
             document.getElementById('cmd-note').value = '';
             renderizzaComandaGUI();
             tornaMenu();
+        }
+
+        // --- CARICAMENTO & PARSING ARCHIVIO PER RICERCA E REPORT (PUNTI 5 e 6) ---
+        async function apriSezioneRicerca() {
+            apriSezione('sec-5-ricerca');
+            await caricaEParseArchivioComande();
+        }
+
+        async function apriSezioneReport() {
+            apriSezione('sec-6-report');
+            await caricaEParseArchivioComande();
+            generaReportFinanziario('oggi');
+        }
+
+        async function caricaEParseArchivioComande() {
+            const token = localStorage.getItem("gh_token");
+            if(!token) return;
+
+            document.getElementById('loading-ricerca').classList.remove('hidden');
+            archivioComandeParsed = [];
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/archivio_comande`, {
+                    headers: { "Authorization": `token ${token}` }
+                });
+
+                if(res.ok) {
+                    const files = await res.json();
+                    for(let file of files) {
+                        if(file.name.endsWith('.txt')) {
+                            const resFile = await fetch(file.download_url);
+                            if(resFile.ok) {
+                                const rawText = await resFile.text();
+                                parseSingleComandaText(file.name, rawText);
+                            }
+                        }
+                    }
+                }
+            } catch(e) {
+                console.error("Errore caricamento archivio:", e);
+            }
+
+            document.getElementById('loading-ricerca').classList.add('hidden');
+            filtraComandeGUI();
+        }
+
+        function parseSingleComandaText(filename, text) {
+            let tavolo = "ND";
+            let cameriere = "ND";
+            let pagamento = "Contanti";
+            let data = "";
+            let articoli = [];
+
+            const lineData = text.match(/Data:\s*([0-9\-]+)/);
+            if(lineData) data = lineData[1];
+
+            const lineTav = text.match(/Tavolo:\s*(.+)/);
+            if(lineTav) tavolo = lineTav[1].trim();
+
+            const lineCam = text.match(/Cameriere:\s*(.+)/);
+            if(lineCam) cameriere = lineCam[1].trim();
+
+            const linePag = text.match(/Pagamento:\s*(.+)/);
+            if(linePag) pagamento = linePag[1].trim();
+
+            const regexArticoli = /([0-9]+)\s*x\s*(.+)/g;
+            let match;
+            while ((match = regexArticoli.exec(text)) !== null) {
+                articoli.push({
+                    qta: parseInt(match[1]),
+                    desc: match[2].trim()
+                });
+            }
+
+            archivioComandeParsed.push({
+                filename,
+                tavolo,
+                cameriere,
+                pagamento,
+                data,
+                articoli,
+                testoCompleto: text
+            });
+        }
+
+        // --- RICERCA COMANDA (PUNTO 5) ---
+        function filtraComandeGUI() {
+            const srcTav = document.getElementById('src-tavolo').value.trim().toLowerCase();
+            const srcCam = document.getElementById('src-cameriere').value.trim().toLowerCase();
+            const divLista = document.getElementById('lista-ricerca-comande');
+            divLista.innerHTML = '';
+
+            const filtrate = archivioComandeParsed.filter(c => {
+                const matchTav = !srcTav || c.tavolo.toLowerCase().includes(srcTav);
+                const matchCam = !srcCam || c.cameriere.toLowerCase().includes(srcCam);
+                return matchTav && matchCam;
+            });
+
+            if(filtrate.length === 0) {
+                divLista.innerHTML = '<div class="text-center text-xs text-gray-500 py-3">Nessuna comanda trovata.</div>';
+                return;
+            }
+
+            filtrate.reverse().forEach((c, idx) => {
+                divLista.innerHTML += `
+                    <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-gray-900 hover:bg-gray-700 p-3 rounded-lg border border-gray-700 cursor-pointer flex justify-between items-center transition">
+                        <div>
+                            <div class="text-sm font-bold text-amber-400">Tavolo ${c.tavolo} <span class="text-xs font-normal text-gray-400">(${c.data})</span></div>
+                            <div class="text-xs text-gray-300">Cam: ${c.cameriere} | Pag: ${c.pagamento}</div>
+                        </div>
+                        <span class="text-xs font-bold bg-gray-800 text-emerald-400 px-2 py-1 rounded border border-gray-700">${c.articoli.length} art.</span>
+                    </div>
+                `;
+            });
+        }
+
+        function mostraDettaglioComanda(filename) {
+            const comanda = archivioComandeParsed.find(c => c.filename === filename);
+            if(!comanda) return;
+
+            testoComandaSelezionata = comanda.testoCompleto;
+            document.getElementById('testo-dettaglio-comanda').innerText = comanda.testoCompleto;
+            document.getElementById('box-dettaglio-comanda').classList.remove('hidden');
+        }
+
+        function ristampaComandaSelezionata() {
+            if(!testoComandaSelezionata) return;
+            const printArea = document.getElementById('printable-area');
+            printArea.innerHTML = `<pre>${testoComandaSelezionata}</pre>`;
+            window.print();
+        }
+
+        // --- REPORT FINANZIARIO & PIETANZE (PUNTO 6) ---
+        function generaReportFinanziario(tipoFiltro) {
+            const dataOggi = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
+
+            const btnOggi = document.getElementById('btn-rep-oggi');
+            const btnTutto = document.getElementById('btn-rep-tutto');
+
+            if(tipoFiltro === 'oggi') {
+                btnOggi.className = "flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold";
+                btnTutto.className = "flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold";
+            } else {
+                btnTutto.className = "flex-1 bg-amber-600 text-white py-2 rounded text-xs font-bold";
+                btnOggi.className = "flex-1 bg-gray-700 text-gray-300 py-2 rounded text-xs font-bold";
+            }
+
+            const targetComande = archivioComandeParsed.filter(c => {
+                if(tipoFiltro === 'oggi') return c.data === dataOggi;
+                return true;
+            });
+
+            let incassoTotale = 0;
+            let incassoContanti = 0;
+            let incassoCarta = 0;
+            let totaleQtaPietanze = 0;
+            let pietanzeCountMap = {};
+
+            targetComande.forEach(c => {
+                c.articoli.forEach(art => {
+                    totaleQtaPietanze += art.qta;
+                    
+                    // Cerca prezzo dal menu
+                    const trovato = menuPietanze.find(m => m.desc.toLowerCase() === art.desc.toLowerCase());
+                    const prezzoUnitario = trovato ? parseFloat(trovato.prezzo) : 0;
+                    const totaleArt = prezzoUnitario * art.qta;
+
+                    incassoTotale += totaleArt;
+                    if(c.pagamento === 'Carta/POS') incassoCarta += totaleArt;
+                    else incassoContanti += totaleArt;
+
+                    if(!pietanzeCountMap[art.desc]) {
+                        pietanzeCountMap[art.desc] = { qta: 0, incasso: 0 };
+                    }
+                    pietanzeCountMap[art.desc].qta += art.qta;
+                    pietanzeCountMap[art.desc].incasso += totaleArt;
+                });
+            });
+
+            document.getElementById('rep-tot-incasso').innerText = `€ ${incassoTotale.toFixed(2)}`;
+            document.getElementById('rep-tot-pietanze').innerText = totaleQtaPietanze;
+            document.getElementById('rep-tot-contanti').innerText = `€ ${incassoContanti.toFixed(2)}`;
+            document.getElementById('rep-tot-carta').innerText = `€ ${incassoCarta.toFixed(2)}`;
+
+            const tbody = document.getElementById('tbl-report-pietanze');
+            tbody.innerHTML = '';
+
+            const pietanzeArray = Object.keys(pietanzeCountMap).map(k => ({
+                desc: k,
+                qta: pietanzeCountMap[k].qta,
+                incasso: pietanzeCountMap[k].incasso
+            })).sort((a,b) => b.qta - a.qta);
+
+            if(pietanzeArray.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-gray-500">Nessun dato per il periodo selezionato.</td></tr>';
+                return;
+            }
+
+            pietanzeArray.forEach(p => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-800">
+                        <td class="p-2 font-bold">${p.desc}</td>
+                        <td class="p-2 text-center text-amber-400 font-bold">${p.qta}</td>
+                        <td class="p-2 text-right text-emerald-400">€ ${p.incasso.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
         }
 
         // --- COMUNICAZIONE API GITHUB ---
