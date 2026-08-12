@@ -188,11 +188,15 @@
         <div id="sec-4-comanda" class="sezione hidden">
             <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
             
-            <!-- DATI INTESTAZIONE COMANDA -->
+            <!-- 1. TAVOLO, NUMERO PERSONE (COPERTO 2€) E CAMERIERE -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4 bg-gray-900 p-3 rounded-lg border border-gray-700">
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">Tavolo</label>
                     <input type="text" id="cmd-tavolo" placeholder="Es. 12" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">N. Persone (Coperto 2.00€)</label>
+                    <input type="number" id="cmd-persone" value="1" min="1" onchange="renderizzaComandaGUI()" onkeyup="renderizzaComandaGUI()" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white font-bold text-amber-300">
                 </div>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1">Cameriere</label>
@@ -200,19 +204,11 @@
                         <option value="Cassa">Cassa</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Modalità Pagamento</label>
-                    <select id="cmd-pagamento" onchange="renderizzaComandaGUI()" class="w-full p-2 bg-gray-800 border border-gray-700 rounded text-sm text-white font-bold text-amber-300">
-                        <option value="Contanti">Pagato - Contanti</option>
-                        <option value="POS">Pagato - POS / Carta</option>
-                        <option value="Sospeso">Non Pagato - Sospeso</option>
-                    </select>
-                </div>
             </div>
 
-            <!-- SCELTA PIETANZE DIVISA PER TIPOLOGIA -->
+            <!-- 2. SCELTA PIETANZE DIVISA PER TIPOLOGIA CON CONTATORE SELEZIONI -->
             <div class="mb-5">
-                <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">🍽️ Seleziona Pietanze dal Menu (Divisi per Categoria)</label>
+                <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">🍽️ Seleziona Pietanze dal Menu (Tocca per aggiungere)</label>
                 <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
             </div>
 
@@ -227,13 +223,23 @@
                 </div>
             </div>
 
-            <!-- ANTEPRIMA COMANDA -->
+            <!-- ANTEPRIMA COMANDA CON PREZZI E COPERTO -->
             <div class="border border-gray-700 rounded-lg p-4 mb-4 bg-gray-950 font-mono text-sm">
                 <div class="text-xs font-bold text-gray-400 border-b border-gray-800 pb-2 mb-2 flex justify-between">
                     <span>QTA | ARTICOLO / PIATTO</span>
                     <span>PREZZO</span>
                 </div>
                 <div id="cmd-lista-articoli" class="space-y-1"></div>
+            </div>
+
+            <!-- 3. TIPO PAGAMENTO IN BASSO -->
+            <div class="mb-4 bg-gray-900 p-3 rounded-lg border border-gray-700">
+                <label class="block text-xs text-gray-400 mb-1">Modalità Pagamento</label>
+                <select id="cmd-pagamento" onchange="renderizzaComandaGUI()" class="w-full p-2.5 bg-gray-800 border border-gray-700 rounded text-sm text-white font-bold text-amber-300">
+                    <option value="Contanti">Pagato - Contanti</option>
+                    <option value="POS">Pagato - POS / Carta</option>
+                    <option value="Sospeso">Non Pagato - Sospeso</option>
+                </select>
             </div>
 
             <div class="mb-4">
@@ -339,6 +345,7 @@
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
         const ORDINE_CATEGORIE = ["Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Bevande", "Varie"];
+        const PREZZO_COPERTO_UNITARIO = 2.00;
         
         let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
         let menuPietanze = [];
@@ -376,6 +383,9 @@
             document.getElementById('sec-menu-principale').classList.add('hidden');
             document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
             document.getElementById(idSezione).classList.remove('hidden');
+            if(idSezione === 'sec-4-comanda') {
+                renderizzaMenuGUI();
+            }
         }
 
         function tornaMenu() {
@@ -393,6 +403,16 @@
         function trovaInfoPiatto(desc) {
             const trovato = menuPietanze.find(m => m.desc.toLowerCase() === desc.toLowerCase());
             return trovato ? { tipo: trovato.tipo, prezzo: trovato.prezzo } : { tipo: "Varie", prezzo: "0.00" };
+        }
+
+        function getQtaPiattoInComanda(desc) {
+            let tot = 0;
+            comandaCorrente.forEach(item => {
+                if(item.desc.toLowerCase() === desc.toLowerCase()) {
+                    tot += parseInt(item.qta) || 0;
+                }
+            });
+            return tot;
         }
 
         // --- GESTIONE ANAGRAFICA (PUNTO 1) ---
@@ -439,57 +459,69 @@
             const gridDiv = document.getElementById('grid-menu-categorie');
             const cmdMenuCategorizzato = document.getElementById('cmd-menu-categorizzato');
             
-            gridDiv.innerHTML = '';
-            cmdMenuCategorizzato.innerHTML = '';
+            if(gridDiv) gridDiv.innerHTML = '';
+            if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
-            ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
-                const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
-                
-                let listHtml = '';
-                if (piattiCat.length === 0) {
-                    listHtml = `<div class="text-gray-500 text-xs italic py-1">- Nessun piatto -</div>`;
-                } else {
-                    piattiCat.forEach(p => {
-                        listHtml += `
-                            <div class="flex justify-between items-center text-xs py-1 border-b border-gray-800 last:border-0">
-                                <span class="font-bold text-gray-200 truncate pr-1">${p.desc}</span>
-                                <span class="text-emerald-400 font-mono font-semibold whitespace-nowrap">€ ${p.prezzo}</span>
-                            </div>
-                        `;
-                    });
-                }
+            // 1. Tabella Categorie nel Punto 2
+            if(gridDiv) {
+                ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
+                    const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
+                    
+                    let listHtml = '';
+                    if (piattiCat.length === 0) {
+                        listHtml = `<div class="text-gray-500 text-xs italic py-1">- Nessun piatto -</div>`;
+                    } else {
+                        piattiCat.forEach(p => {
+                            listHtml += `
+                                <div class="flex justify-between items-center text-xs py-1 border-b border-gray-800 last:border-0">
+                                    <span class="font-bold text-gray-200 truncate pr-1">${p.desc}</span>
+                                    <span class="text-emerald-400 font-mono font-semibold whitespace-nowrap">€ ${p.prezzo}</span>
+                                </div>
+                            `;
+                        });
+                    }
 
-                gridDiv.innerHTML += `
-                    <div class="bg-gray-900 border border-gray-700 rounded-lg p-3">
-                        <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-700 pb-1">${cat}</h4>
-                        <div class="space-y-0.5">${listHtml}</div>
-                    </div>
-                `;
-            });
-
-            ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
-                const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
-                
-                if(piattiCat.length > 0) {
-                    let btnsHtml = '';
-                    piattiCat.forEach(p => {
-                        btnsHtml += `
-                            <button onclick="selezionaEAggiungiRapido('${p.desc.replace(/'/g, "\\'")}', '${p.prezzo}')" 
-                                    class="w-full text-left bg-gray-800 hover:bg-emerald-900/40 hover:border-emerald-500 border border-gray-700 p-2 rounded text-xs transition flex justify-between items-center">
-                                <span class="font-bold text-gray-200">${p.desc}</span>
-                                <span class="text-emerald-400 font-mono font-semibold">€ ${p.prezzo}</span>
-                            </button>
-                        `;
-                    });
-
-                    cmdMenuCategorizzato.innerHTML += `
-                        <div class="bg-gray-900 border border-gray-700 rounded-lg p-2.5">
-                            <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-800 pb-1">${cat}</h4>
-                            <div class="space-y-1.5">${btnsHtml}</div>
+                    gridDiv.innerHTML += `
+                        <div class="bg-gray-900 border border-gray-700 rounded-lg p-3">
+                            <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-700 pb-1">${cat}</h4>
+                            <div class="space-y-0.5">${listHtml}</div>
                         </div>
                     `;
-                }
-            });
+                });
+            }
+
+            // 2. Selettore Categorizzato nel Punto 4 (Emissione Comanda) con Contatore Selezioni
+            if(cmdMenuCategorizzato) {
+                ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
+                    const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
+                    
+                    if(piattiCat.length > 0) {
+                        let btnsHtml = '';
+                        piattiCat.forEach(p => {
+                            const qtaSel = getQtaPiattoInComanda(p.desc);
+                            const badge = qtaSel > 0 ? `<span class="bg-amber-400 text-gray-950 font-black px-2 py-0.5 rounded-full text-xs ml-1.5 shadow">${qtaSel}</span>` : '';
+
+                            btnsHtml += `
+                                <button onclick="selezionaEAggiungiRapido('${p.desc.replace(/'/g, "\\'")}', '${p.prezzo}')" 
+                                        class="w-full text-left bg-gray-800 hover:bg-emerald-900/40 hover:border-emerald-500 border border-gray-700 p-2 rounded text-xs transition flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-gray-200">${p.desc}</span>
+                                        ${badge}
+                                    </div>
+                                    <span class="text-emerald-400 font-mono font-semibold">€ ${p.prezzo}</span>
+                                </button>
+                            `;
+                        });
+
+                        cmdMenuCategorizzato.innerHTML += `
+                            <div class="bg-gray-900 border border-gray-700 rounded-lg p-2.5">
+                                <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider mb-2 border-b border-gray-800 pb-1">${cat}</h4>
+                                <div class="space-y-1.5">${btnsHtml}</div>
+                            </div>
+                        `;
+                    }
+                });
+            }
         }
 
         function salvaMenuCSVCloud() {
@@ -545,6 +577,7 @@
         // --- EMISSIONE COMANDA (PUNTO 4) ---
         function selezionaEAggiungiRapido(desc, prezzo) {
             comandaCorrente.push({ qta: 1, desc, prezzo });
+            renderizzaMenuGUI();
             renderizzaComandaGUI();
         }
 
@@ -562,21 +595,25 @@
             document.getElementById('cmd-desc').value = '';
             document.getElementById('cmd-prezzo-manuale').value = '';
             document.getElementById('cmd-qta').value = '1';
+            renderizzaMenuGUI();
             renderizzaComandaGUI();
         }
 
         function renderizzaComandaGUI() {
             const div = document.getElementById('cmd-lista-articoli');
             const modoPag = document.getElementById('cmd-pagamento').value;
+            const numPersone = parseInt(document.getElementById('cmd-persone').value) || 0;
+            const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
+
             div.innerHTML = '';
 
-            if(comandaCorrente.length === 0) {
+            if(comandaCorrente.length === 0 && numPersone === 0) {
                 div.innerHTML = '<div class="text-gray-500 text-xs py-2 italic">Nessun articolo inserito.</div>';
                 return;
             }
 
             let raggruppati = {};
-            let totaleGenerale = 0;
+            let totaleGenerale = totaleCoperto;
 
             comandaCorrente.forEach((item, originalIdx) => {
                 const info = trovaInfoPiatto(item.desc);
@@ -606,6 +643,17 @@
                 }
             });
 
+            // Riga del Coperto
+            if(numPersone > 0) {
+                div.innerHTML += `
+                    <div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-gray-800 pb-0.5">--- SERVIZIO ---</div>
+                    <div class="flex justify-between items-center text-gray-200 text-xs py-1">
+                        <span><b>${numPersone}x</b> Coperto <span class="text-gray-500 text-[10px]">(€ 2.00/persona)</span></span>
+                        <span class="text-emerald-400 font-bold">€ ${totaleCoperto.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
             let labelPagamento = "";
             if (modoPag === 'Contanti') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (CONTANTI)</span>';
             else if (modoPag === 'POS') labelPagamento = '<span class="text-emerald-400 font-bold">PAGATO (POS / CARTA)</span>';
@@ -624,15 +672,19 @@
 
         function rimuoviRigaComanda(originalIdx) {
             comandaCorrente.splice(originalIdx, 1);
+            renderizzaMenuGUI();
             renderizzaComandaGUI();
         }
 
         // --- CREAZIONE CONTENUTO SCONTRINO (ORIGINALE E COPIA CAMERIERE) ---
-        function generaTestoComandaTicket(intestazioneCopia, tavolo, cameriere, pagamento, note, data, ora) {
+        function generaTestoComandaTicket(intestazioneCopia, tavolo, persone, cameriere, pagamento, note, data, ora) {
             let statoPagamentoTesto = "";
             if (pagamento === 'Contanti') statoPagamentoTesto = "PAGATO (CONTANTI)";
             else if (pagamento === 'POS') statoPagamentoTesto = "PAGATO (POS / CARTA)";
             else statoPagamentoTesto = "NON PAGATO (SOSPESO)";
+
+            const numPersone = parseInt(persone) || 0;
+            const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
 
             let txt = `==========================================\n`;
             txt += `           *** ${intestazioneCopia.toUpperCase()} ***\n`;
@@ -642,7 +694,7 @@
             if(anagrafica.tel) txt += `Tel: ${anagrafica.tel}\n`;
             txt += `==========================================\n`;
             txt += `Data: ${data}  -  Ora: ${ora}\n`;
-            txt += `Tavolo: ${tavolo}\n`;
+            txt += `Tavolo: ${tavolo}   -   Coperti/Persone: ${numPersone}\n`;
             txt += `Cameriere: ${cameriere}\n`;
             txt += `Stato Pagamento: ${statoPagamentoTesto}\n`;
             txt += `------------------------------------------\n`;
@@ -650,7 +702,7 @@
             txt += `------------------------------------------\n`;
 
             let raggruppati = {};
-            let totaleGenerale = 0;
+            let totaleGenerale = totaleCoperto;
 
             comandaCorrente.forEach(item => {
                 const info = trovaInfoPiatto(item.desc);
@@ -673,6 +725,11 @@
                 }
             });
 
+            if(numPersone > 0) {
+                txt += `--- SERVIZIO ---\n`;
+                txt += `${numPersone} x Coperto (€ 2.00) = € ${totaleCoperto.toFixed(2)}\n\n`;
+            }
+
             txt += `------------------------------------------\n`;
             txt += `TOTALE COMANDA: € ${totaleGenerale.toFixed(2)}\n`;
             txt += `------------------------------------------\n`;
@@ -684,6 +741,7 @@
 
         async function stampaESalvaComanda() {
             const tavolo = document.getElementById('cmd-tavolo').value.trim();
+            const persone = document.getElementById('cmd-persone').value || "1";
             const cameriere = document.getElementById('cmd-cameriere').value;
             const pagamento = document.getElementById('cmd-pagamento').value;
             const note = document.getElementById('cmd-note').value.trim();
@@ -696,11 +754,9 @@
             const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
 
-            // Genera le 2 copie
-            const txtOriginale = generaTestoComandaTicket("ORIGINALE", tavolo, cameriere, pagamento, note, data, ora);
-            const txtCameriere = generaTestoComandaTicket("COPIA X CAMERIERE", tavolo, cameriere, pagamento, note, data, ora);
+            const txtOriginale = generaTestoComandaTicket("ORIGINALE", tavolo, persone, cameriere, pagamento, note, data, ora);
+            const txtCameriere = generaTestoComandaTicket("COPIA X CAMERIERE", tavolo, persone, cameriere, pagamento, note, data, ora);
 
-            // Inserisce nell'area di stampa A4
             const printArea = document.getElementById('printable-area');
             printArea.innerHTML = `
                 <div class="ticket-copy"><pre>${txtOriginale}</pre></div>
@@ -710,15 +766,15 @@
 
             window.print();
 
-            // Salva solo la copia originale su GitHub
             const timestamp = Date.now();
             const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
             await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
 
-            alert("Comanda stampata su A4 (2 copie) e salvata su GitHub!");
+            alert("Comanda stampata su A4 (2 copie con coperto) e salvata su GitHub!");
             comandaCorrente = [];
             document.getElementById('cmd-tavolo').value = '';
             document.getElementById('cmd-note').value = '';
+            renderizzaMenuGUI();
             renderizzaComandaGUI();
             tornaMenu();
         }
@@ -777,7 +833,7 @@
             const lineData = text.match(/Data:\s*([0-9\-]+)/);
             if(lineData) data = lineData[1];
 
-            const lineTav = text.match(/Tavolo:\s*(.+)/);
+            const lineTav = text.match(/Tavolo:\s*([^\s]+)/);
             if(lineTav) tavolo = lineTav[1].trim();
 
             const lineCam = text.match(/Cameriere:\s*(.+)/);
@@ -849,7 +905,6 @@
         function ristampaComandaSelezionata() {
             if(!testoComandaSelezionata) return;
 
-            // Genera ristampa in 2 copie A4
             const copiaCameriere = testoComandaSelezionata.replace("*** ORIGINALE ***", "*** COPIA X CAMERIERE ***");
 
             const printArea = document.getElementById('printable-area');
@@ -889,6 +944,8 @@
 
             targetComande.forEach(c => {
                 c.articoli.forEach(art => {
+                    if(art.desc.toLowerCase().includes("coperto")) return;
+
                     totaleQtaPietanze += art.qta;
                     
                     const info = trovaInfoPiatto(art.desc);
