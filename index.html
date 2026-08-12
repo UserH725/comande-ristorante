@@ -7,9 +7,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 8mm;
+            }
             body * { visibility: hidden; }
             #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { position: absolute; left: 0; top: 0; width: 100%; font-family: monospace; }
+            #printable-area { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                font-family: monospace; 
+                color: #000;
+            }
+            .ticket-copy {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            .cut-line {
+                text-align: center;
+                font-size: 11px;
+                font-weight: bold;
+                margin: 20px 0;
+                border-bottom: 2px dashed #000;
+                padding-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -160,7 +183,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 4. EMISSIONE COMANDA CON PAGAMENTO SPECIFICATO               -->
+        <!-- 4. EMISSIONE COMANDA                                         -->
         <!-- ============================================================ -->
         <div id="sec-4-comanda" class="sezione hidden">
             <h2 class="text-lg font-bold text-emerald-400 mb-4 border-b border-gray-700 pb-2">4. Emissione Comanda Tavolo</h2>
@@ -219,12 +242,13 @@
 
             <div class="space-y-2 max-w-xl mx-auto">
                 <button onclick="stampaESalvaComanda()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-lg font-bold shadow-lg text-sm">
-                    🖨️ Stampa & Salva Comanda
+                    🖨️ Stampa A4 (2 Copie A5) & Salva Cloud
                 </button>
                 <button onclick="tornaMenu()" class="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 py-2 rounded text-sm">Annulla e Torna al Menu</button>
             </div>
         </div>
 
+        <!-- AREA STAMPA A4 CON 2 COPIE A5 -->
         <div id="printable-area" class="hidden"></div>
 
         <!-- ============================================================ -->
@@ -253,7 +277,7 @@
             <div id="box-dettaglio-comanda" class="bg-gray-950 p-4 border border-gray-700 rounded-lg mb-4 hidden">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-xs font-bold text-amber-400 uppercase">Anteprima Comanda</h3>
-                    <button onclick="ristampaComandaSelezionata()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1 rounded font-bold">🖨️ Ristampa</button>
+                    <button onclick="ristampaComandaSelezionata()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs px-3 py-1 rounded font-bold">🖨️ Ristampa A4</button>
                 </div>
                 <pre id="testo-dettaglio-comanda" class="font-mono text-xs text-gray-300 bg-gray-900 p-3 rounded border border-gray-800 overflow-x-auto"></pre>
             </div>
@@ -418,7 +442,6 @@
             gridDiv.innerHTML = '';
             cmdMenuCategorizzato.innerHTML = '';
 
-            // 1. Tabella Categorie nel Punto 2
             ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                 const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
                 
@@ -444,7 +467,6 @@
                 `;
             });
 
-            // 2. Selettore Categorizzato nel Punto 4 (Emissione Comanda)
             ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                 const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
                 
@@ -605,26 +627,16 @@
             renderizzaComandaGUI();
         }
 
-        async function stampaESalvaComanda() {
-            const tavolo = document.getElementById('cmd-tavolo').value.trim();
-            const cameriere = document.getElementById('cmd-cameriere').value;
-            const pagamento = document.getElementById('cmd-pagamento').value;
-            const note = document.getElementById('cmd-note').value.trim();
-
-            if(!tavolo || comandaCorrente.length === 0) {
-                alert("Inserisci il numero di tavolo e almeno un piatto!");
-                return;
-            }
-
-            const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
-            const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
-
+        // --- CREAZIONE CONTENUTO SCONTRINO (ORIGINALE E COPIA CAMERIERE) ---
+        function generaTestoComandaTicket(intestazioneCopia, tavolo, cameriere, pagamento, note, data, ora) {
             let statoPagamentoTesto = "";
             if (pagamento === 'Contanti') statoPagamentoTesto = "PAGATO (CONTANTI)";
             else if (pagamento === 'POS') statoPagamentoTesto = "PAGATO (POS / CARTA)";
             else statoPagamentoTesto = "NON PAGATO (SOSPESO)";
 
             let txt = `==========================================\n`;
+            txt += `           *** ${intestazioneCopia.toUpperCase()} ***\n`;
+            txt += `==========================================\n`;
             txt += anagrafica.nome ? `          ${anagrafica.nome}\n` : `          COMANDA RISTORANTE\n`;
             if(anagrafica.indirizzo) txt += `${anagrafica.indirizzo}\n`;
             if(anagrafica.tel) txt += `Tel: ${anagrafica.tel}\n`;
@@ -667,15 +679,43 @@
             if(note) txt += `NOTE: ${note}\n------------------------------------------\n`;
             txt += `==========================================\n`;
 
+            return txt;
+        }
+
+        async function stampaESalvaComanda() {
+            const tavolo = document.getElementById('cmd-tavolo').value.trim();
+            const cameriere = document.getElementById('cmd-cameriere').value;
+            const pagamento = document.getElementById('cmd-pagamento').value;
+            const note = document.getElementById('cmd-note').value.trim();
+
+            if(!tavolo || comandaCorrente.length === 0) {
+                alert("Inserisci il numero di tavolo e almeno un piatto!");
+                return;
+            }
+
+            const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
+            const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
+
+            // Genera le 2 copie
+            const txtOriginale = generaTestoComandaTicket("ORIGINALE", tavolo, cameriere, pagamento, note, data, ora);
+            const txtCameriere = generaTestoComandaTicket("COPIA X CAMERIERE", tavolo, cameriere, pagamento, note, data, ora);
+
+            // Inserisce nell'area di stampa A4
             const printArea = document.getElementById('printable-area');
-            printArea.innerHTML = `<pre>${txt}</pre>`;
+            printArea.innerHTML = `
+                <div class="ticket-copy"><pre>${txtOriginale}</pre></div>
+                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
+                <div class="ticket-copy"><pre>${txtCameriere}</pre></div>
+            `;
+
             window.print();
 
+            // Salva solo la copia originale su GitHub
             const timestamp = Date.now();
             const filename = `archivio_comande/Comanda_Tav${tavolo.replace(/\s+/g, '')}_${data}_${timestamp}.txt`;
-            await salvaFileSuGitHub(filename, txt, `Comanda Tavolo ${tavolo}`);
+            await salvaFileSuGitHub(filename, txtOriginale, `Comanda Tavolo ${tavolo}`);
 
-            alert("Comanda inviata in stampa e salvata su GitHub!");
+            alert("Comanda stampata su A4 (2 copie) e salvata su GitHub!");
             comandaCorrente = [];
             document.getElementById('cmd-tavolo').value = '';
             document.getElementById('cmd-note').value = '';
@@ -808,8 +848,16 @@
 
         function ristampaComandaSelezionata() {
             if(!testoComandaSelezionata) return;
+
+            // Genera ristampa in 2 copie A4
+            const copiaCameriere = testoComandaSelezionata.replace("*** ORIGINALE ***", "*** COPIA X CAMERIERE ***");
+
             const printArea = document.getElementById('printable-area');
-            printArea.innerHTML = `<pre>${testoComandaSelezionata}</pre>`;
+            printArea.innerHTML = `
+                <div class="ticket-copy"><pre>${testoComandaSelezionata}</pre></div>
+                <div class="cut-line">- - - - - - - - - - - - - - - - TAGLIARE QUI - - - - - - - - - - - - - - - -</div>
+                <div class="ticket-copy"><pre>${copiaCameriere}</pre></div>
+            `;
             window.print();
         }
 
