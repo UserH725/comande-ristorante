@@ -6,25 +6,58 @@
     <title>Gestionale Ristorante</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* VISUALIZZAZIONE SU SCHERMO (NASCONDE L'AREA STAMPA) */
+        @media screen {
+            #printable-area { display: none !important; }
+        }
+
+        /* VISUALIZZAZIONE SU STAMPANTE (NASCONDE L'APP, MOSTRA SOLO LO SCONTRINO) */
         @media print {
-            @page { size: A4 portrait; margin: 8mm; }
-            body * { visibility: hidden; }
-            #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { 
-                position: absolute; left: 0; top: 0; width: 100%; 
-                font-family: monospace; color: #000;
+            @page { 
+                size: A4 portrait; 
+                margin: 15mm; 
             }
-            .ticket-copy { margin-bottom: 15px; padding-bottom: 10px; }
+            body { 
+                background: white !important; 
+                margin: 0; 
+                padding: 0; 
+            }
+            /* Nascondiamo l'applicazione grafica */
+            #main-app { 
+                display: none !important; 
+            }
+            /* Mostriamo solo l'area dello scontrino */
+            #printable-area { 
+                display: block !important; 
+                width: 100%; 
+                font-family: 'Courier New', Courier, monospace; 
+                color: #000;
+                font-size: 13px;
+                line-height: 1.4;
+            }
+            .ticket-copy pre { 
+                white-space: pre-wrap; 
+                font-family: inherit; 
+                margin: 0; 
+            }
             .cut-line {
-                text-align: center; font-size: 11px; font-weight: bold;
-                margin: 20px 0; border-bottom: 2px dashed #000; padding-bottom: 5px;
+                text-align: center; 
+                font-size: 12px; 
+                font-weight: bold;
+                margin: 40px 0; 
+                border-bottom: 2px dashed #000; 
+                padding-bottom: 10px;
+                color: #000;
             }
         }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 sm:p-6">
 
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-6 sm:p-8">
+    <!-- ============================================================ -->
+    <!-- INTERFACCIA APPLICAZIONE SCHERMO                             -->
+    <!-- ============================================================ -->
+    <div id="main-app" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-6 sm:p-8">
         
         <!-- HEADER LOCALE DINAMICO -->
         <div class="border-b border-slate-200 pb-5 mb-6 text-center">
@@ -245,9 +278,6 @@
             </div>
         </div>
 
-        <!-- AREA STAMPA -->
-        <div id="printable-area" class="hidden"></div>
-
         <!-- ============================================================ -->
         <!-- 5. RICERCA COMANDA                                           -->
         <!-- ============================================================ -->
@@ -332,6 +362,11 @@
         </div>
 
     </div>
+
+    <!-- ============================================================ -->
+    <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA (NASCOSTA A SCHERMO)-->
+    <!-- ============================================================ -->
+    <div id="printable-area"></div>
 
     <!-- LOGICA JAVASCRIPT -->
     <script>
