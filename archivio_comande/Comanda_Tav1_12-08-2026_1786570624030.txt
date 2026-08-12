@@ -1,0 +1,42 @@
+==========================================
+           *** ORIGINALE ***
+==========================================
+          Ristorante La Stella del Mare di Asia e Mauro Bigoni
+Via del Mare, 1 - Marina di Grosseto (GR)
+Tel: 3315659744 / 3518238233
+==========================================
+Data: 12-08-2026  -  Ora: 23:36
+Tavolo: 1   -   Coperti: 5
+Cameriere: Mauro
+Stato: PAGATO (POS / CARTA)
+------------------------------------------
+QTA  | ARTICOLO / PIATTO          | TOTALE
+------------------------------------------
+--- ANTIPASTO ---
+1 x Antipasto Misto Mare (€ 10) = € 10.00
+
+--- PRIMO ---
+1 x Pennette al salmone (€ 12,50) = € 12.00
+1 x Penne al pomodoro (€ 7) = € 7.00
+
+--- SECONDO ---
+1 x Salsiccia alla brace 2 pezzi (€ 6.50) = € 6.50
+
+--- CONTORNO ---
+1 x Patate arrosto (€ 4.00) = € 4.00
+
+--- DOLCE ---
+1 x Cheesecake alle fragole (€ 5.00) = € 5.00
+
+--- BEVANDE ---
+1 x Acqua Nat. 1 lt (€ 2.00) = € 2.00
+1 x Acqua Frizzante 1 lt (€ 2.00) = € 2.00
+1 x Birra Moretti 66cl. (€ 4.00) = € 4.00
+
+--- SERVIZIO ---
+5 x Coperto (€ 2.00) = € 10.00
+
+------------------------------------------
+TOTALE COMANDA: € 62.50
+------------------------------------------
+==========================================
