@@ -105,7 +105,6 @@
         <div id="sec-2-menu" class="sezione hidden">
             <h2 class="text-lg font-bold text-amber-400 mb-4 border-b border-gray-700 pb-2">2. Caricamento Pietanze (Menu)</h2>
             
-            <!-- Inserimento Nuova Pietanza -->
             <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 mb-6 space-y-3 max-w-xl mx-auto">
                 <h3 class="text-sm font-bold text-gray-300">Aggiungi Nuova Pietanza</h3>
                 <div class="grid grid-cols-3 gap-2">
@@ -132,11 +131,8 @@
                 <button onclick="aggiungiPietanzaMenu()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded font-bold text-sm">+ Aggiungi al Menu</button>
             </div>
 
-            <!-- TABELLA / GRIGLIA MENU PER TIPOLOGIA -->
             <h3 class="text-sm font-bold text-gray-300 mb-3">Menu Pietanze Diviso per Categoria</h3>
-            <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                <!-- Generato via JS: colonne per Antipasto, Primo, Secondo, ecc. -->
-            </div>
+            <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6"></div>
 
             <button onclick="tornaMenu()" class="w-full max-w-xl mx-auto block bg-gray-700 hover:bg-gray-600 text-gray-200 py-2.5 rounded text-sm">Indietro al Menu Principale</button>
         </div>
@@ -201,7 +197,7 @@
             </div>
 
             <div class="border border-gray-700 rounded-lg p-3 mb-4 bg-gray-950 font-mono text-sm min-h-[100px]">
-                <div class="text-xs text-gray-500 border-b border-gray-800 pb-1 mb-2">QTA | ARTICOLO / PIATTO</div>
+                <div class="text-xs text-gray-500 border-b border-gray-800 pb-1 mb-2">QTA | ARTICOLO / PIATTO (DIVISI PER CATEGORIA)</div>
                 <div id="cmd-lista-articoli" class="space-y-1"></div>
             </div>
 
@@ -217,7 +213,6 @@
             </div>
         </div>
 
-        <!-- AREA STAMPA FISICA -->
         <div id="printable-area" class="hidden"></div>
 
         <!-- ============================================================ -->
@@ -307,6 +302,7 @@
     <script>
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
+        const ORDINE_CATEGORIE = ["Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Bevande", "Varie"];
         
         let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
         let menuPietanze = [];
@@ -358,6 +354,11 @@
             return isNaN(num) ? "0.00" : num.toFixed(2);
         }
 
+        function trovaCategoriaPiatto(desc) {
+            const trovato = menuPietanze.find(m => m.desc.toLowerCase() === desc.toLowerCase());
+            return trovato ? trovato.tipo : "Varie";
+        }
+
         // --- GESTIONE ANAGRAFICA (PUNTO 1) ---
         function salvaAnagrafica() {
             anagrafica.nome = document.getElementById('cfg-nome').value.trim();
@@ -398,17 +399,13 @@
             salvaMenuCSVCloud();
         }
 
-        // VISUALIZZAZIONE A COLONNE PER CATEGORIA
         function renderizzaMenuGUI() {
             const gridDiv = document.getElementById('grid-menu-categorie');
             const quickDiv = document.getElementById('quick-menu-buttons');
             
-            const categorie = ["Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Bevande"];
-            
             gridDiv.innerHTML = '';
             quickDiv.innerHTML = '';
 
-            // Tasti Rapidi per la Comanda (Punto 4)
             menuPietanze.forEach(p => {
                 quickDiv.innerHTML += `
                     <button onclick="selezionaPiattoRapido('${p.desc.replace(/'/g, "\\'")}')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 px-2 py-1 rounded text-xs">
@@ -417,8 +414,7 @@
                 `;
             });
 
-            // Generazione Colonne per ogni Categoria
-            categorie.forEach(cat => {
+            ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                 const piattiCat = menuPietanze.filter(p => p.tipo.toLowerCase() === cat.toLowerCase());
                 
                 let listHtml = '';
@@ -494,7 +490,7 @@
             salvaFileSuGitHub("camerieri.json", JSON.stringify(listaCamerieri, null, 2), "Aggiornata lista camerieri");
         }
 
-        // --- EMISSIONE COMANDA (PUNTO 4) ---
+        // --- EMISSIONE COMANDA CON DIVISIONE PER CATEGORIA (PUNTO 4) ---
         function selezionaPiattoRapido(desc) {
             document.getElementById('cmd-desc').value = desc;
         }
@@ -514,18 +510,37 @@
         function renderizzaComandaGUI() {
             const div = document.getElementById('cmd-lista-articoli');
             div.innerHTML = '';
-            comandaCorrente.forEach((item, idx) => {
-                div.innerHTML += `
-                    <div class="flex justify-between items-center text-gray-200">
-                        <span><b>${item.qta} x</b> ${item.desc}</span>
-                        <button onclick="rimuoviRigaComanda(${idx})" class="text-red-400 text-xs px-1">✕</button>
-                    </div>
-                `;
+
+            if(comandaCorrente.length === 0) {
+                div.innerHTML = '<div class="text-gray-500 text-xs py-2 italic">Nessun articolo inserito.</div>';
+                return;
+            }
+
+            // Raggruppamento locale per anteprima grafica
+            let raggruppati = {};
+            comandaCorrente.forEach((item, originalIdx) => {
+                const cat = trovaCategoriaPiatto(item.desc);
+                if (!raggruppati[cat]) raggruppati[cat] = [];
+                raggruppati[cat].push({ ...item, originalIdx });
+            });
+
+            ORDINE_CATEGORIE.forEach(cat => {
+                if (raggruppati[cat] && raggruppati[cat].length > 0) {
+                    div.innerHTML += `<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-2 mb-1 border-b border-gray-800 pb-0.5">--- ${cat} ---</div>`;
+                    raggruppati[cat].forEach(item => {
+                        div.innerHTML += `
+                            <div class="flex justify-between items-center text-gray-200 text-xs py-0.5">
+                                <span><b>${item.qta} x</b> ${item.desc}</span>
+                                <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-400 text-xs px-1 hover:text-red-300">✕</button>
+                            </div>
+                        `;
+                    });
+                }
             });
         }
 
-        function rimuoviRigaComanda(idx) {
-            comandaCorrente.splice(idx, 1);
+        function rimuoviRigaComanda(originalIdx) {
+            comandaCorrente.splice(originalIdx, 1);
             renderizzaComandaGUI();
         }
 
@@ -555,9 +570,25 @@
             txt += `------------------------------------------\n`;
             txt += `QTA  | ARTICOLO / PIATTO\n`;
             txt += `------------------------------------------\n`;
+
+            // Raggruppamento pietanze per categoria nel file finale
+            let raggruppati = {};
             comandaCorrente.forEach(item => {
-                txt += `${item.qta}  x   ${item.desc}\n`;
+                const cat = trovaCategoriaPiatto(item.desc);
+                if (!raggruppati[cat]) raggruppati[cat] = [];
+                raggruppati[cat].push(item);
             });
+
+            ORDINE_CATEGORIE.forEach(cat => {
+                if (raggruppati[cat] && raggruppati[cat].length > 0) {
+                    txt += `--- ${cat.toUpperCase()} ---\n`;
+                    raggruppati[cat].forEach(item => {
+                        txt += `${item.qta}  x   ${item.desc}\n`;
+                    });
+                    txt += `\n`;
+                }
+            });
+
             txt += `------------------------------------------\n`;
             if(note) txt += `NOTE: ${note}\n------------------------------------------\n`;
             txt += `==========================================\n`;
