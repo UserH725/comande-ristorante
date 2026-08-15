@@ -1,0 +1,16 @@
+Tavolo: 1
+Coperti: 1
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: Contanti
+Data: 15-08-2026
+
+1 x Insalata di mare (€ 11.00) = € 11.00
+1 x Tortelli al ragù di pesce (€ 8.50) = € 8.50
+1 x Frittura mista (€ 13.00) = € 13.00
+1 x Insalata mista (€ 3.50) = € 3.50
+1 x Tiramisu (€ 5.00) = € 5.00
+1 x Acqua Frizzante 1 lt (€ 2.00) = € 2.00
+1 x Caffè (€ 1,50) = € 1.00
+1 x Coperto (€ 2.00) = € 2.00
+
+TOTALE COMANDA: € 46.00
