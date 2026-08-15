@@ -32,8 +32,13 @@
         "qta": 2,
         "desc": "Lasagne zucchine gamberetti e salmone",
         "prezzo": "9.50"
+      },
+      {
+        "qta": 2,
+        "desc": "Caffè",
+        "prezzo": "1,50"
       }
     ],
-    "stato": "pronta"
+    "stato": "in_attesa"
   }
 ]
