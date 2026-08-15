@@ -6,7 +6,7 @@
     "cameriere": "Mauro",
     "note": "",
     "data": "15-08-2026",
-    "ora": "12:04",
+    "ora": "12:06",
     "articoli": [
       {
         "qta": 1,
@@ -17,8 +17,23 @@
         "qta": 1,
         "desc": "Bruschette col olio",
         "prezzo": "5.00"
+      },
+      {
+        "qta": 1,
+        "desc": "Pennette al salmone",
+        "prezzo": "9,50"
+      },
+      {
+        "qta": 1,
+        "desc": "Tortelli al ragù di pesce",
+        "prezzo": "8.50"
+      },
+      {
+        "qta": 2,
+        "desc": "Lasagne zucchine gamberetti e salmone",
+        "prezzo": "9.50"
       }
     ],
-    "stato": "pronta"
+    "stato": "in_attesa"
   }
 ]
