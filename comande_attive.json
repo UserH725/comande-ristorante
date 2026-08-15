@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "id": "W1ZV",
+    "tavolo": "1",
+    "persone": "2",
+    "cameriere": "Mauro (TITOLARE E DIRETTORE CUCINA)",
+    "note": "",
+    "data": "15-08-2026",
+    "ora": "14:06",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Acqua Frizzante 1 lt",
+        "prezzo": "2.00"
+      },
+      {
+        "qta": 1,
+        "desc": "Caffè",
+        "prezzo": "1,50"
+      },
+      {
+        "qta": 1,
+        "desc": "Bibite lattina",
+        "prezzo": "4.00"
+      },
+      {
+        "qta": 1,
+        "desc": "Vino rosso ½ litro",
+        "prezzo": "5.50"
+      },
+      {
+        "qta": 1,
+        "desc": "Antipasto Misto Mare",
+        "prezzo": "10,00"
+      },
+      {
+        "qta": 1,
+        "desc": "Bruschette all'olio",
+        "prezzo": "5.00"
+      },
+      {
+        "qta": 2,
+        "desc": "Lasagne al ragù di carne",
+        "prezzo": "7.50"
+      },
+      {
+        "qta": 1,
+        "desc": "Pennette al salmone",
+        "prezzo": "9,50"
+      },
+      {
+        "qta": 1,
+        "desc": "Frittura mista",
+        "prezzo": "13.00"
+      },
+      {
+        "qta": 1,
+        "desc": "Trancio di Salmone",
+        "prezzo": "7.50"
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata mista",
+        "prezzo": "3.50"
+      },
+      {
+        "qta": 2,
+        "desc": "Patate fritte",
+        "prezzo": "3.50"
+      },
+      {
+        "qta": 1,
+        "desc": "Cheesecake caramello",
+        "prezzo": "5.00"
+      },
+      {
+        "qta": 1,
+        "desc": "Panna cotta",
+        "prezzo": "5.00"
+      }
+    ],
+    "stato": "in_attesa"
+  }
+]
