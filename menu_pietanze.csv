@@ -1,7 +1,7 @@
 TIPOLOGIA;DESCRIZIONE;PREZZO
 Antipasto;Antipasto Misto Mare;10
-Primo;Pennette al salmone;12,50
-Primo;Penne al pomodoro;7
+Primo;Pennette al salmone;9,50
+Primo;Penne al pomodoro;7,50
 Secondo;Salsiccia alla brace 2 pezzi;6.50
 Contorno;Patate arrosto;4.00
 Dolce;Cheesecake alle fragole;5.00
@@ -29,3 +29,6 @@ Bevande;Vino bianco ½ litro;5.50
 Antipasto;Cocktail di gamberi;8.00
 Antipasto;Cozze alla marinara;7.50
 Contorno;Verdure grigliate;4.50
+Bevande;Caffè;1,50
+Bevande;Liquori;3,00
+Bevande;Grappa;3,50
