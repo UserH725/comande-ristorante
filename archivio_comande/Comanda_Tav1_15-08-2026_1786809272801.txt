@@ -1,0 +1,17 @@
+Tavolo: 1
+Coperti: 1
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: POS
+Data: 15-08-2026
+
+1 x Acqua Frizzante 1 lt (€ 2.00) = € 2.00
+1 x Caffè (€ 1,50) = € 1.00
+1 x Bruschette con olio e pomodori (€ 5.50) = € 5.50
+1 x Cocktail di gamberi (€ 8.00) = € 8.00
+1 x Tortelli al ragù di pesce (€ 8.50) = € 8.50
+1 x Penne al pomodoro (€ 7,50) = € 7.00
+1 x Lasagne zucchine gamberetti e salmone (€ 9.50) = € 9.50
+1 x Lasagne al ragù di carne (€ 7.50) = € 7.50
+1 x Coperto (€ 2.00) = € 2.00
+
+TOTALE COMANDA: € 51.00
