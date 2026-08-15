@@ -132,8 +132,9 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cameriere</label>
+                        <!-- Tolta opzione Cassa, forzato inserimento -->
                         <select id="cmd-cameriere" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none h-full">
-                            <option value="Cassa">Cassa</option>
+                            <option value="">[ Seleziona Cameriere ]</option>
                         </select>
                     </div>
                 </div>
@@ -436,7 +437,7 @@
         }
 
         /* --------------------------------------------------------
-           GESTIONE CAMERIERI
+           GESTIONE CAMERIERI (Senza Cassa)
         -------------------------------------------------------- */
         function aggiungiCameriere() {
             const nome = document.getElementById('cam-nome').value.trim();
@@ -446,7 +447,8 @@
         function salvaCamerieriCloud() { salvaFileSuGitHub("camerieri.json", JSON.stringify(listaCamerieri, null, 2), "Aggiornato staff"); }
         function renderizzaCamerieriGUI() {
             const ul = document.getElementById('lista-camerieri'); const sel = document.getElementById('cmd-cameriere');
-            ul.innerHTML = ''; sel.innerHTML = '<option value="Cassa">Cassa</option>';
+            ul.innerHTML = ''; 
+            sel.innerHTML = '<option value="">[ Seleziona Cameriere ]</option>'; // Nessun default "Cassa"
             if(listaCamerieri.length === 0) {
                 ul.innerHTML = '<li class="text-slate-400 text-xs py-2 px-2 italic">Nessun cameriere registrato.</li>';
             }
@@ -465,6 +467,7 @@
             comandaCorrente = [];
             document.getElementById('cmd-tavolo').value = '';
             document.getElementById('cmd-persone').value = '1';
+            document.getElementById('cmd-cameriere').value = ''; // Reset su vuoto
             document.getElementById('cmd-note').value = '';
             document.getElementById('banner-modifica').classList.add('hidden');
             document.getElementById('area-comanda').classList.add('opacity-50', 'pointer-events-none');
@@ -526,7 +529,7 @@
             idComandaInModifica = id;
             document.getElementById('cmd-tavolo').value = c.tavolo;
             document.getElementById('cmd-persone').value = c.persone;
-            document.getElementById('cmd-cameriere').value = c.cameriere;
+            document.getElementById('cmd-cameriere').value = c.cameriere; // Reimposta il cameriere salvato
             document.getElementById('cmd-note').value = c.note || '';
             
             comandaCorrente = c.articoli.map(a => ({...a}));
@@ -601,6 +604,7 @@
             const note = document.getElementById('cmd-note').value.trim();
 
             if(!tavolo || comandaCorrente.length === 0) return alert("Inserisci tavolo e almeno un piatto!");
+            if(!cameriere) return alert("Devi obbligatoriamente selezionare un Cameriere prima di inviare la comanda!");
 
             const ora = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute:'2-digit'});
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
@@ -645,7 +649,7 @@
                 await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), commitMsg);
                 
                 alert(idComandaInModifica ? "Aggiunta salvata e inviata in cucina!" : "Comanda inviata in cucina!");
-                resetModuloComanda(); // Questo svuota e ridisegna la mappa coi tavoli aggiornati
+                resetModuloComanda(); 
             }, 500);
         }
 
@@ -783,7 +787,7 @@
         }
 
         /* --------------------------------------------------------
-           [7] REPORT E ARCHIVIO (EX 5 E 6)
+           [7] REPORT E ARCHIVIO
         -------------------------------------------------------- */
         async function apriSezioneReport() { apriSezione('sec-report'); await caricaEParseArchivioComande(); generaReportFinanziario('oggi'); }
 
