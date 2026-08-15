@@ -119,7 +119,7 @@
                 <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla</button>
             </div>
             
-            <!-- DATI INTESTAZIONE COMANDA (Area bloccata finchè non selezioni il tavolo) -->
+            <!-- DATI INTESTAZIONE COMANDA -->
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div>
@@ -132,7 +132,6 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cameriere</label>
-                        <!-- Tolta opzione Cassa, forzato inserimento -->
                         <select id="cmd-cameriere" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none h-full">
                             <option value="">[ Seleziona Cameriere ]</option>
                         </select>
@@ -168,7 +167,7 @@
 
                 <div class="max-w-xl mx-auto space-y-4">
                     <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
-                    <!-- TASTO INVIO CUCINA DINAMICO -->
+                    <!-- TASTO INVIO CUCINA -->
                     <button id="btn-invia-cucina" onclick="inviaComandaInCucina()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
                         👨‍🍳 Genera Codice, Stampa & Invia in Cucina
                     </button>
@@ -210,7 +209,10 @@
             <div id="grid-cassa" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- ALTRE SEZIONI AMMINISTRAZIONE -->
+        <!-- ============================================================ -->
+        <!-- SEZIONI AMMINISTRAZIONE (4, 5, 6, 7)                         -->
+        <!-- ============================================================ -->
+        
         <!-- [6] ANAGRAFICA -->
         <div id="sec-anagrafica" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Personalizzazione Locale</h2>
@@ -229,8 +231,13 @@
 
         <!-- [4] MENU PIETANZE -->
         <div id="sec-menu-pietanze" class="sezione hidden">
-            <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Gestione Menu Pietanze</h2>
-            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-8 max-w-xl mx-auto shadow-sm">
+            <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
+                <h2 class="text-xl font-black text-indigo-700">Gestione Menu Pietanze</h2>
+                <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
+            </div>
+            
+            <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-8 max-w-xl mx-auto shadow-sm transition-all duration-300" id="box-form-pietanza">
+                <h3 class="text-sm font-bold text-indigo-800 mb-3 uppercase tracking-wider" id="titolo-form-pietanza">Aggiungi Piatto</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div>
                         <select id="p-tipo" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none">
@@ -244,13 +251,14 @@
                     </div>
                     <div class="sm:col-span-2"><input type="text" id="p-desc" placeholder="Descrizione Piatto" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none"></div>
                 </div>
-                <div class="flex items-end gap-3">
-                    <div class="flex-1"><input type="text" id="p-prezzo" placeholder="Prezzo (€)" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none"></div>
-                    <button onclick="aggiungiPietanzaMenu()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold shadow-md">+ Aggiungi</button>
+                <div class="flex flex-wrap sm:flex-nowrap items-end gap-2">
+                    <div class="w-full sm:flex-1"><input type="text" id="p-prezzo" placeholder="Prezzo (€)" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none"></div>
+                    <button id="btn-annulla-pietanza" onclick="annullaModificaPietanza()" class="hidden bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2.5 rounded-lg font-bold shadow-md transition">✕ Annulla</button>
+                    <button id="btn-salva-pietanza" onclick="aggiungiPietanzaMenu()" class="w-full sm:flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-lg font-bold shadow-md transition">+ Aggiungi</button>
                 </div>
             </div>
+            
             <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
-            <button onclick="tornaMenu()" class="w-full max-w-xl mx-auto block bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm">Torna al Menu Principale</button>
         </div>
 
         <!-- [5] CAMERIERI -->
@@ -263,7 +271,7 @@
                 </div>
             </div>
             <div class="border border-slate-200 rounded-xl p-2 bg-slate-50 mb-6 min-h-[100px] shadow-inner"><ul id="lista-camerieri" class="divide-y divide-slate-200 text-sm"></ul></div>
-            <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm">Torna al Menu</button>
+            <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu</button>
         </div>
 
         <!-- [7] REPORT E ARCHIVIO -->
@@ -330,6 +338,7 @@
         let htmlComandaSelezionata = "";
         
         let idComandaInModifica = null; 
+        let idPietanzaInModifica = null; // Per la modifica menu
 
         window.onload = function() {
             const token = localStorage.getItem("gh_token");
@@ -380,7 +389,7 @@
         }
 
         /* --------------------------------------------------------
-           FUNZIONI ANAGRAFICA E MENU PIETANZE
+           FUNZIONI ANAGRAFICA E MENU PIETANZE (Con Modifica/Cancella)
         -------------------------------------------------------- */
         function salvaAnagrafica() {
             anagrafica.nome = document.getElementById('cfg-nome').value.trim();
@@ -405,9 +414,66 @@
             const desc = document.getElementById('p-desc').value.trim();
             const prezzo = normalizzaPrezzo(document.getElementById('p-prezzo').value);
             if(!desc) return alert("Inserisci la descrizione!");
-            menuPietanze.push({ tipo, desc, prezzo });
-            document.getElementById('p-desc').value = ''; document.getElementById('p-prezzo').value = '';
-            renderizzaMenuGUI(); salvaFileSuGitHub("menu_pietanze.csv", "TIPOLOGIA;DESCRIZIONE;PREZZO\n" + menuPietanze.map(p => `${p.tipo};${p.desc};${p.prezzo}\n`).join(''), "Aggiornato menu");
+
+            if(idPietanzaInModifica !== null) {
+                // Modifica Esistente
+                menuPietanze[idPietanzaInModifica] = { tipo, desc, prezzo };
+                annullaModificaPietanza(); // resetta il form
+            } else {
+                // Aggiunta Nuova
+                menuPietanze.push({ tipo, desc, prezzo });
+                document.getElementById('p-desc').value = ''; 
+                document.getElementById('p-prezzo').value = '';
+            }
+
+            renderizzaMenuGUI(); 
+            salvaFileSuGitHub("menu_pietanze.csv", "TIPOLOGIA;DESCRIZIONE;PREZZO\n" + menuPietanze.map(p => `${p.tipo};${p.desc};${p.prezzo}\n`).join(''), "Aggiornato menu pietanze");
+        }
+
+        function modificaPietanzaMenu(idx) {
+            const p = menuPietanze[idx];
+            document.getElementById('p-tipo').value = p.tipo;
+            document.getElementById('p-desc').value = p.desc;
+            document.getElementById('p-prezzo').value = p.prezzo;
+            
+            idPietanzaInModifica = idx;
+            
+            document.getElementById('titolo-form-pietanza').innerText = 'Modifica Piatto';
+            document.getElementById('box-form-pietanza').classList.replace('bg-indigo-50', 'bg-amber-50');
+            document.getElementById('box-form-pietanza').classList.replace('border-indigo-100', 'border-amber-200');
+            
+            const btnSalva = document.getElementById('btn-salva-pietanza');
+            btnSalva.innerHTML = '💾 Salva Modifica';
+            btnSalva.classList.replace('bg-indigo-600', 'bg-amber-500');
+            btnSalva.classList.replace('hover:bg-indigo-700', 'hover:bg-amber-600');
+            
+            document.getElementById('btn-annulla-pietanza').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function annullaModificaPietanza() {
+            idPietanzaInModifica = null;
+            document.getElementById('p-desc').value = ''; 
+            document.getElementById('p-prezzo').value = '';
+            
+            document.getElementById('titolo-form-pietanza').innerText = 'Aggiungi Piatto';
+            document.getElementById('box-form-pietanza').classList.replace('bg-amber-50', 'bg-indigo-50');
+            document.getElementById('box-form-pietanza').classList.replace('border-amber-200', 'border-indigo-100');
+            
+            const btnSalva = document.getElementById('btn-salva-pietanza');
+            btnSalva.innerHTML = '+ Aggiungi';
+            btnSalva.classList.replace('bg-amber-500', 'bg-indigo-600');
+            btnSalva.classList.replace('hover:bg-amber-600', 'hover:bg-indigo-700');
+            
+            document.getElementById('btn-annulla-pietanza').classList.add('hidden');
+        }
+
+        function rimuoviPietanzaMenu(idx) {
+            if(confirm(`Sei sicuro di voler eliminare "${menuPietanze[idx].desc}" dal menu?`)) {
+                menuPietanze.splice(idx, 1);
+                renderizzaMenuGUI();
+                salvaFileSuGitHub("menu_pietanze.csv", "TIPOLOGIA;DESCRIZIONE;PREZZO\n" + menuPietanze.map(p => `${p.tipo};${p.desc};${p.prezzo}\n`).join(''), "Rimosso piatto dal menu");
+            }
         }
 
         function renderizzaMenuGUI() {
@@ -417,14 +483,30 @@
             if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
             ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
+                // Prima di ordinare alfabetico, memorizzo l'indice originale per poterlo modificare/cancellare
                 const piattiCat = menuPietanze
+                    .map((p, index) => ({ ...p, originalIdx: index }))
                     .filter(p => p.tipo.toLowerCase() === cat.toLowerCase())
-                    .sort((a, b) => a.desc.localeCompare(b.desc)); // Ordine Alfabetico
+                    .sort((a, b) => a.desc.localeCompare(b.desc));
 
+                // 1. Render in Menu Amministrazione
                 if (gridDiv) {
-                    let listHtml = piattiCat.length === 0 ? `<div class="text-slate-400 text-xs italic py-1">- Vuoto -</div>` : piattiCat.map(p => `<div class="flex justify-between items-center text-xs py-1.5 border-b border-slate-100"><span class="font-bold text-slate-700">${p.desc}</span><span class="text-emerald-600 font-mono font-bold">€ ${p.prezzo}</span></div>`).join('');
+                    let listHtml = piattiCat.length === 0 ? `<div class="text-slate-400 text-xs italic py-1">- Vuoto -</div>` : piattiCat.map(p => `
+                        <div class="flex justify-between items-center text-xs py-2 border-b border-slate-100 last:border-0 group">
+                            <span class="font-bold text-slate-700 truncate pr-2">${p.desc}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-emerald-600 font-mono font-bold whitespace-nowrap">€ ${p.prezzo}</span>
+                                <div class="flex gap-1">
+                                    <button onclick="modificaPietanzaMenu(${p.originalIdx})" class="text-indigo-500 hover:bg-indigo-100 p-1.5 rounded transition" title="Modifica">✎</button>
+                                    <button onclick="rimuoviPietanzaMenu(${p.originalIdx})" class="text-red-500 hover:bg-red-100 p-1.5 rounded transition" title="Rimuovi">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
                     gridDiv.innerHTML += `<div class="bg-white border border-slate-200 shadow-sm rounded-xl p-4"><h4 class="text-xs font-black text-indigo-600 uppercase tracking-widest mb-2 border-b border-slate-100 pb-1">${cat}</h4><div class="space-y-0.5">${listHtml}</div></div>`;
                 }
+
+                // 2. Render in Tastierino Nuova Comanda
                 if (cmdMenuCategorizzato && piattiCat.length > 0) {
                     let btnsHtml = piattiCat.map(p => {
                         let totQ = 0; comandaCorrente.forEach(i => { if(i.desc === p.desc) totQ += parseInt(i.qta); });
@@ -467,7 +549,7 @@
             comandaCorrente = [];
             document.getElementById('cmd-tavolo').value = '';
             document.getElementById('cmd-persone').value = '1';
-            document.getElementById('cmd-cameriere').value = ''; // Reset su vuoto
+            document.getElementById('cmd-cameriere').value = ''; 
             document.getElementById('cmd-note').value = '';
             document.getElementById('banner-modifica').classList.add('hidden');
             document.getElementById('area-comanda').classList.add('opacity-50', 'pointer-events-none');
@@ -515,7 +597,6 @@
             document.getElementById('cmd-persone').value = posti; 
             document.getElementById('banner-modifica').classList.add('hidden');
             
-            // Sblocca area comanda
             document.getElementById('area-comanda').classList.remove('opacity-50', 'pointer-events-none');
             
             renderizzaComandaGUI();
@@ -529,7 +610,7 @@
             idComandaInModifica = id;
             document.getElementById('cmd-tavolo').value = c.tavolo;
             document.getElementById('cmd-persone').value = c.persone;
-            document.getElementById('cmd-cameriere').value = c.cameriere; // Reimposta il cameriere salvato
+            document.getElementById('cmd-cameriere').value = c.cameriere; 
             document.getElementById('cmd-note').value = c.note || '';
             
             comandaCorrente = c.articoli.map(a => ({...a}));
