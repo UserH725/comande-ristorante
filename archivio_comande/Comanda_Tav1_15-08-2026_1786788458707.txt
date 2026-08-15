@@ -1,0 +1,15 @@
+Tavolo: 1
+Coperti: 1
+Cameriere: Mauro
+Stato: Contanti
+Data: 15-08-2026
+
+1 x Antipasto Misto Mare (€ 10) = € 10.00
+1 x Bruschette col olio (€ 5.00) = € 5.00
+1 x Pennette al salmone (€ 9,50) = € 9.00
+1 x Tortelli al ragù di pesce (€ 8.50) = € 8.50
+2 x Lasagne zucchine gamberetti e salmone (€ 9.50) = € 19.00
+2 x Caffè (€ 1,50) = € 2.00
+1 x Coperto (€ 2.00) = € 2.00
+
+TOTALE COMANDA: € 55.50
