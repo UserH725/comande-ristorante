@@ -241,7 +241,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div>
                         <select id="p-tipo" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none">
-                            <option value="Bevande">Bevande</option> <!-- Bevande per prime -->
+                            <option value="Bevande">Bevande</option>
                             <option value="Antipasto">Antipasto</option>
                             <option value="Primo">Primo</option>
                             <option value="Secondo">Secondo</option>
@@ -281,12 +281,20 @@
                 <button onclick="generaReportFinanziario('oggi')" id="btn-rep-oggi" class="flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm">Solo Oggi</button>
                 <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition">Totale Storico</button>
             </div>
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Totale</span><span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span></div>
-                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span><span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span></div>
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Contanti</span><span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">POS / Carta</span><span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                <!-- BOX INCASSI -->
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Totale</span><span id="rep-tot-incasso" class="text-xl font-black text-emerald-700">€ 0.00</span></div>
+                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span><span id="rep-tot-pietanze" class="text-xl font-black text-indigo-700">0</span></div>
+                
+                <!-- NUOVI BOX COPERTI -->
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span><span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span></div>
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span><span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span></div>
+
+                <!-- BOX METODI PAGAMENTO -->
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span><span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span><span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
             </div>
+            
             <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
                 <div class="max-h-64 overflow-y-auto">
                     <table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 font-mono text-xs sticky top-0 border-b border-slate-200 shadow-sm"><tr><th class="p-3">PIATTO</th><th class="p-3 text-center">QTA</th><th class="p-3 text-right">INCASSO</th></tr></thead><tbody id="tbl-report-pietanze" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody></table>
@@ -319,12 +327,9 @@
     <script>
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
-        
-        // Bevande posizionate per prime!
         const ORDINE_CATEGORIE = ["Bevande", "Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Varie"];
         const PREZZO_COPERTO_UNITARIO = 2.00;
         
-        // Struttura fissa 14 Tavoli
         const MAPPA_TAVOLI = [
             { num: 1, posti: 2 }, { num: 2, posti: 2 }, { num: 3, posti: 2 }, { num: 4, posti: 2 },
             { num: 5, posti: 4 }, { num: 6, posti: 4 }, { num: 7, posti: 4 }, { num: 8, posti: 4 },
@@ -485,14 +490,12 @@
             if(gridDiv) gridDiv.innerHTML = '';
             if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
-            // IL NUOVO ORDINE DELLE CATEGORIE VIENE RISPETTATO AUTOMATICAMENTE QUI
             ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                 const piattiCat = menuPietanze
                     .map((p, index) => ({ ...p, originalIdx: index }))
                     .filter(p => p.tipo.toLowerCase() === cat.toLowerCase())
                     .sort((a, b) => a.desc.localeCompare(b.desc));
 
-                // 1. Render in Menu Amministrazione
                 if (gridDiv) {
                     let listHtml = piattiCat.length === 0 ? `<div class="text-slate-400 text-xs italic py-1">- Vuoto -</div>` : piattiCat.map(p => `
                         <div class="flex justify-between items-center text-xs py-2 border-b border-slate-100 last:border-0 group">
@@ -509,7 +512,6 @@
                     gridDiv.innerHTML += `<div class="bg-white border border-slate-200 shadow-sm rounded-xl p-4"><h4 class="text-xs font-black text-indigo-600 uppercase tracking-widest mb-2 border-b border-slate-100 pb-1">${cat}</h4><div class="space-y-0.5">${listHtml}</div></div>`;
                 }
 
-                // 2. Render in Tastierino Nuova Comanda
                 if (cmdMenuCategorizzato && piattiCat.length > 0) {
                     let btnsHtml = piattiCat.map(p => {
                         let totQ = 0; comandaCorrente.forEach(i => { if(i.desc === p.desc) totQ += parseInt(i.qta); });
@@ -666,7 +668,6 @@
                 raggruppati[cat].push({ ...item, totRiga, originalIdx });
             });
 
-            // L'ORDINE BEVANDE PER PRIME VIENE RISPETTATO ANCHE QUI (SCONTRINO E STAMPA)
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
@@ -751,7 +752,6 @@
                 raggruppati[cat].push({ ...item, totRiga });
             });
 
-            // L'ORDINE BEVANDE PER PRIME VIENE RISPETTATO ANCHE NELLA STAMPA A4
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
@@ -897,6 +897,11 @@
 
         function parseSingleComandaText(filename, text) {
             let tavolo = "ND", cameriere = "ND", pagamento = "Contanti", data = "", articoli = [];
+            
+            // Nuova RegExp che cerca la riga che INIZIA per "Coperti:" o contiene la stringa "Coperti:"
+            let personeMatch = text.match(/Coperti:\s*([0-9]+)/);
+            let persone = personeMatch ? parseInt(personeMatch[1]) : 0;
+
             const lineData = text.match(/Data:\s*([0-9\-]+)/); if(lineData) data = lineData[1];
             const lineTav = text.match(/Tavolo:\s*([^\s]+)/); if(lineTav) tavolo = lineTav[1].trim();
             const lineCam = text.match(/Cameriere:\s*(.+)/); if(lineCam) cameriere = lineCam[1].trim();
@@ -904,7 +909,8 @@
             
             const regexArticoli = /([0-9]+)\s*x\s*(.+?)\s*\(/g; let match;
             while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
-            archivioComandeParsed.push({ filename, tavolo, cameriere, pagamento, data, articoli, testoCompleto: text });
+            
+            archivioComandeParsed.push({ filename, tavolo, persone, cameriere, pagamento, data, articoli, testoCompleto: text });
         }
 
         function filtraComandeGUI() {
@@ -938,10 +944,22 @@
             document.getElementById('btn-rep-tutto').className = tipoFiltro === 'tutto' ? "flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm" : "flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition";
 
             const targetComande = archivioComandeParsed.filter(c => tipoFiltro === 'tutto' || c.data === dataOggi);
+            
             let incassoTotale = 0, incassoContanti = 0, incassoCarta = 0, totaleQtaPietanze = 0;
+            let totalePersone = 0, totaleIncassoCoperti = 0;
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
+                
+                // Conteggio Coperti e Incasso Coperti
+                totalePersone += c.persone;
+                let incassoCopertoComanda = c.persone * PREZZO_COPERTO_UNITARIO;
+                totaleIncassoCoperti += incassoCopertoComanda;
+                incassoTotale += incassoCopertoComanda;
+                
+                if(c.pagamento.includes('POS') || c.pagamento.includes('Carta')) incassoCarta += incassoCopertoComanda;
+                else if(c.pagamento.includes('CONTANTI') || c.pagamento.includes('Contanti')) incassoContanti += incassoCopertoComanda;
+
                 c.articoli.forEach(art => {
                     if(art.desc.toLowerCase().includes("coperto")) return;
                     totaleQtaPietanze += art.qta;
@@ -960,6 +978,8 @@
 
             document.getElementById('rep-tot-incasso').innerText = `€ ${incassoTotale.toFixed(2)}`;
             document.getElementById('rep-tot-pietanze').innerText = totaleQtaPietanze;
+            document.getElementById('rep-tot-coperti').innerText = totalePersone;
+            document.getElementById('rep-incasso-coperti').innerText = `€ ${totaleIncassoCoperti.toFixed(2)}`;
             document.getElementById('rep-tot-contanti').innerText = `€ ${incassoContanti.toFixed(2)}`;
             document.getElementById('rep-tot-carta').innerText = `€ ${incassoCarta.toFixed(2)}`;
 
