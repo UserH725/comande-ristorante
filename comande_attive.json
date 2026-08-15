@@ -1,0 +1,24 @@
+[
+  {
+    "id": "HRMO",
+    "tavolo": "1",
+    "persone": "1",
+    "cameriere": "Mauro",
+    "note": "",
+    "data": "15-08-2026",
+    "ora": "12:04",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Antipasto Misto Mare",
+        "prezzo": "10"
+      },
+      {
+        "qta": 1,
+        "desc": "Bruschette col olio",
+        "prezzo": "5.00"
+      }
+    ],
+    "stato": "in_attesa"
+  }
+]
