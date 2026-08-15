@@ -241,12 +241,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div>
                         <select id="p-tipo" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none">
+                            <option value="Bevande">Bevande</option> <!-- Bevande per prime -->
                             <option value="Antipasto">Antipasto</option>
                             <option value="Primo">Primo</option>
                             <option value="Secondo">Secondo</option>
                             <option value="Contorno">Contorno</option>
                             <option value="Dolce">Dolce</option>
-                            <option value="Bevande">Bevande</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2"><input type="text" id="p-desc" placeholder="Descrizione Piatto" class="w-full p-2.5 bg-white border border-indigo-200 rounded-lg text-sm outline-none"></div>
@@ -319,7 +319,9 @@
     <script>
         const GH_USER = "UserH725";
         const GH_REPO = "comande-ristorante";
-        const ORDINE_CATEGORIE = ["Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Bevande", "Varie"];
+        
+        // Bevande posizionate per prime!
+        const ORDINE_CATEGORIE = ["Bevande", "Antipasto", "Primo", "Secondo", "Contorno", "Dolce", "Varie"];
         const PREZZO_COPERTO_UNITARIO = 2.00;
         
         // Struttura fissa 14 Tavoli
@@ -338,7 +340,7 @@
         let htmlComandaSelezionata = "";
         
         let idComandaInModifica = null; 
-        let idPietanzaInModifica = null; // Per la modifica menu
+        let idPietanzaInModifica = null;
 
         window.onload = function() {
             const token = localStorage.getItem("gh_token");
@@ -389,7 +391,7 @@
         }
 
         /* --------------------------------------------------------
-           FUNZIONI ANAGRAFICA E MENU PIETANZE (Con Modifica/Cancella Doppia Conferma)
+           FUNZIONI ANAGRAFICA E MENU PIETANZE
         -------------------------------------------------------- */
         function salvaAnagrafica() {
             anagrafica.nome = document.getElementById('cfg-nome').value.trim();
@@ -416,11 +418,9 @@
             if(!desc) return alert("Inserisci la descrizione!");
 
             if(idPietanzaInModifica !== null) {
-                // Modifica Esistente
                 menuPietanze[idPietanzaInModifica] = { tipo, desc, prezzo };
                 annullaModificaPietanza(); 
             } else {
-                // Aggiunta Nuova
                 menuPietanze.push({ tipo, desc, prezzo });
                 document.getElementById('p-desc').value = ''; 
                 document.getElementById('p-prezzo').value = '';
@@ -470,11 +470,8 @@
 
         function rimuoviPietanzaMenu(idx) {
             const p = menuPietanze[idx];
-            
-            // DOPPIA CONFERMA DI CANCELLAZIONE
             if(confirm(`Sei sicuro di voler eliminare "${p.desc}" dal menu?`)) {
                 if(confirm(`⚠️ ATTENZIONE ⚠️\n\nStai per cancellare definitivamente "${p.desc}". \nL'operazione è irreversibile!\n\nSei veramente sicuro?`)) {
-                    
                     menuPietanze.splice(idx, 1);
                     renderizzaMenuGUI();
                     salvaFileSuGitHub("menu_pietanze.csv", "TIPOLOGIA;DESCRIZIONE;PREZZO\n" + menuPietanze.map(pi => `${pi.tipo};${pi.desc};${pi.prezzo}\n`).join(''), "Rimosso piatto dal menu");
@@ -488,6 +485,7 @@
             if(gridDiv) gridDiv.innerHTML = '';
             if(cmdMenuCategorizzato) cmdMenuCategorizzato.innerHTML = '';
 
+            // IL NUOVO ORDINE DELLE CATEGORIE VIENE RISPETTATO AUTOMATICAMENTE QUI
             ORDINE_CATEGORIE.filter(c => c !== "Varie").forEach(cat => {
                 const piattiCat = menuPietanze
                     .map((p, index) => ({ ...p, originalIdx: index }))
@@ -524,7 +522,7 @@
         }
 
         /* --------------------------------------------------------
-           GESTIONE CAMERIERI (Senza Cassa)
+           GESTIONE CAMERIERI
         -------------------------------------------------------- */
         function aggiungiCameriere() {
             const nome = document.getElementById('cam-nome').value.trim();
@@ -535,7 +533,7 @@
         function renderizzaCamerieriGUI() {
             const ul = document.getElementById('lista-camerieri'); const sel = document.getElementById('cmd-cameriere');
             ul.innerHTML = ''; 
-            sel.innerHTML = '<option value="">[ Seleziona Cameriere ]</option>'; // Nessun default "Cassa"
+            sel.innerHTML = '<option value="">[ Seleziona Cameriere ]</option>';
             if(listaCamerieri.length === 0) {
                 ul.innerHTML = '<li class="text-slate-400 text-xs py-2 px-2 italic">Nessun cameriere registrato.</li>';
             }
@@ -668,6 +666,7 @@
                 raggruppati[cat].push({ ...item, totRiga, originalIdx });
             });
 
+            // L'ORDINE BEVANDE PER PRIME VIENE RISPETTATO ANCHE QUI (SCONTRINO E STAMPA)
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
@@ -752,6 +751,7 @@
                 raggruppati[cat].push({ ...item, totRiga });
             });
 
+            // L'ORDINE BEVANDE PER PRIME VIENE RISPETTATO ANCHE NELLA STAMPA A4
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
