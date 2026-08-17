@@ -14,7 +14,7 @@
         "prezzo": "4.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 2,
@@ -22,7 +22,7 @@
         "prezzo": "2.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -30,7 +30,7 @@
         "prezzo": "9,50",
         "nota": "",
         "uscita": 2,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -38,7 +38,7 @@
         "prezzo": "3.00",
         "nota": "",
         "uscita": 3,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -46,7 +46,7 @@
         "prezzo": "3.50",
         "nota": "",
         "uscita": 3,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -54,7 +54,7 @@
         "prezzo": "5.00",
         "nota": "",
         "uscita": 4,
-        "stato": "in_attesa"
+        "stato": "pronto"
       }
     ]
   }
