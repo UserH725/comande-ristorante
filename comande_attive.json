@@ -6,7 +6,7 @@
     "cameriere": "Mauro (TITOLARE E DIRETTORE CUCINA)",
     "note": "",
     "data": "17-08-2026",
-    "ora": "14:25",
+    "ora": "14:26",
     "articoli": [
       {
         "qta": 1,
@@ -33,7 +33,7 @@
         "nota": ""
       },
       {
-        "qta": 10,
+        "qta": 20,
         "desc": "Frittura mista",
         "prezzo": "13.00",
         "nota": ""
@@ -69,6 +69,6 @@
         "nota": ""
       }
     ],
-    "stato": "pronta"
+    "stato": "in_attesa"
   }
 ]
