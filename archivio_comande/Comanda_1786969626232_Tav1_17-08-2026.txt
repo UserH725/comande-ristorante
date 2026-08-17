@@ -1,0 +1,21 @@
+Tavolo: 1
+Coperti: 1
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: POS
+Data: 17-08-2026
+
+1 x Acqua Nat. 1 lt (€ 2.00) = € 2.00
+10 x Champagne Moët & Chandon (€ 49.00) = € 490.00
+1 x Ostriche (€ 35.00) = € 35.00
+1 x Sushi che tivrisushi (€ 70.00) = € 70.00
+20 x Frittura mista (€ 13.00) = € 260.00
+10 x Trancio di Salmone (€ 7.50) = € 75.00
+10 x Insalata mista (€ 3.50) = € 35.00
+10 x Verdure grigliate (€ 4.50) = € 45.00
+30 x Cheesecake frutti di bosco (€ 5.00) = € 150.00
+1 x Caffè macchiato (€ 1.50) = € 1.50
+1 x Coperto (€ 2.00) = € 2.00
+---------------------------
+TOTALE LORDO: € 1165.50
+Sconto Applicato: -€ 165.50
+TOTALE INCASSATO: € 1000.00
