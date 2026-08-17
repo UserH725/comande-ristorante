@@ -17,6 +17,7 @@
             @page { size: A4 landscape; margin: 8mm; }
             body { background: white !important; margin: 0; padding: 0; }
             #main-app { display: none !important; }
+            #sticky-footer { display: none !important; } /* Nasconde la barra fissa in stampa */
             #printable-area { 
                 display: block !important; width: 100%; 
                 font-family: 'Courier New', Courier, monospace !important; 
@@ -37,7 +38,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 sm:p-6">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 sm:p-6 pb-28">
 
     <div id="main-app" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200 p-6 sm:p-8">
         
@@ -105,7 +106,7 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
             </div>
 
-            <!-- MAPPA TAVOLI VISIVA (PALLINI) -->
+            <!-- MAPPA TAVOLI VISIVA -->
             <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-4 text-center">👇 Seleziona un Tavolo 👇</label>
                 <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4">
@@ -119,7 +120,7 @@
                 <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla</button>
             </div>
             
-            <!-- DATI INTESTAZIONE COMANDA (Area bloccata finchè non selezioni il tavolo) -->
+            <!-- DATI INTESTAZIONE COMANDA -->
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div>
@@ -167,7 +168,7 @@
 
                 <div class="max-w-xl mx-auto space-y-4">
                     <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
-                    <!-- TASTO INVIO CUCINA DINAMICO -->
+                    <!-- TASTO INVIO CUCINA -->
                     <button id="btn-invia-cucina" onclick="inviaComandaInCucina()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
                         👨‍🍳 Genera Codice, Stampa & Invia in Cucina
                     </button>
@@ -315,6 +316,28 @@
     </div> <!-- FINE #main-app -->
 
     <!-- ============================================================ -->
+    <!-- STICKY FOOTER (BARRA INFERIORE FISSA PER LA COMANDA)         -->
+    <!-- ============================================================ -->
+    <div id="sticky-footer" class="fixed bottom-0 left-0 w-full bg-slate-900 border-t-4 border-indigo-500 text-white p-3 sm:p-4 z-50 transition-transform duration-300 transform translate-y-full shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.4)]">
+        <div class="max-w-4xl mx-auto flex justify-between items-center px-2">
+            <div class="flex items-center gap-6 sm:gap-12">
+                <div class="flex flex-col text-center">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Coperti</span>
+                    <span id="foot-coperti" class="text-xl sm:text-2xl font-black text-white">0</span>
+                </div>
+                <div class="flex flex-col text-center">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Pietanze</span>
+                    <span id="foot-pietanze" class="text-xl sm:text-2xl font-black text-white">0</span>
+                </div>
+            </div>
+            <div class="flex flex-col text-right">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Totale Comanda</span>
+                <span id="foot-totale" class="text-2xl sm:text-3xl font-black text-emerald-400">€ 0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
     <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA                     -->
     <!-- ============================================================ -->
     <div id="printable-area"></div>
@@ -368,14 +391,20 @@
                 await caricaComandeAttive();
                 renderizzaMappaTavoli();
                 renderizzaMenuGUI();
-            } else if (idSezione === 'sec-menu-pietanze') {
-                renderizzaMenuGUI();
+                document.getElementById('sticky-footer').classList.remove('translate-y-full');
+            } else {
+                document.getElementById('sticky-footer').classList.add('translate-y-full');
+                if (idSezione === 'sec-menu-pietanze') {
+                    renderizzaMenuGUI();
+                }
             }
         }
 
         function tornaMenu() {
             document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
             document.getElementById('sec-menu-principale').classList.remove('hidden');
+            document.getElementById('sticky-footer').classList.add('translate-y-full');
+            
             if(comandeAttive.length === 0) caricaComandeAttive(); 
             else aggiornaBadges(comandeAttive.filter(c=>c.stato==='in_attesa').length, comandeAttive.filter(c=>c.stato==='pronta').length);
         }
@@ -662,16 +691,33 @@
             const numPersone = parseInt(document.getElementById('cmd-persone').value) || 0;
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
             div.innerHTML = '';
-            if(comandaCorrente.length === 0 && numPersone === 0) return div.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center italic">Lo scontrino è vuoto.</div>';
+            
+            // AGGIORNAMENTO STICKY FOOTER E VERIFICA CONTENUTO
+            let totaleQtaPietanze = 0;
+            let totaleGenerale = totaleCoperto;
 
-            let raggruppati = {}; let totaleGenerale = totaleCoperto;
+            if(comandaCorrente.length === 0 && numPersone === 0) {
+                div.innerHTML = '<div class="text-slate-400 text-xs py-4 text-center italic">Lo scontrino è vuoto.</div>';
+                document.getElementById('foot-coperti').innerText = '0';
+                document.getElementById('foot-pietanze').innerText = '0';
+                document.getElementById('foot-totale').innerText = '€ 0.00';
+                return;
+            }
+
+            let raggruppati = {}; 
             comandaCorrente.forEach((item, originalIdx) => {
                 const cat = trovaInfoPiatto(item.desc).tipo;
                 if (!raggruppati[cat]) raggruppati[cat] = [];
                 const totRiga = parseFloat(item.prezzo) * parseInt(item.qta);
                 totaleGenerale += totRiga;
+                totaleQtaPietanze += parseInt(item.qta);
                 raggruppati[cat].push({ ...item, totRiga, originalIdx });
             });
+
+            // COMPILAZIONE FOOTER IN TEMPO REALE
+            document.getElementById('foot-coperti').innerText = numPersone;
+            document.getElementById('foot-pietanze').innerText = totaleQtaPietanze;
+            document.getElementById('foot-totale').innerText = `€ ${totaleGenerale.toFixed(2)}`;
 
             ORDINE_CATEGORIE.forEach(cat => {
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
@@ -796,25 +842,10 @@
         }
 
         /* --------------------------------------------------------
-           [2] GESTIONE CUCINA E [3] GESTIONE CASSA (CON SCONTI)
+           [2] GESTIONE CUCINA E [3] GESTIONE CASSA
         -------------------------------------------------------- */
         async function apriSezioneCucina() { apriSezione('sec-cucina'); await caricaComandeAttive(); }
         async function apriSezioneCassa() { apriSezione('sec-cassa'); await caricaComandeAttive(); }
-
-        async function caricaComandeAttive() {
-            const token = localStorage.getItem("gh_token"); if(!token) return;
-            try {
-                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/comande_attive.json`, { headers: { "Authorization": `token ${token}` } });
-                if(res.ok) {
-                    const data = await res.json();
-                    comandeAttive = JSON.parse(decodeURIComponent(escape(atob(data.content))));
-                } else { comandeAttive = []; }
-            } catch(e) { comandeAttive = []; }
-            renderizzaDashboardCucinaCassa();
-            if(!document.getElementById('sec-nuova-comanda').classList.contains('hidden')) {
-                renderizzaMappaTavoli();
-            }
-        }
 
         // Funzione helper per applicare lo sconto in tempo reale nella cassa
         function applicaSconto(idComanda, tipoSconto) {
@@ -836,13 +867,11 @@
                 totaleNetto = totaleLordo - valSconto;
             }
 
-            // Salvo lo sconto nel DOM tramite attributi custom per prenderlo al momento del click su "Incassa"
             const btnIncassa = document.getElementById(`btn-incassa-${idComanda}`);
             btnIncassa.dataset.scontoVal = valSconto;
             btnIncassa.dataset.scontoTipo = tipoSconto;
             btnIncassa.dataset.totaleNetto = totaleNetto.toFixed(2);
 
-            // Aggiorno la vista
             const divPrezzo = document.getElementById(`totale-cassa-${idComanda}`);
             divPrezzo.innerHTML = `
                 <div class="flex flex-col text-right">
@@ -853,6 +882,21 @@
             
             document.getElementById(`lbl-sconto-${idComanda}`).innerText = `Sconto Applicato: ${tipoSconto === 'percentuale' ? valSconto+'%' : '€ '+valSconto.toFixed(2)}`;
             document.getElementById(`lbl-sconto-${idComanda}`).classList.remove('hidden');
+        }
+
+        async function caricaComandeAttive() {
+            const token = localStorage.getItem("gh_token"); if(!token) return;
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/comande_attive.json`, { headers: { "Authorization": `token ${token}` } });
+                if(res.ok) {
+                    const data = await res.json();
+                    comandeAttive = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                } else { comandeAttive = []; }
+            } catch(e) { comandeAttive = []; }
+            renderizzaDashboardCucinaCassa();
+            if(!document.getElementById('sec-nuova-comanda').classList.contains('hidden')) {
+                renderizzaMappaTavoli();
+            }
         }
 
         function renderizzaDashboardCucinaCassa() {
@@ -1016,7 +1060,6 @@
             const regexArticoli = /([0-9]+)\s*x\s*(.+?)\s*\(/g; let match;
             while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
             
-            // Trovo il netto per correggere i report in caso di sconti
             let nettoMatch = text.match(/TOTALE INCASSATO:\s*€\s*([0-9\.]+)/);
             let netto = nettoMatch ? parseFloat(nettoMatch[1]) : null;
 
@@ -1060,7 +1103,6 @@
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
-                
                 let totaleLordoComanda = c.persone * PREZZO_COPERTO_UNITARIO;
                 let incassoCopertoComanda = c.persone * PREZZO_COPERTO_UNITARIO;
                 
@@ -1076,16 +1118,14 @@
 
                     if(!pietanzeCountMap[art.desc]) pietanzeCountMap[art.desc] = { qta: 0, incasso: 0 };
                     pietanzeCountMap[art.desc].qta += art.qta;
-                    pietanzeCountMap[art.desc].incasso += totaleArt; // Incasso lordo piatto per fini statistici
+                    pietanzeCountMap[art.desc].incasso += totaleArt; 
                 });
 
-                // L'incasso REALE prende in considerazione eventuali sconti applicati in cassa
                 const incassoRealeComanda = c.totaleNettoSc !== null ? c.totaleNettoSc : totaleLordoComanda;
                 incassoTotale += incassoRealeComanda;
 
                 if(c.pagamento.includes('POS') || c.pagamento.includes('Carta')) incassoCarta += incassoRealeComanda;
                 else if(c.pagamento.includes('CONTANTI') || c.pagamento.includes('Contanti')) incassoContanti += incassoRealeComanda;
-
             });
 
             document.getElementById('rep-tot-incasso').innerText = `€ ${incassoTotale.toFixed(2)}`;
