@@ -23,6 +23,14 @@
         "nota": "heineken",
         "uscita": 1,
         "stato": "pronto"
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata di mare",
+        "prezzo": "11.00",
+        "nota": "no cozze",
+        "uscita": 2,
+        "stato": "in_attesa"
       }
     ]
   }
