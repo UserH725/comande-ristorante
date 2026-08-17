@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "2ECI",
+    "tavolo": "1",
+    "persone": "1",
+    "cameriere": "Mauro (TITOLARE E DIRETTORE CUCINA)",
+    "note": "",
+    "data": "17-08-2026",
+    "ora": "14:25",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Acqua Nat. 1 lt",
+        "prezzo": "2.00",
+        "nota": ""
+      },
+      {
+        "qta": 10,
+        "desc": "Champagne Moët & Chandon",
+        "prezzo": "49.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Ostriche",
+        "prezzo": "35.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Sushi che tivrisushi",
+        "prezzo": "70.00",
+        "nota": ""
+      },
+      {
+        "qta": 10,
+        "desc": "Frittura mista",
+        "prezzo": "13.00",
+        "nota": ""
+      },
+      {
+        "qta": 10,
+        "desc": "Trancio di Salmone",
+        "prezzo": "7.50",
+        "nota": ""
+      },
+      {
+        "qta": 10,
+        "desc": "Insalata mista",
+        "prezzo": "3.50",
+        "nota": ""
+      },
+      {
+        "qta": 10,
+        "desc": "Verdure grigliate",
+        "prezzo": "4.50",
+        "nota": ""
+      },
+      {
+        "qta": 30,
+        "desc": "Cheesecake frutti di bosco",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Caffè macchiato",
+        "prezzo": "1.50",
+        "nota": ""
+      }
+    ],
+    "stato": "in_attesa"
+  }
+]
