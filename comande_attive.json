@@ -1,1 +1,200 @@
-[]
+[
+  {
+    "id": "A0ES",
+    "tavolo": "1",
+    "persone": "2",
+    "cameriere": "Mauro (TITOLARE E DIRETTORE CUCINA)",
+    "note": "",
+    "data": "17-08-2026",
+    "ora": "12:14",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Caffè",
+        "prezzo": "1,50",
+        "nota": ""
+      },
+      {
+        "qta": 2,
+        "desc": "Birra Moretti 66cl.",
+        "prezzo": "4.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Bibite lattina",
+        "prezzo": "4.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Grappa",
+        "prezzo": "3,50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Limoncello",
+        "prezzo": "4.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Sgroppino",
+        "prezzo": "6.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Vino bianco frizzantino ½ litro",
+        "prezzo": "5.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Vino rosso ½ litro",
+        "prezzo": "5.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata di mare",
+        "prezzo": "11.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Cozze alla marinara",
+        "prezzo": "7.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Cocktail di gamberi",
+        "prezzo": "8.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Bruschette con olio e pomodori",
+        "prezzo": "5.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Bruschette all'olio",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Penne al pomodoro",
+        "prezzo": "7,50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Pennette al salmone",
+        "prezzo": "9,50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Tortelli al ragù di pesce",
+        "prezzo": "8.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Cheesecake frutti di bosco",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Gelato 3 palline",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Panna cotta",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Sorbetto al limone",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Tiramisu",
+        "prezzo": "5.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Verdure grigliate",
+        "prezzo": "4.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Patate fritte",
+        "prezzo": "3.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Patate arrosto",
+        "prezzo": "4.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata verde",
+        "prezzo": "3.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata mista",
+        "prezzo": "3.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Trancio di Salmone",
+        "prezzo": "7.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Salsiccia alla brace 2 pezzi",
+        "prezzo": "6.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Polpette di pesce",
+        "prezzo": "10.00",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Orata arrosto",
+        "prezzo": "11.50",
+        "nota": ""
+      },
+      {
+        "qta": 1,
+        "desc": "Frittura mista",
+        "prezzo": "13.00",
+        "nota": ""
+      }
+    ],
+    "stato": "in_attesa"
+  }
+]
