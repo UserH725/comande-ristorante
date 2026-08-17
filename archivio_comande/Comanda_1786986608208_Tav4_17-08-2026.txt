@@ -1,0 +1,26 @@
+COMANDA #QRP5
+Tavolo: 4
+Coperti: 2
+Cameriere: Asia (DIRETTRICE RISTORANTE)
+Stato: Contanti
+Data: 17-08-2026 - Ora: 18:40
+
+--- 1° USCITA ---
+1 x Acqua Frizzante 1 lt (€ 2.00 cad.) = € 2.00
+1 x Vino rosso ½ litro (€ 5.50 cad.) = € 5.50
+1 x Vino bianco frizzantino ½ litro (€ 5.50 cad.) = € 5.50
+
+--- PIETANZE STORNATE / ANNULLATE IN CUCINA ---
+[STORNO] 1 x Insalata di mare (€ 11.00 cad.)
+[STORNO] 1 x Cocktail di gamberi (€ 8.00 cad.)
+[STORNO] 2 x Frittura mista (€ 13.00 cad.)
+[STORNO] 1 x Insalata mista (€ 3.50 cad.)
+[STORNO] 1 x Insalata verde (€ 3.00 cad.)
+[STORNO] 1 x Cheesecake fragola (€ 5.00 cad.)
+[STORNO] 1 x Sorbetto al limone (€ 5.00 cad.)
+
+Servizio: 2 x Coperto (€ 2.00) = € 4.00
+
+---------------------------
+TOTALE LORDO: € 17.00
+TOTALE INCASSATO: € 17.00
