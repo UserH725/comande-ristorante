@@ -14,7 +14,7 @@
         "prezzo": "2.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -22,7 +22,7 @@
         "prezzo": "5.50",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -30,7 +30,7 @@
         "prezzo": "5.50",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
