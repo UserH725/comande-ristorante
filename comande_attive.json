@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "42HA",
+    "tavolo": "1",
+    "persone": "1",
+    "cameriere": "Mauro (TITOLARE E DIRETTORE CUCINA)",
+    "note": "",
+    "data": "17-08-2026",
+    "ora": "14:47",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Acqua Nat. 1 lt",
+        "prezzo": "2.00",
+        "nota": "",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Bibite lattina",
+        "prezzo": "4.00",
+        "nota": "heineken",
+        "uscita": 1,
+        "stato": "in_attesa"
+      }
+    ]
+  }
+]
