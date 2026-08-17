@@ -17,7 +17,7 @@
             @page { size: A4 landscape; margin: 8mm; }
             body { background: white !important; margin: 0; padding: 0; }
             #main-app { display: none !important; }
-            #sticky-footer { display: none !important; } /* Nasconde la barra fissa in stampa */
+            #sticky-footer { display: none !important; } 
             #printable-area { 
                 display: block !important; width: 100%; 
                 font-family: 'Courier New', Courier, monospace !important; 
@@ -106,12 +106,10 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
             </div>
 
-            <!-- MAPPA TAVOLI VISIVA -->
+            <!-- MAPPA TAVOLI VISIVA (PALLINI) -->
             <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-4 text-center">👇 Seleziona un Tavolo 👇</label>
-                <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4">
-                    <!-- Generato via JS -->
-                </div>
+                <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4"></div>
             </div>
 
             <!-- BANNER MODIFICA ATTIVA -->
@@ -120,7 +118,6 @@
                 <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla</button>
             </div>
             
-            <!-- DATI INTESTAZIONE COMANDA -->
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div>
@@ -139,13 +136,11 @@
                     </div>
                 </div>
 
-                <!-- SCELTA PIETANZE -->
                 <div class="mb-6">
                     <label class="block text-sm font-black text-slate-700 uppercase tracking-widest mb-3 text-center">👇 Tocca i piatti per aggiungerli 👇</label>
                     <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
-                <!-- INSERIMENTO MANUALE EXTRA -->
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6 shadow-sm">
                     <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Variazione / Piatto Fuori Menu</label>
                     <div class="flex flex-wrap sm:flex-nowrap gap-2">
@@ -156,7 +151,6 @@
                     </div>
                 </div>
 
-                <!-- ANTEPRIMA COMANDA -->
                 <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
                     <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-indigo-200">SCONTRINO</div>
                     <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
@@ -168,7 +162,6 @@
 
                 <div class="max-w-xl mx-auto space-y-4">
                     <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
-                    <!-- TASTO INVIO CUCINA -->
                     <button id="btn-invia-cucina" onclick="inviaComandaInCucina()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
                         👨‍🍳 Genera Codice, Stampa & Invia in Cucina
                     </button>
@@ -282,22 +275,53 @@
                 <button onclick="generaReportFinanziario('oggi')" id="btn-rep-oggi" class="flex-1 bg-white text-indigo-700 py-2.5 rounded-lg text-sm font-black shadow-sm">Solo Oggi</button>
                 <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition">Totale Storico</button>
             </div>
+            
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Totale</span><span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span></div>
-                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span><span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span></div>
+                <!-- BOX INCASSI -->
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Netto Reale</span>
+                    <span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span>
+                </div>
                 
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span><span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span></div>
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span><span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span></div>
+                <!-- BOX SCONTI APPLICATI -->
+                <div class="bg-red-50 border border-red-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-red-600 uppercase tracking-wider mb-1">Sconti Applicati</span>
+                    <span id="rep-tot-sconti" class="text-2xl font-black text-red-700">€ 0.00</span>
+                </div>
+                
+                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span>
+                    <span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span>
+                </div>
+                
+                <!-- BOX COPERTI -->
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span>
+                    <span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span>
+                    <span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span>
+                </div>
 
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span><span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span><span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
-            </div>
-            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
-                <div class="max-h-64 overflow-y-auto">
-                    <table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 font-mono text-xs sticky top-0 border-b border-slate-200 shadow-sm"><tr><th class="p-3">PIATTO</th><th class="p-3 text-center">QTA</th><th class="p-3 text-right">INCASSO</th></tr></thead><tbody id="tbl-report-pietanze" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody></table>
+                <!-- BOX METODI PAGAMENTO -->
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm">
+                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span>
+                    <span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span>
+                </div>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm hidden md:block">
+                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span>
+                    <span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span>
                 </div>
             </div>
-            <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest mt-8 mb-3">Ricerca Comande Archiviate</h3>
+            
+            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
+                <div class="max-h-64 overflow-y-auto">
+                    <table class="w-full text-left text-sm"><thead class="bg-slate-50 text-slate-500 font-mono text-xs sticky top-0 border-b border-slate-200 shadow-sm"><tr><th class="p-3">PIATTO</th><th class="p-3 text-center">QTA</th><th class="p-3 text-right">INCASSO LORDO</th></tr></thead><tbody id="tbl-report-pietanze" class="divide-y divide-slate-100 font-mono text-slate-700"></tbody></table>
+                </div>
+            </div>
+            
+            <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest mt-8 mb-3">Ricerca Comande Archiviate (Cronologico)</h3>
             <div class="flex gap-2 mb-4">
                 <input type="text" id="src-tavolo" onkeyup="filtraComandeGUI()" placeholder="Cerca Tavolo" class="flex-1 p-2 bg-white border border-slate-300 rounded-lg text-sm">
                 <button onclick="caricaEParseArchivioComande()" class="bg-indigo-100 text-indigo-700 px-3 rounded-lg font-bold text-xs">🔄 Ricarica File</button>
@@ -692,7 +716,6 @@
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
             div.innerHTML = '';
             
-            // AGGIORNAMENTO STICKY FOOTER E VERIFICA CONTENUTO
             let totaleQtaPietanze = 0;
             let totaleGenerale = totaleCoperto;
 
@@ -714,7 +737,7 @@
                 raggruppati[cat].push({ ...item, totRiga, originalIdx });
             });
 
-            // COMPILAZIONE FOOTER IN TEMPO REALE
+            // STICKY FOOTER
             document.getElementById('foot-coperti').innerText = numPersone;
             document.getElementById('foot-pietanze').innerText = totaleQtaPietanze;
             document.getElementById('foot-totale').innerText = `€ ${totaleGenerale.toFixed(2)}`;
@@ -847,7 +870,7 @@
         async function apriSezioneCucina() { apriSezione('sec-cucina'); await caricaComandeAttive(); }
         async function apriSezioneCassa() { apriSezione('sec-cassa'); await caricaComandeAttive(); }
 
-        // Funzione helper per applicare lo sconto in tempo reale nella cassa
+        // SCONTI
         function applicaSconto(idComanda, tipoSconto) {
             const inputSconto = document.getElementById(`sconto-input-${idComanda}`).value;
             const comanda = comandeAttive.find(c => c.id === idComanda);
@@ -880,7 +903,7 @@
                 </div>
             `;
             
-            document.getElementById(`lbl-sconto-${idComanda}`).innerText = `Sconto Applicato: ${tipoSconto === 'percentuale' ? valSconto+'%' : '€ '+valSconto.toFixed(2)}`;
+            document.getElementById(`lbl-sconto-${idComanda}`).innerText = `Sconto: ${tipoSconto === 'percentuale' ? valSconto+'%' : '€ '+valSconto.toFixed(2)}`;
             document.getElementById(`lbl-sconto-${idComanda}`).classList.remove('hidden');
         }
 
@@ -941,9 +964,9 @@
                                 </div>
                                 
                                 <div class="bg-slate-50 border border-slate-200 p-2 rounded-lg mb-3 flex gap-2">
-                                    <input type="number" id="sconto-input-${c.id}" placeholder="Sconto..." class="flex-1 p-2 border border-slate-300 rounded text-sm text-center font-bold">
-                                    <button onclick="applicaSconto('${c.id}', 'importo')" class="bg-slate-800 text-white px-3 rounded font-bold text-xs" title="Sconto in Euro">€</button>
-                                    <button onclick="applicaSconto('${c.id}', 'percentuale')" class="bg-slate-800 text-white px-3 rounded font-bold text-xs" title="Sconto in Percentuale">%</button>
+                                    <input type="number" id="sconto-input-${c.id}" placeholder="Sconto..." class="flex-1 p-2 border border-slate-300 rounded text-sm text-center font-bold outline-none">
+                                    <button onclick="applicaSconto('${c.id}', 'importo')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs" title="Sconto in Euro">€</button>
+                                    <button onclick="applicaSconto('${c.id}', 'percentuale')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs" title="Sconto in Percentuale">%</button>
                                 </div>
 
                                 <select id="pag-${c.id}" class="w-full mb-3 p-3 bg-white border border-slate-300 rounded-lg font-bold text-sm text-slate-700 outline-none shadow-sm">
@@ -1008,7 +1031,7 @@
             txtCloud += `---------------------------\n`;
             txtCloud += `TOTALE LORDO: € ${totaleGenLordo.toFixed(2)}\n`;
             if(scontoTipo) {
-                const testoSc = scontoTipo === 'percentuale' ? `Sconto (${scontoVal}%)` : `Sconto Flessibile`;
+                const testoSc = scontoTipo === 'percentuale' ? `Sconto (${scontoVal}%)` : `Sconto Applicato`;
                 const valoreScEuro = totaleGenLordo - totaleNetto;
                 txtCloud += `${testoSc}: -€ ${valoreScEuro.toFixed(2)}\n`;
             }
@@ -1017,7 +1040,8 @@
             if(comanda.note) txtCloud += `\nNOTE GENERALI: ${comanda.note}\n`;
             
             const timestamp = Date.now();
-            await salvaFileSuGitHub(`archivio_comande/Comanda_Tav${comanda.tavolo}_${comanda.data}_${timestamp}.txt`, txtCloud, `Archiviata Comanda Tavolo ${comanda.tavolo}`);
+            // Salvo con il timestamp invertito nel nome per facilitare l'ordinamento decrescente
+            await salvaFileSuGitHub(`archivio_comande/Comanda_${timestamp}_Tav${comanda.tavolo}_${comanda.data}.txt`, txtCloud, `Archiviata Comanda Tavolo ${comanda.tavolo}`);
             
             alert(`Comanda incassata (${pagamento}) e archiviata con successo!`);
             renderizzaDashboardCucinaCassa();
@@ -1060,20 +1084,54 @@
             const regexArticoli = /([0-9]+)\s*x\s*(.+?)\s*\(/g; let match;
             while ((match = regexArticoli.exec(text)) !== null) { articoli.push({ qta: parseInt(match[1]), desc: match[2].trim() }); }
             
+            let lordoMatch = text.match(/TOTALE LORDO:\s*€\s*([0-9\.]+)/);
+            let lordo = lordoMatch ? parseFloat(lordoMatch[1]) : null;
+
             let nettoMatch = text.match(/TOTALE INCASSATO:\s*€\s*([0-9\.]+)/);
             let netto = nettoMatch ? parseFloat(nettoMatch[1]) : null;
+            
+            let scontoInEuro = 0;
+            if (lordo !== null && netto !== null) {
+                scontoInEuro = lordo - netto;
+            }
 
-            archivioComandeParsed.push({ filename, tavolo, persone, cameriere, pagamento, data, articoli, testoCompleto: text, totaleNettoSc: netto });
+            // Aggiungiamo un parsing "grezzo" del timestamp dal nome file per ordinare cronologicamente
+            let ts = 0;
+            const nameParts = filename.split('_');
+            if(nameParts.length > 1) {
+                const possibileTs = parseInt(nameParts[1]);
+                if(!isNaN(possibileTs) && possibileTs > 100000) ts = possibileTs;
+            }
+
+            archivioComandeParsed.push({ 
+                filename, tavolo, persone, cameriere, pagamento, data, articoli, 
+                testoCompleto: text, totaleNettoSc: netto, scontoApplicato: scontoInEuro, timestamp: ts 
+            });
         }
 
         function filtraComandeGUI() {
             const srcTav = document.getElementById('src-tavolo').value.trim().toLowerCase();
             const divLista = document.getElementById('lista-ricerca-comande'); divLista.innerHTML = '';
-            const filtrate = archivioComandeParsed.filter(c => !srcTav || c.tavolo.toLowerCase().includes(srcTav));
-            if(filtrate.length === 0) return divLista.innerHTML = '<div class="text-center text-sm font-bold text-slate-400 py-4">Nessun file.</div>';
             
-            filtrate.reverse().forEach((c) => {
-                divLista.innerHTML += `<div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-white border border-slate-200 hover:border-indigo-300 p-3 rounded-xl cursor-pointer flex justify-between items-center shadow-sm"><span class="font-bold text-indigo-700">Tav. ${c.tavolo} <span class="text-xs text-slate-400 ml-1">(${c.data})</span></span><span class="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">${c.pagamento}</span></div>`;
+            // ORDINE CRONOLOGICO INVERSO (più recenti in alto)
+            let filtrate = archivioComandeParsed.filter(c => !srcTav || c.tavolo.toLowerCase().includes(srcTav));
+            filtrate.sort((a, b) => b.timestamp - a.timestamp);
+
+            if(filtrate.length === 0) return divLista.innerHTML = '<div class="text-center text-sm font-bold text-slate-400 py-4">Nessun file trovato.</div>';
+            
+            filtrate.forEach((c) => {
+                divLista.innerHTML += `
+                    <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-white border border-slate-200 hover:border-indigo-300 p-3 rounded-xl cursor-pointer flex justify-between items-center shadow-sm">
+                        <div>
+                            <span class="font-bold text-indigo-700">Tav. ${c.tavolo}</span> 
+                            <span class="text-[10px] text-slate-400 ml-1">(${c.data})</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            ${c.scontoApplicato > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 rounded-full font-bold">Sc. € ${c.scontoApplicato.toFixed(2)}</span>` : ''}
+                            <span class="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">${c.pagamento}</span>
+                        </div>
+                    </div>
+                `;
             });
         }
 
@@ -1100,6 +1158,7 @@
             
             let incassoTotale = 0, incassoContanti = 0, incassoCarta = 0, totaleQtaPietanze = 0;
             let totalePersone = 0, totaleIncassoCoperti = 0;
+            let totaleScontiPersi = 0; // Tracciamento nuovi sconti
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
@@ -1121,14 +1180,17 @@
                     pietanzeCountMap[art.desc].incasso += totaleArt; 
                 });
 
+                // Troviamo il netto per i bilanci reali
                 const incassoRealeComanda = c.totaleNettoSc !== null ? c.totaleNettoSc : totaleLordoComanda;
                 incassoTotale += incassoRealeComanda;
+                totaleScontiPersi += c.scontoApplicato; // Aggiungo lo sconto totale
 
                 if(c.pagamento.includes('POS') || c.pagamento.includes('Carta')) incassoCarta += incassoRealeComanda;
                 else if(c.pagamento.includes('CONTANTI') || c.pagamento.includes('Contanti')) incassoContanti += incassoRealeComanda;
             });
 
             document.getElementById('rep-tot-incasso').innerText = `€ ${incassoTotale.toFixed(2)}`;
+            document.getElementById('rep-tot-sconti').innerText = `€ ${totaleScontiPersi.toFixed(2)}`;
             document.getElementById('rep-tot-pietanze').innerText = totaleQtaPietanze;
             document.getElementById('rep-tot-coperti').innerText = totalePersone;
             document.getElementById('rep-incasso-coperti').innerText = `€ ${totaleIncassoCoperti.toFixed(2)}`;
