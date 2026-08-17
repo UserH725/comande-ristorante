@@ -14,7 +14,7 @@
         "prezzo": "2.00",
         "nota": "",
         "uscita": 1,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -22,7 +22,7 @@
         "prezzo": "4.00",
         "nota": "heineken",
         "uscita": 1,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -30,7 +30,7 @@
         "prezzo": "11.00",
         "nota": "no cozze",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -38,7 +38,7 @@
         "prezzo": "8.50",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       }
     ]
   }
