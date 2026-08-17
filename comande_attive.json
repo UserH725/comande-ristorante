@@ -54,7 +54,7 @@
         "prezzo": "13.00",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -62,7 +62,7 @@
         "prezzo": "3.50",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -70,7 +70,7 @@
         "prezzo": "3.00",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
