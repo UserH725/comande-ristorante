@@ -1,1 +1,77 @@
-[]
+[
+  {
+    "id": "QRP5",
+    "tavolo": "4",
+    "persone": "2",
+    "cameriere": "Asia (DIRETTRICE RISTORANTE)",
+    "note": "",
+    "data": "17-08-2026",
+    "ora": "18:40",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Acqua Frizzante 1 lt",
+        "prezzo": "2.00",
+        "nota": "",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Vino rosso ½ litro",
+        "prezzo": "5.50",
+        "nota": "",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Vino bianco frizzantino ½ litro",
+        "prezzo": "5.50",
+        "nota": "",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata di mare",
+        "prezzo": "11.00",
+        "nota": "",
+        "uscita": 2,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Cocktail di gamberi",
+        "prezzo": "8.00",
+        "nota": "",
+        "uscita": 2,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 2,
+        "desc": "Frittura mista",
+        "prezzo": "13.00",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata mista",
+        "prezzo": "3.50",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Insalata verde",
+        "prezzo": "3.00",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      }
+    ]
+  }
+]
