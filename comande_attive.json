@@ -71,6 +71,22 @@
         "nota": "",
         "uscita": 3,
         "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Cheesecake fragola",
+        "prezzo": "5.00",
+        "nota": "",
+        "uscita": 4,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Sorbetto al limone",
+        "prezzo": "5.00",
+        "nota": "",
+        "uscita": 4,
+        "stato": "in_attesa"
       }
     ]
   }
