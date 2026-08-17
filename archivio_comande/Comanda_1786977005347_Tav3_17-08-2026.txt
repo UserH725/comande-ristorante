@@ -1,0 +1,16 @@
+Tavolo: 3
+Coperti: 1
+Cameriere: Asia (DIRETTRICE RISTORANTE)
+Stato: Contanti
+Data: 17-08-2026
+
+1 x Bibite lattina (€ 4.00) = € 4.00
+2 x Acqua Nat. 1 lt (€ 2.00) = € 4.00
+1 x Pennette al salmone (€ 9,50) = € 9.00
+1 x Insalata verde (€ 3.00) = € 3.00
+1 x Patate fritte (€ 3.50) = € 3.50
+1 x Cheesecake caramello (€ 5.00) = € 5.00
+1 x Coperto (€ 2.00) = € 2.00
+---------------------------
+TOTALE LORDO: € 30.50
+TOTALE INCASSATO: € 30.50
