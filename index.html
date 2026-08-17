@@ -33,6 +33,7 @@
             .text-right { text-align: right !important; }
             .text-center { text-align: center !important; }
             .bold { font-weight: bold !important; }
+            .uscita-header { font-size: 14px; font-weight: bold; text-align: center; border-bottom: 2px solid black; margin-top: 10px; padding: 4px 0; background-color: #f0f0f0; }
             .cat-header { font-weight: bold; text-transform: uppercase; padding-top: 6px !important; padding-bottom: 2px !important; }
             .unit-price { font-size: 9px; color: #333; font-weight: normal; }
         }
@@ -60,7 +61,7 @@
         <!-- MENU PRINCIPALE AGGIORNATO (FLUSSO LOGICO)                   -->
         <!-- ============================================================ -->
         <div id="sec-menu-principale" class="space-y-3 max-w-xl mx-auto">
-            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro Operativo</p>
+            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro</p>
             
             <button onclick="apriSezione('sec-nuova-comanda')" class="w-full text-left p-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl border border-indigo-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[1]</span> 
@@ -69,7 +70,7 @@
 
             <button onclick="apriSezione('sec-cucina')" class="w-full text-left p-4 bg-orange-500 hover:bg-orange-600 rounded-xl border border-orange-400 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[2]</span> 
-                <span class="text-lg">👨‍🍳 Cucina (Da Preparare) <span id="badge-cucina" class="bg-white text-orange-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
+                <span class="text-lg">👨‍🍳 Gestione Cucina <span id="badge-cucina" class="bg-white text-orange-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
             </button>
 
             <button onclick="apriSezione('sec-consegne')" class="w-full text-left p-4 bg-cyan-500 hover:bg-cyan-600 rounded-xl border border-cyan-400 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
@@ -79,7 +80,7 @@
 
             <button onclick="apriSezione('sec-cassa')" class="w-full text-left p-4 bg-emerald-600 hover:bg-emerald-700 rounded-xl border border-emerald-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[4]</span> 
-                <span class="text-lg">💶 Cassa (Incassa Tavoli) <span id="badge-cassa" class="bg-white text-emerald-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
+                <span class="text-lg">💶 Gestione Cassa (Incassi) <span id="badge-cassa" class="bg-white text-emerald-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
             </button>
 
             <p class="text-xs font-bold text-slate-400 mt-6 mb-3 uppercase tracking-wider text-center border-t border-slate-200 pt-4">Amministrazione</p>
@@ -111,20 +112,18 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
             </div>
 
-            <!-- MAPPA TAVOLI VISIVA -->
             <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-4 text-center">👇 Seleziona un Tavolo 👇</label>
                 <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4"></div>
             </div>
 
-            <!-- BANNER MODIFICA ATTIVA -->
             <div id="banner-modifica" class="bg-orange-100 border border-orange-300 text-orange-900 p-4 rounded-xl mb-5 hidden flex flex-col sm:flex-row justify-between items-center shadow-sm gap-3">
                 <span class="font-bold text-sm">⚠️ Stai facendo un'aggiunta al <span class="font-black text-lg underline">Tavolo <span id="modifica-tavolo"></span></span></span>
                 <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla Aggiunta</button>
             </div>
             
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tavolo Sel.</label>
                         <input type="text" id="cmd-tavolo" readonly placeholder="Mappa" class="w-full p-2.5 bg-slate-200 border border-slate-300 rounded-lg text-lg font-black text-center text-slate-600 outline-none cursor-not-allowed">
@@ -138,6 +137,17 @@
                         <select id="cmd-cameriere" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none h-full">
                             <option value="">[ Seleziona Cameriere ]</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- SELETTORE USCITA (PORTATA) -->
+                <div class="mb-5 bg-indigo-50 p-3 rounded-xl border border-indigo-200 shadow-sm">
+                    <label class="block text-xs font-black text-indigo-700 uppercase tracking-widest mb-2 text-center">⏱️ Seleziona l'Uscita (Portata)</label>
+                    <div class="flex gap-2 justify-center" id="box-uscite">
+                        <button onclick="impostaUscita(1)" id="btn-uscita-1" class="flex-1 py-2 rounded-lg font-black text-sm bg-indigo-600 text-white shadow-md border border-indigo-700 transition">1° Uscita</button>
+                        <button onclick="impostaUscita(2)" id="btn-uscita-2" class="flex-1 py-2 rounded-lg font-bold text-sm bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-100 transition">2° Uscita</button>
+                        <button onclick="impostaUscita(3)" id="btn-uscita-3" class="flex-1 py-2 rounded-lg font-bold text-sm bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-100 transition">3° Uscita</button>
+                        <button onclick="impostaUscita(4)" id="btn-uscita-4" class="flex-1 py-2 rounded-lg font-bold text-sm bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-100 transition">4° Uscita</button>
                     </div>
                 </div>
 
@@ -156,14 +166,9 @@
                     </div>
                 </div>
 
-                <!-- ANTEPRIMA COMANDA CON TASTI NOTA -->
                 <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
                     <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-indigo-200">SCONTRINO</div>
-                    <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
-                        <span>QTA | ARTICOLO (Usa ✎ per varianti)</span>
-                        <span>PREZZO</span>
-                    </div>
-                    <div id="cmd-lista-articoli" class="space-y-1 text-slate-700"></div>
+                    <div id="cmd-lista-articoli" class="space-y-1 text-slate-700 mt-2"></div>
                 </div>
 
                 <div class="max-w-xl mx-auto space-y-4">
@@ -176,14 +181,13 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- [2] GESTIONE CUCINA (In Attesa)                              -->
+        <!-- [2] GESTIONE CUCINA                                          -->
         <!-- ============================================================ -->
         <div id="sec-cucina" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-2xl font-black text-orange-600">👨‍🍳 Gestione Cucina</h2>
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
-            
             <div class="flex justify-between items-center mb-4">
                 <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Da Preparare</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-orange-100 text-orange-700 hover:bg-orange-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
@@ -192,14 +196,13 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- [3] GESTIONE CONSEGNE SALA (Pronti)                          -->
+        <!-- [3] GESTIONE CONSEGNE SALA                                   -->
         <!-- ============================================================ -->
         <div id="sec-consegne" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-2xl font-black text-cyan-600">🛎️ Sala / Consegne</h2>
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
-            
             <div class="flex justify-between items-center mb-4">
                 <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Piatti Pronti al Pass</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-cyan-100 text-cyan-700 hover:bg-cyan-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
@@ -215,12 +218,10 @@
                 <h2 class="text-2xl font-black text-emerald-600">💶 Gestione Cassa</h2>
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
-            
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tutti i Tavoli Aperti</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tavoli Aperti</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
-
             <div id="grid-cassa" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
@@ -294,42 +295,13 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                <!-- BOX INCASSI -->
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Netto</span>
-                    <span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span>
-                </div>
-                
-                <!-- BOX SCONTI APPLICATI -->
-                <div class="bg-red-50 border border-red-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-red-600 uppercase tracking-wider mb-1">Sconti Concessi</span>
-                    <span id="rep-tot-sconti" class="text-2xl font-black text-red-700">€ 0.00</span>
-                </div>
-                
-                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span>
-                    <span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span>
-                </div>
-                
-                <!-- BOX COPERTI -->
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span>
-                    <span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span>
-                </div>
-                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span>
-                    <span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span>
-                </div>
-
-                <!-- BOX METODI PAGAMENTO -->
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span>
-                    <span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span>
-                </div>
-                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm hidden md:block">
-                    <span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span>
-                    <span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span>
-                </div>
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Netto</span><span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span></div>
+                <div class="bg-red-50 border border-red-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-red-600 uppercase tracking-wider mb-1">Sconti Concessi</span><span id="rep-tot-sconti" class="text-2xl font-black text-red-700">€ 0.00</span></div>
+                <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span><span id="rep-tot-pietanze" class="text-2xl font-black text-indigo-700">0</span></div>
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span><span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span></div>
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span><span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span></div>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span><span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
+                <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm hidden md:block"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span><span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
             </div>
             
             <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6 bg-white">
@@ -399,13 +371,18 @@
         let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
         let menuPietanze = [];
         let listaCamerieri = [];
-        let comandaCorrente = []; // { qta, desc, prezzo, nota, stato: 'in_attesa'|'pronto'|'consegnato'|undefined }
+        
+        // NUOVO CAMPO `uscita` IN OGNI ARTICOLO DELLA COMANDA
+        let comandaCorrente = []; 
         let comandeAttive = []; 
         let archivioComandeParsed = [];
         let htmlComandaSelezionata = "";
         
         let idComandaInModifica = null; 
         let idPietanzaInModifica = null;
+
+        // VARIABILE PER GESTIRE L'USCITA (PORTATA) ATTUALE SELEZIONATA DAL CAMERIERE
+        let uscitaCorrenteSelezionata = 1;
 
         window.onload = function() {
             const token = localStorage.getItem("gh_token");
@@ -445,11 +422,12 @@
             document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
             document.getElementById('sec-menu-principale').classList.remove('hidden');
             document.getElementById('sticky-footer').classList.add('translate-y-full');
+            
             if(comandeAttive.length === 0) caricaComandeAttive(); 
             else aggiornaBadges(
                 comandeAttive.some(c => c.articoli.some(a=>a.stato==='in_attesa')) ? 1 : 0, 
                 comandeAttive.some(c => c.articoli.some(a=>a.stato==='pronto')) ? 1 : 0, 
-                comandeAttive.length // In Cassa mostriamo tutte per sicurezza
+                comandeAttive.length
             );
         }
 
@@ -583,7 +561,7 @@
 
                 if (cmdMenuCategorizzato && piattiCat.length > 0) {
                     let btnsHtml = piattiCat.map(p => {
-                        let totQ = 0; comandaCorrente.forEach(i => { if(i.desc === p.desc) totQ += parseInt(i.qta); });
+                        let totQ = 0; comandaCorrente.forEach(i => { if(i.desc === p.desc && i.uscita === uscitaCorrenteSelezionata) totQ += parseInt(i.qta); });
                         const badge = totQ > 0 ? `<span class="bg-orange-500 text-white font-black px-2 py-0.5 rounded-full text-[10px] ml-2 shadow-sm">${totQ}</span>` : '';
                         return `<button onclick="selezionaEAggiungiRapido('${p.desc.replace(/'/g, "\\'")}', '${p.prezzo}')" class="w-full text-left bg-white hover:bg-indigo-50 border border-slate-200 p-2.5 rounded-lg text-xs transition shadow-sm flex justify-between items-center"><div class="flex items-center"><span class="font-bold text-slate-700 truncate">${p.desc}</span>${badge}</div><span class="text-emerald-600 font-mono font-bold ml-1">€ ${p.prezzo}</span></button>`;
                     }).join('');
@@ -615,9 +593,25 @@
         }
 
         /* --------------------------------------------------------
-           [1] MAPPA TAVOLI E NUOVA COMANDA
+           [1] MAPPA TAVOLI E NUOVA COMANDA CON GESTIONE USCITE
         -------------------------------------------------------- */
         
+        function impostaUscita(num) {
+            uscitaCorrenteSelezionata = num;
+            
+            // Aggiorno la grafica dei bottoni Uscite
+            for(let i=1; i<=4; i++) {
+                const btn = document.getElementById(`btn-uscita-${i}`);
+                if(!btn) continue;
+                if(i === num) {
+                    btn.className = "flex-1 py-2 rounded-lg font-black text-sm bg-indigo-600 text-white shadow-md border border-indigo-700 transition";
+                } else {
+                    btn.className = "flex-1 py-2 rounded-lg font-bold text-sm bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-100 transition";
+                }
+            }
+            renderizzaMenuGUI(); // Per aggiornare i badge quantità in base all'uscita
+        }
+
         function resetModuloComanda(mantieniMappa = false) {
             idComandaInModifica = null;
             comandaCorrente = [];
@@ -628,6 +622,8 @@
             document.getElementById('banner-modifica').classList.add('hidden');
             document.getElementById('area-comanda').classList.add('opacity-50', 'pointer-events-none');
             
+            impostaUscita(1); // Default uscita 1
+
             const btn = document.getElementById('btn-invia-cucina');
             btn.innerHTML = '👨‍🍳 Genera Codice, Stampa & Invia in Cucina';
             btn.className = 'w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2';
@@ -670,9 +666,7 @@
             document.getElementById('cmd-tavolo').value = num;
             document.getElementById('cmd-persone').value = posti; 
             document.getElementById('banner-modifica').classList.add('hidden');
-            
             document.getElementById('area-comanda').classList.remove('opacity-50', 'pointer-events-none');
-            
             renderizzaComandaGUI();
             window.scrollTo({ top: document.getElementById('area-comanda').offsetTop - 20, behavior: 'smooth' });
         }
@@ -688,6 +682,7 @@
             document.getElementById('cmd-note').value = c.note || '';
             
             comandaCorrente = c.articoli.map(a => ({...a}));
+            impostaUscita(1);
             
             document.getElementById('modifica-tavolo').innerText = c.tavolo;
             document.getElementById('banner-modifica').classList.remove('hidden');
@@ -703,9 +698,9 @@
         }
 
         function selezionaEAggiungiRapido(desc, prezzo) {
-            // Aggrega SOLO se NON ha uno stato (quindi è nuovo) e non ha note speciali
-            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo && (!i.nota || i.nota === '') && (!i.stato));
-            if(ext) ext.qta += 1; else comandaCorrente.push({ qta: 1, desc, prezzo, nota: '' });
+            // Aggiunta vincolata all'Uscita (portata)
+            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo && (!i.nota || i.nota === '') && (!i.stato) && i.uscita === uscitaCorrenteSelezionata);
+            if(ext) ext.qta += 1; else comandaCorrente.push({ qta: 1, desc, prezzo, nota: '', uscita: uscitaCorrenteSelezionata });
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
         
@@ -713,8 +708,8 @@
             const qta = parseInt(document.getElementById('cmd-qta').value) || 1; const desc = document.getElementById('cmd-desc').value.trim();
             if(!desc) return;
             const p = document.getElementById('cmd-prezzo-manuale').value.trim() ? normalizzaPrezzo(document.getElementById('cmd-prezzo-manuale').value.trim()) : trovaInfoPiatto(desc).prezzo;
-            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p && (!i.nota || i.nota === '') && (!i.stato));
-            if(ext) ext.qta += qta; else comandaCorrente.push({ qta, desc, prezzo: p, nota: '' });
+            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p && (!i.nota || i.nota === '') && (!i.stato) && i.uscita === uscitaCorrenteSelezionata);
+            if(ext) ext.qta += qta; else comandaCorrente.push({ qta, desc, prezzo: p, nota: '', uscita: uscitaCorrenteSelezionata });
             document.getElementById('cmd-desc').value = ''; document.getElementById('cmd-prezzo-manuale').value = ''; document.getElementById('cmd-qta').value = '1';
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
@@ -766,14 +761,18 @@
                 return;
             }
 
+            // Mappa annidata: raggruppati[uscita][categoria]
             let raggruppati = {}; 
             comandaCorrente.forEach((item, originalIdx) => {
                 const cat = trovaInfoPiatto(item.desc).tipo;
-                if (!raggruppati[cat]) raggruppati[cat] = [];
+                const u = item.uscita || 1; // Default a 1 per vecchie comande
+                if(!raggruppati[u]) raggruppati[u] = {};
+                if (!raggruppati[u][cat]) raggruppati[u][cat] = [];
+                
                 const totRiga = parseFloat(item.prezzo) * parseInt(item.qta);
                 totaleGenerale += totRiga;
                 totaleQtaPietanze += parseInt(item.qta);
-                raggruppati[cat].push({ ...item, totRiga, originalIdx });
+                raggruppati[u][cat].push({ ...item, totRiga, originalIdx });
             });
 
             // STICKY FOOTER
@@ -781,37 +780,41 @@
             document.getElementById('foot-pietanze').innerText = totaleQtaPietanze;
             document.getElementById('foot-totale').innerText = `€ ${totaleGenerale.toFixed(2)}`;
 
-            ORDINE_CATEGORIE.forEach(cat => {
-                if (raggruppati[cat] && raggruppati[cat].length > 0) {
-                    div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
-                    raggruppati[cat].forEach(item => {
-                        
-                        let labelStato = '';
-                        if (item.stato === 'in_attesa') labelStato = '<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-orange-200">⏳ Cucina</span>';
-                        else if (item.stato === 'pronto') labelStato = '<span class="text-[9px] bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-cyan-200">🛎️ Sala</span>';
-                        else if (item.stato === 'consegnato') labelStato = '<span class="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-emerald-200">✅ Servito</span>';
-                        else labelStato = '<span class="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-indigo-200">🆕 Nuovo</span>';
+            // Renderizza iterando prima per USCITA e poi per CATEGORIA
+            Object.keys(raggruppati).sort((a,b) => parseInt(a) - parseInt(b)).forEach(uscita => {
+                div.innerHTML += `<div class="bg-indigo-600 text-white font-black text-[11px] uppercase tracking-widest mt-5 mb-2 py-1 px-3 rounded-lg text-center shadow-sm">${uscita}° Uscita</div>`;
+                
+                ORDINE_CATEGORIE.forEach(cat => {
+                    if (raggruppati[uscita][cat] && raggruppati[uscita][cat].length > 0) {
+                        div.innerHTML += `<div class="text-indigo-500 font-bold text-[10px] uppercase tracking-widest mt-2 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
+                        raggruppati[uscita][cat].forEach(item => {
+                            let labelStato = '';
+                            if (item.stato === 'in_attesa') labelStato = '<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-orange-200">⏳ Cucina</span>';
+                            else if (item.stato === 'pronto') labelStato = '<span class="text-[9px] bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-cyan-200">🛎️ Sala</span>';
+                            else if (item.stato === 'consegnato') labelStato = '<span class="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-emerald-200">✅ Servito</span>';
+                            else labelStato = '<span class="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-indigo-200 animate-pulse">🆕 Nuovo</span>';
 
-                        div.innerHTML += `
-                            <div class="flex justify-between items-start text-slate-800 text-xs py-1.5 border-b border-slate-50 last:border-0">
-                                <div class="flex flex-col pr-2">
-                                    <span class="flex items-center flex-wrap"><b class="text-slate-900 mr-1">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px] ml-1">(€ ${item.prezzo} cad.)</span>`:''} ${labelStato}</span>
-                                    ${item.nota ? `<span class="text-orange-500 text-[10.5px] font-bold italic mt-0.5">↳ Nota: ${item.nota}</span>` : ''}
+                            div.innerHTML += `
+                                <div class="flex justify-between items-start text-slate-800 text-xs py-1.5 border-b border-slate-50 last:border-0">
+                                    <div class="flex flex-col pr-2">
+                                        <span class="flex items-center flex-wrap"><b class="text-slate-900 mr-1">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px] ml-1">(€ ${item.prezzo} cad.)</span>`:''} ${labelStato}</span>
+                                        ${item.nota ? `<span class="text-orange-500 text-[10.5px] font-bold italic mt-0.5">↳ Nota: ${item.nota}</span>` : ''}
+                                    </div>
+                                    <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
+                                        <span class="text-slate-800 font-bold pr-1 sm:pr-2">€ ${item.totRiga.toFixed(2)}</span>
+                                        <button onclick="aggiungiNotaRiga(${item.originalIdx})" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm" title="Aggiungi Nota">✎</button>
+                                        <button onclick="decrementaRigaComanda(${item.originalIdx})" class="bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">-</button>
+                                        <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">✕</button>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
-                                    <span class="text-slate-800 font-bold pr-1 sm:pr-2">€ ${item.totRiga.toFixed(2)}</span>
-                                    <button onclick="aggiungiNotaRiga(${item.originalIdx})" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm" title="Aggiungi Nota">✎</button>
-                                    <button onclick="decrementaRigaComanda(${item.originalIdx})" class="bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">-</button>
-                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">✕</button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
+                            `;
+                        });
+                    }
+                });
             });
 
             if(numPersone > 0) {
-                div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div><div class="flex justify-between items-center text-slate-800 text-xs py-1.5"><span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00)</span></span><span class="text-slate-800 font-bold pr-28">€ ${totaleCoperto.toFixed(2)}</span></div>`;
+                div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-6 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div><div class="flex justify-between items-center text-slate-800 text-xs py-1.5"><span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00)</span></span><span class="text-slate-800 font-bold pr-28">€ ${totaleCoperto.toFixed(2)}</span></div>`;
             }
             div.innerHTML += `<div class="mt-5 pt-3 border-t-2 border-slate-300 flex justify-between items-center font-black"><span class="text-slate-600">TOTALE:</span><span class="text-emerald-600 text-xl">€ ${totaleGenerale.toFixed(2)}</span></div>`;
         }
@@ -853,7 +856,6 @@
             }
 
             if(isUpdate && nuoviArticoli.length === 0) {
-                // Hanno solo modificato persone, note o stornato. Niente stampa per la cucina.
                 comandaCorrente.forEach(a => { if(!a.stato) a.stato = 'in_attesa'; });
                 await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), commitMsg);
                 alert("Modifiche salvate con successo. (Nessuna nuova pietanza da stampare per la cucina)");
@@ -861,19 +863,17 @@
                 return;
             }
 
-            // STAMPA SOLO I NUOVI ARTICOLI
             const intestazioneOrg = isUpdate ? `AGGIUNTA TAV. ${tavolo}` : `COMANDA [#${idCodice}]`;
             const intestazioneCucina = isUpdate ? `AGGIUNTA CUCINA TAV. ${tavolo}` : `STAMPA CUCINA [#${idCodice}]`;
 
-            const htmlOriginale = generaHTMLComandaTicket(intestazioneOrg, tavolo, persone, cameriere, "IN ATTESA", note, data, ora, nuoviArticoli, isUpdate);
-            const htmlCucina = generaHTMLComandaTicket(intestazioneCucina, tavolo, persone, cameriere, "IN ATTESA", note, data, ora, nuoviArticoli, isUpdate);
+            const htmlOriginale = generaHTMLComandaTicket(intestazioneOrg, tavolo, persone, cameriere, note, data, ora, nuoviArticoli, isUpdate);
+            const htmlCucina = generaHTMLComandaTicket(intestazioneCucina, tavolo, persone, cameriere, note, data, ora, nuoviArticoli, isUpdate);
             
             document.getElementById('printable-area').innerHTML = `<table class="page-layout"><tr><td class="ticket-half" style="width: 48%; padding-right: 20px;">${htmlOriginale}</td><td class="cut-line-vertical" style="width: 4%;"></td><td class="ticket-half" style="width: 48%; padding-left: 20px;">${htmlCucina}</td></tr></table>`;
             
             setTimeout(async () => {
                 window.print();
 
-                // Dopo la stampa, passiamo lo stato a 'in_attesa'
                 const targetComanda = comandeAttive.find(c => c.id === idCodice);
                 if(targetComanda) {
                     targetComanda.articoli.forEach(a => { if(!a.stato) a.stato = 'in_attesa'; });
@@ -886,7 +886,8 @@
             }, 500);
         }
 
-        function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, statoPagamentoTesto, note, data, ora, articoliArray, isUpdate = false) {
+        // TICKET DI STAMPA CON SUPPORTO "USCITE"
+        function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, note, data, ora, articoliArray, isUpdate = false) {
             const numPersone = parseInt(persone) || 0; 
             const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
             
@@ -897,29 +898,36 @@
 
             articoliArray.forEach(item => {
                 const cat = trovaInfoPiatto(item.desc).tipo;
-                if (!raggruppati[cat]) raggruppati[cat] = [];
+                const u = item.uscita || 1;
+                if(!raggruppati[u]) raggruppati[u] = {};
+                if (!raggruppati[u][cat]) raggruppati[u][cat] = [];
                 const totRiga = parseFloat(item.prezzo) * parseInt(item.qta);
                 totaleGenerale += totRiga;
-                raggruppati[cat].push({ ...item, totRiga });
+                raggruppati[u][cat].push({ ...item, totRiga });
             });
 
-            ORDINE_CATEGORIE.forEach(cat => {
-                if (raggruppati[cat] && raggruppati[cat].length > 0) {
-                    html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
-                    raggruppati[cat].forEach(item => {
-                        html += `
-                            <tr>
-                                <td class="text-center bold">${item.qta}</td>
-                                <td>
-                                    ${item.desc}
-                                    ${item.qta>1 ? `<br><span class="unit-price">(€ ${parseFloat(item.prezzo).toFixed(2)} cad.)</span>` : ''}
-                                    ${item.nota ? `<br><span style="font-size: 10px; font-weight: bold; font-style: italic;">↳ Nota: ${item.nota}</span>` : ''}
-                                </td>
-                                <td class="text-right">€ ${item.totRiga.toFixed(2)}</td>
-                            </tr>
-                        `;
-                    });
-                }
+            // Iterate by Uscita first
+            Object.keys(raggruppati).sort((a,b) => parseInt(a) - parseInt(b)).forEach(uscita => {
+                html += `<tr><td colspan="3" class="uscita-header">${uscita}° USCITA</td></tr>`;
+                
+                ORDINE_CATEGORIE.forEach(cat => {
+                    if (raggruppati[uscita][cat] && raggruppati[uscita][cat].length > 0) {
+                        html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
+                        raggruppati[uscita][cat].forEach(item => {
+                            html += `
+                                <tr>
+                                    <td class="text-center bold">${item.qta}</td>
+                                    <td>
+                                        ${item.desc}
+                                        ${item.qta>1 ? `<br><span class="unit-price">(€ ${parseFloat(item.prezzo).toFixed(2)} cad.)</span>` : ''}
+                                        ${item.nota ? `<br><span style="font-size: 10px; font-weight: bold; font-style: italic;">↳ Nota: ${item.nota}</span>` : ''}
+                                    </td>
+                                    <td class="text-right">€ ${item.totRiga.toFixed(2)}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+                });
             });
 
             if(!isUpdate && numPersone > 0) {
@@ -1018,12 +1026,25 @@
                     <div class="text-xs text-slate-500 mb-2 font-semibold">Cam: ${c.cameriere} &nbsp;|&nbsp; Ore: ${c.ora} &nbsp;|&nbsp; Coperti: ${c.persone}</div>
                 `;
 
+                // Helper rendering items per Cucina/Sala grouped by Uscita
+                const renderItemsByUscita = (itemsArray) => {
+                    let usciteMap = {};
+                    itemsArray.forEach(a => { const u = a.uscita||1; if(!usciteMap[u]) usciteMap[u] = []; usciteMap[u].push(a); });
+                    let resHtml = '';
+                    Object.keys(usciteMap).sort().forEach(u => {
+                        resHtml += `<div class="font-black text-indigo-500 text-[10px] uppercase mt-2 border-b border-slate-100 pb-0.5">${u}° Uscita</div>`;
+                        usciteMap[u].forEach(a => {
+                            resHtml += `<div class="flex flex-col py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`;
+                        });
+                    });
+                    return resHtml;
+                };
+
                 // 1. DASHBOARD CUCINA
                 if(itemsAttesa.length > 0 && gridCucina) {
-                    let listHTML = itemsAttesa.map(a => `<div class="flex flex-col border-b border-slate-100 py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`).join('');
                     gridCucina.innerHTML += `
                         <div class="bg-white border border-orange-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-                            <div>${cardHeader}<div class="mb-3">${listHTML}</div></div>
+                            <div>${cardHeader}<div class="mb-3">${renderItemsByUscita(itemsAttesa)}</div></div>
                             <button onclick="avanzaStatoArticoli('${c.id}', 'in_attesa', 'pronto')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Segna come PRONTI ➔</button>
                         </div>
                     `;
@@ -1032,10 +1053,9 @@
 
                 // 2. DASHBOARD CONSEGNE (SALA)
                 if(itemsPronto.length > 0 && gridConsegne) {
-                    let listHTML = itemsPronto.map(a => `<div class="flex flex-col border-b border-slate-100 py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`).join('');
                     gridConsegne.innerHTML += `
                         <div class="bg-white border border-cyan-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-                            <div>${cardHeader}<div class="mb-3">${listHTML}</div></div>
+                            <div>${cardHeader}<div class="mb-3">${renderItemsByUscita(itemsPronto)}</div></div>
                             <button onclick="avanzaStatoArticoli('${c.id}', 'pronto', 'consegnato')" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Consegnati al Tavolo ✅</button>
                         </div>
                     `;
@@ -1048,7 +1068,7 @@
                     
                     let listAll = c.articoli.map(a => {
                         let iconStato = a.stato === 'consegnato' ? '✅' : (a.stato === 'pronto' ? '🛎️' : '⏳');
-                        return `<div class="flex justify-between border-b border-slate-100 py-1 text-xs"><span class="text-slate-700">${a.qta}x ${a.desc}</span><span title="Stato">${iconStato}</span></div>`;
+                        return `<div class="flex justify-between border-b border-slate-100 py-1 text-xs"><span class="text-slate-700">${a.qta}x ${a.desc} <span class="text-[10px] text-slate-400">(${a.uscita||1}°U)</span></span><span title="Stato">${iconStato}</span></div>`;
                     }).join('');
 
                     gridCassa.innerHTML += `
@@ -1209,7 +1229,8 @@
                 divLista.innerHTML += `
                     <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-white border border-slate-200 hover:border-indigo-300 p-3 rounded-xl cursor-pointer flex justify-between items-center shadow-sm">
                         <div>
-                            <span class="font-bold text-indigo-700">Tav. ${c.tavolo}</span> <span class="text-[10px] text-slate-400 ml-1">(${c.data})</span>
+                            <span class="font-bold text-indigo-700">Tav. ${c.tavolo}</span> 
+                            <span class="text-[10px] text-slate-400 ml-1">(${c.data})</span>
                         </div>
                         <div class="flex items-center gap-2">
                             ${c.scontoApplicato > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-bold">Sc. € ${c.scontoApplicato.toFixed(2)}</span>` : ''}
@@ -1242,7 +1263,8 @@
             const targetComande = archivioComandeParsed.filter(c => tipoFiltro === 'tutto' || c.data === dataOggi);
             
             let incassoTotale = 0, incassoContanti = 0, incassoCarta = 0, totaleQtaPietanze = 0;
-            let totalePersone = 0, totaleIncassoCoperti = 0, totaleScontiPersi = 0;
+            let totalePersone = 0, totaleIncassoCoperti = 0;
+            let totaleScontiPersi = 0; 
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
