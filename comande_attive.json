@@ -14,7 +14,7 @@
         "prezzo": "4.00",
         "nota": "Fanta fredda",
         "uscita": 1,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -22,7 +22,7 @@
         "prezzo": "4.00",
         "nota": "Ichnusa fredda",
         "uscita": 1,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 2,
@@ -30,7 +30,7 @@
         "prezzo": "5.50",
         "nota": "",
         "uscita": 1,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -38,7 +38,7 @@
         "prezzo": "10,00",
         "nota": "",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -46,7 +46,7 @@
         "prezzo": "8.00",
         "nota": "",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -54,7 +54,7 @@
         "prezzo": "7.50",
         "nota": "",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -62,7 +62,7 @@
         "prezzo": "9.50",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -70,7 +70,7 @@
         "prezzo": "10.00",
         "nota": "",
         "uscita": 4,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -78,7 +78,7 @@
         "prezzo": "3.50",
         "nota": "",
         "uscita": 4,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -86,7 +86,7 @@
         "prezzo": "18.50",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -94,7 +94,7 @@
         "prezzo": "35.00",
         "nota": "",
         "uscita": 3,
-        "stato": "pronto"
+        "stato": "consegnato"
       }
     ]
   }
