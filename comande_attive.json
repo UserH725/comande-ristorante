@@ -38,7 +38,7 @@
         "prezzo": "11.00",
         "nota": "",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 1,
@@ -46,7 +46,7 @@
         "prezzo": "8.00",
         "nota": "",
         "uscita": 2,
-        "stato": "pronto"
+        "stato": "consegnato"
       },
       {
         "qta": 2,
