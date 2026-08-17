@@ -36,6 +36,28 @@
             .uscita-header { font-size: 14px; font-weight: bold; text-align: center; border-bottom: 2px solid black; margin-top: 10px; padding: 4px 0; background-color: #f0f0f0; }
             .cat-header { font-weight: bold; text-transform: uppercase; padding-top: 6px !important; padding-bottom: 2px !important; }
             .unit-price { font-size: 9px; color: #333; font-weight: normal; }
+
+            /* SCROSTAMENTO WATERMARK RISTAMPA OBLIQUO */
+            .watermark-box {
+                position: relative !important;
+            }
+            .watermark-text {
+                position: absolute !important;
+                top: 40% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) rotate(-35deg) !important;
+                font-size: 55px !important;
+                font-weight: 900 !important;
+                font-family: Arial, Helvetica, sans-serif !important;
+                color: rgba(0, 0, 0, 0.18) !important;
+                text-transform: uppercase !important;
+                letter-spacing: 6px !important;
+                pointer-events: none !important;
+                white-space: nowrap !important;
+                z-index: 9999 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
         }
     </style>
 </head>
@@ -153,6 +175,7 @@
                     </div>
                 </div>
 
+                <!-- SELEZIONE PIETANZE -->
                 <div class="mb-6">
                     <label class="block text-sm font-black text-slate-700 uppercase tracking-widest mb-3 text-center">👇 Gestisci pietanze e quantità 👇</label>
                     <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -222,14 +245,14 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tavoli Aperti & Avanzamento</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tavoli Aperti</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
             <div id="grid-cassa" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- SEZIONI AMMINISTRAZIONE (5, 6, 7, 8)                         -->
+        <!-- SEZIONI AMMINISTRAZIONE                                      -->
         <!-- ============================================================ -->
         
         <div id="sec-anagrafica" class="sezione hidden max-w-xl mx-auto">
@@ -1153,7 +1176,6 @@
                             ${badgeCassa}
                             <div>
                                 ${cardHeader}
-                                <!-- BARRA AVANZAMENTO SERVIZIO PER LA CASSA -->
                                 <div class="flex gap-1.5 my-2 text-[10px] font-bold flex-wrap">
                                     <span class="bg-orange-50 text-orange-700 px-2 py-0.5 rounded border border-orange-200">⏳ Cucina: ${qtaInAttesa}</span>
                                     <span class="bg-cyan-50 text-cyan-700 px-2 py-0.5 rounded border border-cyan-200">🛎️ Sala: ${qtaPronto}</span>
@@ -1380,7 +1402,27 @@
 
         function ristampaComandaSelezionata() {
             if(!htmlComandaSelezionata) return;
-            document.getElementById('printable-area').innerHTML = `<div style="font-family: monospace; white-space: pre-wrap; font-size: 14px; line-height: 1.4; padding: 20px;">${htmlComandaSelezionata}</div>`;
+            
+            // RISTAMPA CON WATERMARK OBLIQUO SU ENTRAMBI I TICKET
+            document.getElementById('printable-area').innerHTML = `
+                <table class="page-layout">
+                    <tr>
+                        <td class="ticket-half watermark-box" style="width: 48%; padding-right: 20px;">
+                            <div class="watermark-text">RISTAMPA</div>
+                            <div style="font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; font-size: 11.5px; line-height: 1.15;">
+${htmlComandaSelezionata}
+                            </div>
+                        </td>
+                        <td class="cut-line-vertical" style="width: 4%;"></td>
+                        <td class="ticket-half watermark-box" style="width: 48%; padding-left: 20px;">
+                            <div class="watermark-text">RISTAMPA</div>
+                            <div style="font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; font-size: 11.5px; line-height: 1.15;">
+${htmlComandaSelezionata}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            `;
             setTimeout(() => { window.print(); }, 500);
         }
 
