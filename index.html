@@ -60,36 +60,41 @@
         <!-- MENU PRINCIPALE AGGIORNATO (FLUSSO LOGICO)                   -->
         <!-- ============================================================ -->
         <div id="sec-menu-principale" class="space-y-3 max-w-xl mx-auto">
-            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro</p>
+            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro Operativo</p>
             
             <button onclick="apriSezione('sec-nuova-comanda')" class="w-full text-left p-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl border border-indigo-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[1]</span> 
                 <span class="text-lg">📝 Mappa Tavoli / Nuova Comanda</span>
             </button>
 
-            <button onclick="apriSezioneCucina()" class="w-full text-left p-4 bg-orange-500 hover:bg-orange-600 rounded-xl border border-orange-400 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
+            <button onclick="apriSezione('sec-cucina')" class="w-full text-left p-4 bg-orange-500 hover:bg-orange-600 rounded-xl border border-orange-400 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[2]</span> 
-                <span class="text-lg">👨‍🍳 Gestione Cucina <span id="badge-cucina" class="bg-white text-orange-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
+                <span class="text-lg">👨‍🍳 Cucina (Da Preparare) <span id="badge-cucina" class="bg-white text-orange-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
             </button>
 
-            <button onclick="apriSezioneCassa()" class="w-full text-left p-4 bg-emerald-600 hover:bg-emerald-700 rounded-xl border border-emerald-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
+            <button onclick="apriSezione('sec-consegne')" class="w-full text-left p-4 bg-cyan-500 hover:bg-cyan-600 rounded-xl border border-cyan-400 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[3]</span> 
-                <span class="text-lg">💶 Gestione Cassa (Incassi) <span id="badge-cassa" class="bg-white text-emerald-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
+                <span class="text-lg">🛎️ Sala (Da Consegnare) <span id="badge-consegne" class="bg-white text-cyan-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
+            </button>
+
+            <button onclick="apriSezione('sec-cassa')" class="w-full text-left p-4 bg-emerald-600 hover:bg-emerald-700 rounded-xl border border-emerald-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5 mt-2">
+                <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[4]</span> 
+                <span class="text-lg">💶 Cassa (Incassa Tavoli) <span id="badge-cassa" class="bg-white text-emerald-600 text-xs px-2 py-1 rounded-full ml-2 hidden">0</span></span>
             </button>
 
             <p class="text-xs font-bold text-slate-400 mt-6 mb-3 uppercase tracking-wider text-center border-t border-slate-200 pt-4">Amministrazione</p>
 
             <button onclick="apriSezione('sec-menu-pietanze')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
-                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[4]</span> Gestione Menu Pietanze
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[5]</span> Gestione Menu Pietanze
             </button>
             <button onclick="apriSezione('sec-camerieri')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
-                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[5]</span> Gestione Staff (Camerieri)
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[6]</span> Gestione Staff (Camerieri)
             </button>
             <button onclick="apriSezione('sec-anagrafica')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
-                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[6]</span> Personalizzazione Locale
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[7]</span> Personalizzazione Locale
             </button>
-            <button onclick="apriSezioneReport()" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
-                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[7]</span> Archivio & Report Incassi
+            <button onclick="apriSezione('sec-report')" class="w-full text-left p-4 bg-white hover:bg-slate-50 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-4 shadow-sm transition">
+                <span class="bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-sm font-bold">[8]</span> Archivio & Report Incassi
             </button>
             
             <button onclick="resetToken()" class="w-full text-left p-4 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl border border-red-200 font-semibold flex items-center gap-4 mt-6 shadow-sm transition">
@@ -106,7 +111,7 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
             </div>
 
-            <!-- MAPPA TAVOLI VISIVA (PALLINI) -->
+            <!-- MAPPA TAVOLI VISIVA -->
             <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-4 text-center">👇 Seleziona un Tavolo 👇</label>
                 <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4"></div>
@@ -115,7 +120,7 @@
             <!-- BANNER MODIFICA ATTIVA -->
             <div id="banner-modifica" class="bg-orange-100 border border-orange-300 text-orange-900 p-4 rounded-xl mb-5 hidden flex flex-col sm:flex-row justify-between items-center shadow-sm gap-3">
                 <span class="font-bold text-sm">⚠️ Stai facendo un'aggiunta al <span class="font-black text-lg underline">Tavolo <span id="modifica-tavolo"></span></span></span>
-                <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla</button>
+                <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla Aggiunta</button>
             </div>
             
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
@@ -151,26 +156,27 @@
                     </div>
                 </div>
 
+                <!-- ANTEPRIMA COMANDA CON TASTI NOTA -->
                 <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
                     <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-indigo-200">SCONTRINO</div>
                     <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
-                        <span>QTA | ARTICOLO</span>
+                        <span>QTA | ARTICOLO (Usa ✎ per varianti)</span>
                         <span>PREZZO</span>
                     </div>
                     <div id="cmd-lista-articoli" class="space-y-1 text-slate-700"></div>
                 </div>
 
                 <div class="max-w-xl mx-auto space-y-4">
-                    <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                    <input type="text" id="cmd-note" placeholder="Note generali comanda (es. Portare tutto insieme)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
                     <button id="btn-invia-cucina" onclick="inviaComandaInCucina()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
-                        👨‍🍳 Genera Codice, Stampa & Invia in Cucina
+                        👨‍🍳 Invia in Cucina (Stampa)
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- [2] GESTIONE CUCINA                                          -->
+        <!-- [2] GESTIONE CUCINA (In Attesa)                              -->
         <!-- ============================================================ -->
         <div id="sec-cucina" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
@@ -179,15 +185,30 @@
             </div>
             
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Comande in Attesa / Aggiunte</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Da Preparare</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-orange-100 text-orange-700 hover:bg-orange-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
-
             <div id="grid-cucina" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- [3] GESTIONE CASSA (INCASSI CON SCONTO)                      -->
+        <!-- [3] GESTIONE CONSEGNE SALA (Pronti)                          -->
+        <!-- ============================================================ -->
+        <div id="sec-consegne" class="sezione hidden">
+            <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
+                <h2 class="text-2xl font-black text-cyan-600">🛎️ Sala / Consegne</h2>
+                <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Piatti Pronti al Pass</p>
+                <button onclick="caricaComandeAttive()" class="text-xs bg-cyan-100 text-cyan-700 hover:bg-cyan-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
+            </div>
+            <div id="grid-consegne" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- [4] GESTIONE CASSA (INCASSI CON SCONTO)                      -->
         <!-- ============================================================ -->
         <div id="sec-cassa" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
@@ -196,7 +217,7 @@
             </div>
             
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Comande Pronte (Da Pagare)</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tutti i Tavoli Aperti</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
 
@@ -204,10 +225,9 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- SEZIONI AMMINISTRAZIONE (4, 5, 6, 7)                         -->
+        <!-- SEZIONI AMMINISTRAZIONE                                      -->
         <!-- ============================================================ -->
         
-        <!-- [6] ANAGRAFICA -->
         <div id="sec-anagrafica" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Personalizzazione Locale</h2>
             <div class="space-y-4">
@@ -223,7 +243,6 @@
             </div>
         </div>
 
-        <!-- [4] MENU PIETANZE -->
         <div id="sec-menu-pietanze" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-xl font-black text-indigo-700">Gestione Menu Pietanze</h2>
@@ -255,7 +274,6 @@
             <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
         </div>
 
-        <!-- [5] CAMERIERI -->
         <div id="sec-camerieri" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Gestione Staff</h2>
             <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-6 shadow-sm">
@@ -268,7 +286,6 @@
             <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu</button>
         </div>
 
-        <!-- [7] REPORT E ARCHIVIO -->
         <div id="sec-report" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Archivio & Report Finanziario</h2>
             <div class="flex gap-2 mb-6 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
@@ -279,13 +296,13 @@
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                 <!-- BOX INCASSI -->
                 <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Netto Reale</span>
+                    <span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Netto</span>
                     <span id="rep-tot-incasso" class="text-2xl font-black text-emerald-700">€ 0.00</span>
                 </div>
                 
                 <!-- BOX SCONTI APPLICATI -->
                 <div class="bg-red-50 border border-red-200 p-4 rounded-xl text-center shadow-sm">
-                    <span class="block text-xs font-black text-red-600 uppercase tracking-wider mb-1">Sconti Applicati</span>
+                    <span class="block text-xs font-black text-red-600 uppercase tracking-wider mb-1">Sconti Concessi</span>
                     <span id="rep-tot-sconti" class="text-2xl font-black text-red-700">€ 0.00</span>
                 </div>
                 
@@ -382,7 +399,7 @@
         let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
         let menuPietanze = [];
         let listaCamerieri = [];
-        let comandaCorrente = []; 
+        let comandaCorrente = []; // { qta, desc, prezzo, nota, stato: 'in_attesa'|'pronto'|'consegnato'|undefined }
         let comandeAttive = []; 
         let archivioComandeParsed = [];
         let htmlComandaSelezionata = "";
@@ -428,9 +445,12 @@
             document.querySelectorAll('.sezione').forEach(s => s.classList.add('hidden'));
             document.getElementById('sec-menu-principale').classList.remove('hidden');
             document.getElementById('sticky-footer').classList.add('translate-y-full');
-            
             if(comandeAttive.length === 0) caricaComandeAttive(); 
-            else aggiornaBadges(comandeAttive.filter(c=>c.stato==='in_attesa').length, comandeAttive.filter(c=>c.stato==='pronta').length);
+            else aggiornaBadges(
+                comandeAttive.some(c => c.articoli.some(a=>a.stato==='in_attesa')) ? 1 : 0, 
+                comandeAttive.some(c => c.articoli.some(a=>a.stato==='pronto')) ? 1 : 0, 
+                comandeAttive.length // In Cassa mostriamo tutte per sicurezza
+            );
         }
 
         function normalizzaPrezzo(val) {
@@ -674,7 +694,7 @@
             document.getElementById('area-comanda').classList.remove('opacity-50', 'pointer-events-none');
             
             const btn = document.getElementById('btn-invia-cucina');
-            btn.innerHTML = '🔄 Aggiorna Comanda, Stampa & Reinvia';
+            btn.innerHTML = '🔄 Conferma Nuove Aggiunte, Stampa & Reinvia';
             btn.className = 'w-full bg-orange-500 hover:bg-orange-400 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-orange-500/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2';
             
             renderizzaMenuGUI();
@@ -683,7 +703,8 @@
         }
 
         function selezionaEAggiungiRapido(desc, prezzo) {
-            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo && (!i.nota || i.nota === ''));
+            // Aggrega SOLO se NON ha uno stato (quindi è nuovo) e non ha note speciali
+            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo && (!i.nota || i.nota === '') && (!i.stato));
             if(ext) ext.qta += 1; else comandaCorrente.push({ qta: 1, desc, prezzo, nota: '' });
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
@@ -692,13 +713,17 @@
             const qta = parseInt(document.getElementById('cmd-qta').value) || 1; const desc = document.getElementById('cmd-desc').value.trim();
             if(!desc) return;
             const p = document.getElementById('cmd-prezzo-manuale').value.trim() ? normalizzaPrezzo(document.getElementById('cmd-prezzo-manuale').value.trim()) : trovaInfoPiatto(desc).prezzo;
-            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p && (!i.nota || i.nota === ''));
+            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p && (!i.nota || i.nota === '') && (!i.stato));
             if(ext) ext.qta += qta; else comandaCorrente.push({ qta, desc, prezzo: p, nota: '' });
             document.getElementById('cmd-desc').value = ''; document.getElementById('cmd-prezzo-manuale').value = ''; document.getElementById('cmd-qta').value = '1';
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
 
         function aggiungiNotaRiga(idx) {
+            if(comandaCorrente[idx].stato) {
+                alert("Questa pietanza è già stata inviata e non può essere modificata. Fai un'aggiunta nuova.");
+                return;
+            }
             const notaAttuale = comandaCorrente[idx].nota || '';
             const nuovaNota = prompt(`Inserisci variante/nota per: ${comandaCorrente[idx].desc}`, notaAttuale);
             if(nuovaNota !== null) {
@@ -707,8 +732,22 @@
             }
         }
         
-        function decrementaRigaComanda(idx) { if(comandaCorrente[idx].qta > 1) comandaCorrente[idx].qta -= 1; else comandaCorrente.splice(idx, 1); renderizzaMenuGUI(); renderizzaComandaGUI(); }
-        function rimuoviRigaComanda(idx) { comandaCorrente.splice(idx, 1); renderizzaMenuGUI(); renderizzaComandaGUI(); }
+        function decrementaRigaComanda(idx) { 
+            if(comandaCorrente[idx].stato) {
+                if(!confirm("Questo piatto è già stato inviato! Sicuro di voler stornarne 1 quantità? (Sconsigliato, avvisa la cucina!)")) return;
+            }
+            if(comandaCorrente[idx].qta > 1) comandaCorrente[idx].qta -= 1; 
+            else comandaCorrente.splice(idx, 1); 
+            renderizzaMenuGUI(); renderizzaComandaGUI(); 
+        }
+
+        function rimuoviRigaComanda(idx) { 
+            if(comandaCorrente[idx].stato) {
+                if(!confirm("Questo piatto è già stato inviato! Sicuro di volerlo STORNARE completamente? (Sconsigliato, avvisa la cucina!)")) return;
+            }
+            comandaCorrente.splice(idx, 1); 
+            renderizzaMenuGUI(); renderizzaComandaGUI(); 
+        }
 
         function renderizzaComandaGUI() {
             const div = document.getElementById('cmd-lista-articoli');
@@ -746,10 +785,17 @@
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
                     raggruppati[cat].forEach(item => {
+                        
+                        let labelStato = '';
+                        if (item.stato === 'in_attesa') labelStato = '<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-orange-200">⏳ Cucina</span>';
+                        else if (item.stato === 'pronto') labelStato = '<span class="text-[9px] bg-cyan-100 text-cyan-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-cyan-200">🛎️ Sala</span>';
+                        else if (item.stato === 'consegnato') labelStato = '<span class="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-emerald-200">✅ Servito</span>';
+                        else labelStato = '<span class="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-indigo-200">🆕 Nuovo</span>';
+
                         div.innerHTML += `
                             <div class="flex justify-between items-start text-slate-800 text-xs py-1.5 border-b border-slate-50 last:border-0">
                                 <div class="flex flex-col pr-2">
-                                    <span><b class="text-slate-900">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px]">(€ ${item.prezzo} cad.)</span>`:''}</span>
+                                    <span class="flex items-center flex-wrap"><b class="text-slate-900 mr-1">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px] ml-1">(€ ${item.prezzo} cad.)</span>`:''} ${labelStato}</span>
                                     ${item.nota ? `<span class="text-orange-500 text-[10.5px] font-bold italic mt-0.5">↳ Nota: ${item.nota}</span>` : ''}
                                 </div>
                                 <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
@@ -783,13 +829,12 @@
             const data = new Date().toLocaleDateString('it-IT').replaceAll('/', '-');
             
             let idCodice;
-            let intestazioneOrg, intestazioneCucina;
             let commitMsg;
+            let isUpdate = idComandaInModifica !== null;
+            let nuoviArticoli = comandaCorrente.filter(a => !a.stato);
 
-            if(idComandaInModifica) {
+            if(isUpdate) {
                 idCodice = idComandaInModifica;
-                intestazioneOrg = `AGGIORNAMENTO [#${idCodice}]`;
-                intestazioneCucina = `AGGIORNAMENTO CUCINA [#${idCodice}]`;
                 commitMsg = `Aggiornata Comanda #${idCodice}`;
                 
                 const idx = comandeAttive.findIndex(c => c.id === idCodice);
@@ -799,38 +844,57 @@
                     comandeAttive[idx].cameriere = cameriere;
                     comandeAttive[idx].note = note;
                     comandeAttive[idx].articoli = [...comandaCorrente];
-                    comandeAttive[idx].stato = 'in_attesa'; 
-                    comandeAttive[idx].ora = ora; 
                 }
             } else {
                 idCodice = Math.random().toString(36).substring(2, 6).toUpperCase();
-                intestazioneOrg = `COMANDA [#${idCodice}]`;
-                intestazioneCucina = `STAMPA CUCINA [#${idCodice}]`;
                 commitMsg = `Nuova Comanda #${idCodice}`;
-                
-                const nuovaComanda = { id: idCodice, tavolo, persone, cameriere, note, data, ora, articoli: [...comandaCorrente], stato: 'in_attesa' };
+                const nuovaComanda = { id: idCodice, tavolo, persone, cameriere, note, data, ora, articoli: [...comandaCorrente] };
                 comandeAttive.push(nuovaComanda);
             }
 
-            const htmlOriginale = generaHTMLComandaTicket(intestazioneOrg, tavolo, persone, cameriere, "IN ATTESA", note, data, ora);
-            const htmlCucina = generaHTMLComandaTicket(intestazioneCucina, tavolo, persone, cameriere, "IN ATTESA", note, data, ora);
+            if(isUpdate && nuoviArticoli.length === 0) {
+                // Hanno solo modificato persone, note o stornato. Niente stampa per la cucina.
+                comandaCorrente.forEach(a => { if(!a.stato) a.stato = 'in_attesa'; });
+                await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), commitMsg);
+                alert("Modifiche salvate con successo. (Nessuna nuova pietanza da stampare per la cucina)");
+                resetModuloComanda(); 
+                return;
+            }
+
+            // STAMPA SOLO I NUOVI ARTICOLI
+            const intestazioneOrg = isUpdate ? `AGGIUNTA TAV. ${tavolo}` : `COMANDA [#${idCodice}]`;
+            const intestazioneCucina = isUpdate ? `AGGIUNTA CUCINA TAV. ${tavolo}` : `STAMPA CUCINA [#${idCodice}]`;
+
+            const htmlOriginale = generaHTMLComandaTicket(intestazioneOrg, tavolo, persone, cameriere, "IN ATTESA", note, data, ora, nuoviArticoli, isUpdate);
+            const htmlCucina = generaHTMLComandaTicket(intestazioneCucina, tavolo, persone, cameriere, "IN ATTESA", note, data, ora, nuoviArticoli, isUpdate);
             
             document.getElementById('printable-area').innerHTML = `<table class="page-layout"><tr><td class="ticket-half" style="width: 48%; padding-right: 20px;">${htmlOriginale}</td><td class="cut-line-vertical" style="width: 4%;"></td><td class="ticket-half" style="width: 48%; padding-left: 20px;">${htmlCucina}</td></tr></table>`;
             
             setTimeout(async () => {
                 window.print();
+
+                // Dopo la stampa, passiamo lo stato a 'in_attesa'
+                const targetComanda = comandeAttive.find(c => c.id === idCodice);
+                if(targetComanda) {
+                    targetComanda.articoli.forEach(a => { if(!a.stato) a.stato = 'in_attesa'; });
+                }
+
                 await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), commitMsg);
                 
-                alert(idComandaInModifica ? "Aggiunta salvata e inviata in cucina!" : "Comanda inviata in cucina!");
+                alert(isUpdate ? "Aggiunta salvata e inviata in cucina!" : "Comanda inviata in cucina!");
                 resetModuloComanda(); 
             }, 500);
         }
 
-        function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, statoPagamentoTesto, note, data, ora, articoliArray = comandaCorrente) {
-            const numPersone = parseInt(persone) || 0; const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
-            let html = `<div class="text-center" style="margin-bottom: 10px;"><h2 class="bold" style="margin:0; font-size: 15px;">*** ${intestazioneCopia} ***</h2><h1 class="bold" style="margin:5px 0; font-size: 18px;">${anagrafica.nome || 'COMANDA'}</h1></div><div style="border-top: 1px dashed black; border-bottom: 1px dashed black; padding: 5px 0; margin-bottom: 10px;"><div><span class="bold">Data:</span> ${data} &nbsp;|&nbsp; <span class="bold">Ora:</span> ${ora}</div><div><span class="bold">Tavolo:</span> ${tavolo} &nbsp;|&nbsp; <span class="bold">Coperti:</span> ${numPersone}</div><div><span class="bold">Cameriere:</span> ${cameriere}</div><div><span class="bold">Stato:</span> ${statoPagamentoTesto}</div></div><table class="ticket-table"><thead><tr><th style="width: 15%;" class="text-center">QTA</th><th style="width: 60%;">ARTICOLO</th><th style="width: 25%;" class="text-right">TOTALE</th></tr></thead><tbody>`;
+        function generaHTMLComandaTicket(intestazioneCopia, tavolo, persone, cameriere, statoPagamentoTesto, note, data, ora, articoliArray, isUpdate = false) {
+            const numPersone = parseInt(persone) || 0; 
+            const totaleCoperto = numPersone * PREZZO_COPERTO_UNITARIO;
+            
+            let html = `<div class="text-center" style="margin-bottom: 10px;"><h2 class="bold" style="margin:0; font-size: 15px;">*** ${intestazioneCopia} ***</h2><h1 class="bold" style="margin:5px 0; font-size: 18px;">${anagrafica.nome || 'COMANDA'}</h1></div><div style="border-top: 1px dashed black; border-bottom: 1px dashed black; padding: 5px 0; margin-bottom: 10px;"><div><span class="bold">Data:</span> ${data} &nbsp;|&nbsp; <span class="bold">Ora:</span> ${ora}</div><div><span class="bold">Tavolo:</span> ${tavolo} ${!isUpdate ? `&nbsp;|&nbsp; <span class="bold">Coperti:</span> ${numPersone}` : ''}</div><div><span class="bold">Cameriere:</span> ${cameriere}</div></div><table class="ticket-table"><thead><tr><th style="width: 15%;" class="text-center">QTA</th><th style="width: 60%;">ARTICOLO</th><th style="width: 25%;" class="text-right">TOTALE</th></tr></thead><tbody>`;
 
-            let raggruppati = {}; let totaleGenerale = totaleCoperto;
+            let raggruppati = {}; 
+            let totaleGenerale = isUpdate ? 0 : totaleCoperto;
+
             articoliArray.forEach(item => {
                 const cat = trovaInfoPiatto(item.desc).tipo;
                 if (!raggruppati[cat]) raggruppati[cat] = [];
@@ -858,19 +922,34 @@
                 }
             });
 
-            if(numPersone > 0) html += `<tr><td colspan="3" class="cat-header">--- SERVIZIO ---</td></tr><tr><td class="text-center bold">${numPersone}</td><td>Coperto <br><span class="unit-price">(€ 2.00 cad.)</span></td><td class="text-right">€ ${totaleCoperto.toFixed(2)}</td></tr>`;
-            html += `</tbody></table><div style="border-top: 2px dashed black; margin-top: 10px; padding-top: 10px; text-align: right; font-size: 16px;"><span class="bold">TOTALE: € ${totaleGenerale.toFixed(2)}</span></div>`;
-            if(note) html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE GENERALI:</span><br>${note}</div>`;
+            if(!isUpdate && numPersone > 0) {
+                html += `<tr><td colspan="3" class="cat-header">--- SERVIZIO ---</td></tr><tr><td class="text-center bold">${numPersone}</td><td>Coperto <br><span class="unit-price">(€ 2.00 cad.)</span></td><td class="text-right">€ ${totaleCoperto.toFixed(2)}</td></tr>`;
+            }
+            
+            html += `</tbody></table><div style="border-top: 2px dashed black; margin-top: 10px; padding-top: 10px; text-align: right; font-size: 16px;"><span class="bold">${isUpdate ? 'TOTALE AGGIUNTE' : 'TOTALE'}: € ${totaleGenerale.toFixed(2)}</span></div>`;
+            
+            if(note && !isUpdate) html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE GENERALI:</span><br>${note}</div>`;
             return html;
         }
 
         /* --------------------------------------------------------
-           [2] GESTIONE CUCINA E [3] GESTIONE CASSA
+           [2] GESTIONE CUCINA, [3] SALA CONSEGNE, [4] CASSA
         -------------------------------------------------------- */
         async function apriSezioneCucina() { apriSezione('sec-cucina'); await caricaComandeAttive(); }
+        async function apriSezioneConsegne() { apriSezione('sec-consegne'); await caricaComandeAttive(); }
         async function apriSezioneCassa() { apriSezione('sec-cassa'); await caricaComandeAttive(); }
 
-        // SCONTI
+        async function avanzaStatoArticoli(idComanda, statoCorrente, nuovoStato) {
+            const idx = comandeAttive.findIndex(c => c.id === idComanda);
+            if(idx > -1) {
+                comandeAttive[idx].articoli.forEach(a => {
+                    if(a.stato === statoCorrente) a.stato = nuovoStato;
+                });
+                await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), `Avanzamento #${idComanda} -> ${nuovoStato}`);
+                renderizzaDashboardCucinaCassa();
+            }
+        }
+
         function applicaSconto(idComanda, tipoSconto) {
             const inputSconto = document.getElementById(`sconto-input-${idComanda}`).value;
             const comanda = comandeAttive.find(c => c.id === idComanda);
@@ -879,7 +958,6 @@
             let totaleLordo = (parseInt(comanda.persone) * PREZZO_COPERTO_UNITARIO) + comanda.articoli.reduce((acc, a) => acc + (parseFloat(a.prezzo) * a.qta), 0);
             let totaleNetto = totaleLordo;
             let valSconto = parseFloat(inputSconto.replace(',', '.'));
-            
             if(isNaN(valSconto)) return;
 
             if(tipoSconto === 'percentuale') {
@@ -895,14 +973,7 @@
             btnIncassa.dataset.scontoTipo = tipoSconto;
             btnIncassa.dataset.totaleNetto = totaleNetto.toFixed(2);
 
-            const divPrezzo = document.getElementById(`totale-cassa-${idComanda}`);
-            divPrezzo.innerHTML = `
-                <div class="flex flex-col text-right">
-                    <span class="text-slate-400 line-through text-sm">€ ${totaleLordo.toFixed(2)}</span>
-                    <span class="text-emerald-600 text-2xl font-black leading-none">€ ${totaleNetto.toFixed(2)}</span>
-                </div>
-            `;
-            
+            document.getElementById(`totale-cassa-${idComanda}`).innerHTML = `<div class="flex flex-col text-right"><span class="text-slate-400 line-through text-sm">€ ${totaleLordo.toFixed(2)}</span><span class="text-emerald-600 text-2xl font-black leading-none">€ ${totaleNetto.toFixed(2)}</span></div>`;
             document.getElementById(`lbl-sconto-${idComanda}`).innerText = `Sconto: ${tipoSconto === 'percentuale' ? valSconto+'%' : '€ '+valSconto.toFixed(2)}`;
             document.getElementById(`lbl-sconto-${idComanda}`).classList.remove('hidden');
         }
@@ -924,36 +995,69 @@
 
         function renderizzaDashboardCucinaCassa() {
             const gridCucina = document.getElementById('grid-cucina');
+            const gridConsegne = document.getElementById('grid-consegne');
             const gridCassa = document.getElementById('grid-cassa');
             if(gridCucina) gridCucina.innerHTML = '';
+            if(gridConsegne) gridConsegne.innerHTML = '';
             if(gridCassa) gridCassa.innerHTML = '';
 
-            let countCucina = 0; let countCassa = 0;
+            let countCucina = 0; let countConsegne = 0; let countCassa = 0;
 
             comandeAttive.forEach(c => {
-                let listArticoli = c.articoli.map(a => `
-                    <div class="flex flex-col border-b border-slate-100 py-1 text-sm">
-                        <div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>
-                        ${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}
-                    </div>
-                `).join('');
+                let itemsAttesa = c.articoli.filter(a => a.stato === 'in_attesa');
+                let itemsPronto = c.articoli.filter(a => a.stato === 'pronto');
+                let hasNonConsegnati = c.articoli.some(a => a.stato !== 'consegnato');
+
                 let totaleGen = (parseInt(c.persone) * PREZZO_COPERTO_UNITARIO) + c.articoli.reduce((acc, a) => acc + (parseFloat(a.prezzo) * a.qta), 0);
                 
-                const cardHTML = `
-                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between relative overflow-hidden">
-                        ${c.stato === 'in_attesa' ? '<div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">DA FARE</div>' : ''}
-                        <div>
-                            <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
-                                <span class="text-lg font-black text-indigo-700">Tavolo ${c.tavolo}</span>
-                                <span class="bg-slate-100 text-slate-500 font-mono text-xs px-2 py-1 rounded">#${c.id}</span>
-                            </div>
-                            <div class="text-xs text-slate-500 mb-2 font-semibold">Cameriere: ${c.cameriere} &nbsp;|&nbsp; Ore: ${c.ora} &nbsp;|&nbsp; Coperti: ${c.persone}</div>
-                            <div class="mb-3">${listArticoli}</div>
-                            ${c.note ? `<div class="bg-amber-50 text-amber-800 p-2 rounded text-xs font-bold mb-3 border border-amber-200">NOTE: ${c.note}</div>` : ''}
+                const cardHeader = `
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2 mb-2">
+                        <span class="text-lg font-black text-indigo-700">Tavolo ${c.tavolo}</span>
+                        <span class="bg-slate-100 text-slate-500 font-mono text-xs px-2 py-1 rounded">#${c.id}</span>
+                    </div>
+                    <div class="text-xs text-slate-500 mb-2 font-semibold">Cam: ${c.cameriere} &nbsp;|&nbsp; Ore: ${c.ora} &nbsp;|&nbsp; Coperti: ${c.persone}</div>
+                `;
+
+                // 1. DASHBOARD CUCINA
+                if(itemsAttesa.length > 0 && gridCucina) {
+                    let listHTML = itemsAttesa.map(a => `<div class="flex flex-col border-b border-slate-100 py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`).join('');
+                    gridCucina.innerHTML += `
+                        <div class="bg-white border border-orange-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                            <div>${cardHeader}<div class="mb-3">${listHTML}</div></div>
+                            <button onclick="avanzaStatoArticoli('${c.id}', 'in_attesa', 'pronto')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Segna come PRONTI ➔</button>
                         </div>
-                        ${c.stato === 'in_attesa' ? 
-                            `<button onclick="segnaPronta('${c.id}')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Segna come PRONTA ➔</button>` : 
-                            `
+                    `;
+                    countCucina++;
+                }
+
+                // 2. DASHBOARD CONSEGNE (SALA)
+                if(itemsPronto.length > 0 && gridConsegne) {
+                    let listHTML = itemsPronto.map(a => `<div class="flex flex-col border-b border-slate-100 py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`).join('');
+                    gridConsegne.innerHTML += `
+                        <div class="bg-white border border-cyan-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
+                            <div>${cardHeader}<div class="mb-3">${listHTML}</div></div>
+                            <button onclick="avanzaStatoArticoli('${c.id}', 'pronto', 'consegnato')" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Consegnati al Tavolo ✅</button>
+                        </div>
+                    `;
+                    countConsegne++;
+                }
+
+                // 3. DASHBOARD CASSA
+                if(gridCassa) {
+                    let badgeCassa = hasNonConsegnati ? `<div class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">⚠️ IN SERVIZIO</div>` : `<div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">✅ CONSEGNATO</div>`;
+                    
+                    let listAll = c.articoli.map(a => {
+                        let iconStato = a.stato === 'consegnato' ? '✅' : (a.stato === 'pronto' ? '🛎️' : '⏳');
+                        return `<div class="flex justify-between border-b border-slate-100 py-1 text-xs"><span class="text-slate-700">${a.qta}x ${a.desc}</span><span title="Stato">${iconStato}</span></div>`;
+                    }).join('');
+
+                    gridCassa.innerHTML += `
+                        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            ${badgeCassa}
+                            <div>
+                                ${cardHeader}
+                                <div class="mb-3 max-h-24 overflow-y-auto pr-1">${listAll}</div>
+                            </div>
                             <div class="border-t border-slate-200 pt-3 mt-auto">
                                 <div class="flex justify-between items-end mb-3">
                                     <div class="flex flex-col">
@@ -962,50 +1066,47 @@
                                     </div>
                                     <div id="totale-cassa-${c.id}" class="text-emerald-600 text-2xl font-black">€ ${totaleGen.toFixed(2)}</div>
                                 </div>
-                                
                                 <div class="bg-slate-50 border border-slate-200 p-2 rounded-lg mb-3 flex gap-2">
                                     <input type="number" id="sconto-input-${c.id}" placeholder="Sconto..." class="flex-1 p-2 border border-slate-300 rounded text-sm text-center font-bold outline-none">
-                                    <button onclick="applicaSconto('${c.id}', 'importo')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs" title="Sconto in Euro">€</button>
-                                    <button onclick="applicaSconto('${c.id}', 'percentuale')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs" title="Sconto in Percentuale">%</button>
+                                    <button onclick="applicaSconto('${c.id}', 'importo')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs">€</button>
+                                    <button onclick="applicaSconto('${c.id}', 'percentuale')" class="bg-slate-800 hover:bg-slate-700 text-white px-3 rounded font-bold text-xs">%</button>
                                 </div>
-
                                 <select id="pag-${c.id}" class="w-full mb-3 p-3 bg-white border border-slate-300 rounded-lg font-bold text-sm text-slate-700 outline-none shadow-sm">
                                     <option value="Contanti">Pagamento: Contanti</option><option value="POS">Pagamento: POS/Carta</option><option value="Sospeso">NON PAGATO: Sospeso</option>
                                 </select>
-                                <button id="btn-incassa-${c.id}" onclick="incassaEArchivia('${c.id}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg shadow-md transition transform hover:-translate-y-0.5">Incassa e Archivia ✔️</button>
+                                <button id="btn-incassa-${c.id}" onclick="incassaEArchivia('${c.id}')" class="w-full ${hasNonConsegnati ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'} text-white font-bold py-3 rounded-lg shadow-md transition transform hover:-translate-y-0.5">
+                                    ${hasNonConsegnati ? 'Forza Incasso ⚠️' : 'Incassa e Archivia ✔️'}
+                                </button>
                             </div>
-                            `
-                        }
-                    </div>
-                `;
-
-                if(c.stato === 'in_attesa') { if(gridCucina) gridCucina.innerHTML += cardHTML; countCucina++; }
-                else if(c.stato === 'pronta') { if(gridCassa) gridCassa.innerHTML += cardHTML; countCassa++; }
+                        </div>
+                    `;
+                    countCassa++;
+                }
             });
 
             if(gridCucina && countCucina === 0) gridCucina.innerHTML = '<div class="col-span-full text-center text-slate-400 font-bold py-10">Nessuna comanda in attesa.</div>';
-            if(gridCassa && countCassa === 0) gridCassa.innerHTML = '<div class="col-span-full text-center text-slate-400 font-bold py-10">Nessuna comanda da incassare.</div>';
-            aggiornaBadges(countCucina, countCassa);
+            if(gridConsegne && countConsegne === 0) gridConsegne.innerHTML = '<div class="col-span-full text-center text-slate-400 font-bold py-10">Nessun piatto da consegnare in sala.</div>';
+            if(gridCassa && countCassa === 0) gridCassa.innerHTML = '<div class="col-span-full text-center text-slate-400 font-bold py-10">Nessun tavolo aperto.</div>';
+            
+            aggiornaBadges(countCucina, countConsegne, countCassa);
         }
 
-        function aggiornaBadges(cucina = null, cassa = null) {
-            if(cucina !== null) { document.getElementById('badge-cucina').innerText = cucina; document.getElementById('badge-cucina').classList.toggle('hidden', cucina===0); }
-            if(cassa !== null) { document.getElementById('badge-cassa').innerText = cassa; document.getElementById('badge-cassa').classList.toggle('hidden', cassa===0); }
-        }
-
-        async function segnaPronta(id) {
-            const idx = comandeAttive.findIndex(c => c.id === id);
-            if(idx > -1) {
-                comandeAttive[idx].stato = 'pronta';
-                await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), `Comanda #${id} Pronta`);
-                renderizzaDashboardCucinaCassa();
-            }
+        function aggiornaBadges(cucina = 0, consegne = 0, cassa = 0) {
+            const bc = document.getElementById('badge-cucina'); if(bc) { bc.innerText = cucina; bc.classList.toggle('hidden', cucina===0); }
+            const bco = document.getElementById('badge-consegne'); if(bco) { bco.innerText = consegne; bco.classList.toggle('hidden', consegne===0); }
+            const bca = document.getElementById('badge-cassa'); if(bca) { bca.innerText = cassa; bca.classList.toggle('hidden', cassa===0); }
         }
 
         async function incassaEArchivia(id) {
             const idx = comandeAttive.findIndex(c => c.id === id);
             if(idx === -1) return;
             const comanda = comandeAttive[idx];
+            
+            const hasNonConsegnati = comanda.articoli.some(a => a.stato !== 'consegnato');
+            if (hasNonConsegnati) {
+                if(!confirm("⚠️ ATTENZIONE:\nQuesto tavolo ha pietanze non ancora consegnate o in preparazione!\n\nVuoi FORZARE l'incasso e chiudere il tavolo comunque?")) return;
+            }
+
             const pagamento = document.getElementById(`pag-${id}`).value;
             const btnIncassa = document.getElementById(`btn-incassa-${id}`);
             
@@ -1040,7 +1141,6 @@
             if(comanda.note) txtCloud += `\nNOTE GENERALI: ${comanda.note}\n`;
             
             const timestamp = Date.now();
-            // Salvo con il timestamp invertito nel nome per facilitare l'ordinamento decrescente
             await salvaFileSuGitHub(`archivio_comande/Comanda_${timestamp}_Tav${comanda.tavolo}_${comanda.data}.txt`, txtCloud, `Archiviata Comanda Tavolo ${comanda.tavolo}`);
             
             alert(`Comanda incassata (${pagamento}) e archiviata con successo!`);
@@ -1086,36 +1186,22 @@
             
             let lordoMatch = text.match(/TOTALE LORDO:\s*€\s*([0-9\.]+)/);
             let lordo = lordoMatch ? parseFloat(lordoMatch[1]) : null;
-
             let nettoMatch = text.match(/TOTALE INCASSATO:\s*€\s*([0-9\.]+)/);
             let netto = nettoMatch ? parseFloat(nettoMatch[1]) : null;
-            
-            let scontoInEuro = 0;
-            if (lordo !== null && netto !== null) {
-                scontoInEuro = lordo - netto;
-            }
+            let scontoInEuro = (lordo !== null && netto !== null) ? (lordo - netto) : 0;
 
-            // Aggiungiamo un parsing "grezzo" del timestamp dal nome file per ordinare cronologicamente
-            let ts = 0;
-            const nameParts = filename.split('_');
-            if(nameParts.length > 1) {
-                const possibileTs = parseInt(nameParts[1]);
-                if(!isNaN(possibileTs) && possibileTs > 100000) ts = possibileTs;
-            }
+            let ts = 0; const nameParts = filename.split('_');
+            if(nameParts.length > 1) { const pTs = parseInt(nameParts[1]); if(!isNaN(pTs) && pTs > 100000) ts = pTs; }
 
-            archivioComandeParsed.push({ 
-                filename, tavolo, persone, cameriere, pagamento, data, articoli, 
-                testoCompleto: text, totaleNettoSc: netto, scontoApplicato: scontoInEuro, timestamp: ts 
-            });
+            archivioComandeParsed.push({ filename, tavolo, persone, cameriere, pagamento, data, articoli, testoCompleto: text, totaleNettoSc: netto, scontoApplicato: scontoInEuro, timestamp: ts });
         }
 
         function filtraComandeGUI() {
             const srcTav = document.getElementById('src-tavolo').value.trim().toLowerCase();
             const divLista = document.getElementById('lista-ricerca-comande'); divLista.innerHTML = '';
             
-            // ORDINE CRONOLOGICO INVERSO (più recenti in alto)
             let filtrate = archivioComandeParsed.filter(c => !srcTav || c.tavolo.toLowerCase().includes(srcTav));
-            filtrate.sort((a, b) => b.timestamp - a.timestamp);
+            filtrate.sort((a, b) => b.timestamp - a.timestamp); // Più recenti in alto!
 
             if(filtrate.length === 0) return divLista.innerHTML = '<div class="text-center text-sm font-bold text-slate-400 py-4">Nessun file trovato.</div>';
             
@@ -1123,11 +1209,10 @@
                 divLista.innerHTML += `
                     <div onclick="mostraDettaglioComanda('${c.filename}')" class="bg-white border border-slate-200 hover:border-indigo-300 p-3 rounded-xl cursor-pointer flex justify-between items-center shadow-sm">
                         <div>
-                            <span class="font-bold text-indigo-700">Tav. ${c.tavolo}</span> 
-                            <span class="text-[10px] text-slate-400 ml-1">(${c.data})</span>
+                            <span class="font-bold text-indigo-700">Tav. ${c.tavolo}</span> <span class="text-[10px] text-slate-400 ml-1">(${c.data})</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            ${c.scontoApplicato > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 rounded-full font-bold">Sc. € ${c.scontoApplicato.toFixed(2)}</span>` : ''}
+                            ${c.scontoApplicato > 0 ? `<span class="text-[9px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-bold">Sc. € ${c.scontoApplicato.toFixed(2)}</span>` : ''}
                             <span class="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-1 rounded">${c.pagamento}</span>
                         </div>
                     </div>
@@ -1157,8 +1242,7 @@
             const targetComande = archivioComandeParsed.filter(c => tipoFiltro === 'tutto' || c.data === dataOggi);
             
             let incassoTotale = 0, incassoContanti = 0, incassoCarta = 0, totaleQtaPietanze = 0;
-            let totalePersone = 0, totaleIncassoCoperti = 0;
-            let totaleScontiPersi = 0; // Tracciamento nuovi sconti
+            let totalePersone = 0, totaleIncassoCoperti = 0, totaleScontiPersi = 0;
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
@@ -1180,10 +1264,9 @@
                     pietanzeCountMap[art.desc].incasso += totaleArt; 
                 });
 
-                // Troviamo il netto per i bilanci reali
                 const incassoRealeComanda = c.totaleNettoSc !== null ? c.totaleNettoSc : totaleLordoComanda;
                 incassoTotale += incassoRealeComanda;
-                totaleScontiPersi += c.scontoApplicato; // Aggiungo lo sconto totale
+                totaleScontiPersi += c.scontoApplicato; 
 
                 if(c.pagamento.includes('POS') || c.pagamento.includes('Carta')) incassoCarta += incassoRealeComanda;
                 else if(c.pagamento.includes('CONTANTI') || c.pagamento.includes('Contanti')) incassoContanti += incassoRealeComanda;
