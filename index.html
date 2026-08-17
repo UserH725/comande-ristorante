@@ -56,7 +56,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- MENU PRINCIPALE AGGIORNATO (FLUSSO LOGICO)                   -->
+        <!-- MENU PRINCIPALE                                              -->
         <!-- ============================================================ -->
         <div id="sec-menu-principale" class="space-y-3 max-w-xl mx-auto">
             <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro</p>
@@ -105,7 +105,7 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg transition">✕ Menu</button>
             </div>
 
-            <!-- MAPPA TAVOLI VISIVA (PALLINI) -->
+            <!-- MAPPA TAVOLI VISIVA -->
             <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 mb-6 shadow-sm">
                 <label class="block text-xs font-black text-slate-500 uppercase tracking-widest mb-4 text-center">👇 Seleziona un Tavolo 👇</label>
                 <div id="mappa-tavoli" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-4">
@@ -119,7 +119,7 @@
                 <button onclick="resetModuloComanda(true)" class="bg-white hover:bg-orange-50 text-orange-900 border border-orange-300 px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm whitespace-nowrap">✕ Annulla</button>
             </div>
             
-            <!-- DATI INTESTAZIONE COMANDA (Area bloccata finchè non selezioni il tavolo) -->
+            <!-- DATI INTESTAZIONE COMANDA -->
             <div id="area-comanda" class="opacity-50 pointer-events-none transition-opacity duration-300">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
                     <div>
@@ -155,19 +155,19 @@
                     </div>
                 </div>
 
-                <!-- ANTEPRIMA COMANDA -->
+                <!-- ANTEPRIMA COMANDA CON TASTI NOTA -->
                 <div class="border border-slate-300 rounded-xl p-5 mb-6 bg-white shadow-inner font-mono text-sm relative">
                     <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-800 px-3 py-0.5 rounded-full text-xs font-black tracking-widest border border-indigo-200">SCONTRINO</div>
                     <div class="text-xs font-bold text-slate-400 border-b border-slate-200 pb-2 mb-3 mt-2 flex justify-between">
-                        <span>QTA | ARTICOLO</span>
+                        <span>QTA | ARTICOLO (Usa ✎ per varianti)</span>
                         <span>PREZZO</span>
                     </div>
                     <div id="cmd-lista-articoli" class="space-y-1 text-slate-700"></div>
                 </div>
 
                 <div class="max-w-xl mx-auto space-y-4">
-                    <input type="text" id="cmd-note" placeholder="Note cucina (es. no cipolla, ben cotta)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
-                    <!-- TASTO INVIO CUCINA DINAMICO -->
+                    <input type="text" id="cmd-note" placeholder="Note generali comanda (es. Portare tutto insieme)" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm">
+                    <!-- TASTO INVIO CUCINA -->
                     <button id="btn-invia-cucina" onclick="inviaComandaInCucina()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-black text-lg shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 flex justify-center items-center gap-2">
                         👨‍🍳 Genera Codice, Stampa & Invia in Cucina
                     </button>
@@ -176,44 +176,36 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- [2] GESTIONE CUCINA                                          -->
+        <!-- [2] GESTIONE CUCINA E [3] GESTIONE CASSA                     -->
         <!-- ============================================================ -->
         <div id="sec-cucina" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-2xl font-black text-orange-600">👨‍🍳 Gestione Cucina</h2>
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
-            
             <div class="flex justify-between items-center mb-4">
                 <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Comande in Attesa / Aggiunte</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-orange-100 text-orange-700 hover:bg-orange-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
-
             <div id="grid-cucina" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- [3] GESTIONE CASSA (INCASSI)                                 -->
-        <!-- ============================================================ -->
         <div id="sec-cassa" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-2xl font-black text-emerald-600">💶 Gestione Cassa</h2>
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
-            
             <div class="flex justify-between items-center mb-4">
                 <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Comande Pronte (Da Pagare)</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
-
             <div id="grid-cassa" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- SEZIONI AMMINISTRAZIONE (4, 5, 6, 7)                         -->
+        <!-- SEZIONI AMMINISTRAZIONE                                      -->
         <!-- ============================================================ -->
         
-        <!-- [6] ANAGRAFICA -->
         <div id="sec-anagrafica" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Personalizzazione Locale</h2>
             <div class="space-y-4">
@@ -229,7 +221,6 @@
             </div>
         </div>
 
-        <!-- [4] MENU PIETANZE -->
         <div id="sec-menu-pietanze" class="sezione hidden">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-5">
                 <h2 class="text-xl font-black text-indigo-700">Gestione Menu Pietanze</h2>
@@ -261,7 +252,6 @@
             <div id="grid-menu-categorie" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
         </div>
 
-        <!-- [5] CAMERIERI -->
         <div id="sec-camerieri" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Gestione Staff</h2>
             <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-6 shadow-sm">
@@ -274,7 +264,6 @@
             <button onclick="tornaMenu()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-xl shadow-sm transition">Torna al Menu</button>
         </div>
 
-        <!-- [7] REPORT E ARCHIVIO -->
         <div id="sec-report" class="sezione hidden max-w-xl mx-auto">
             <h2 class="text-xl font-black text-indigo-700 mb-5 border-b border-slate-200 pb-2">Archivio & Report Finanziario</h2>
             <div class="flex gap-2 mb-6 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
@@ -282,15 +271,12 @@
                 <button onclick="generaReportFinanziario('tutto')" id="btn-rep-tutto" class="flex-1 bg-transparent text-slate-500 hover:text-slate-700 py-2.5 rounded-lg text-sm font-bold transition">Totale Storico</button>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                <!-- BOX INCASSI -->
                 <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-emerald-600 uppercase tracking-wider mb-1">Incasso Totale</span><span id="rep-tot-incasso" class="text-xl font-black text-emerald-700">€ 0.00</span></div>
                 <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-indigo-600 uppercase tracking-wider mb-1">Piatti Serviti</span><span id="rep-tot-pietanze" class="text-xl font-black text-indigo-700">0</span></div>
                 
-                <!-- NUOVI BOX COPERTI -->
                 <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Coperti (Persone)</span><span id="rep-tot-coperti" class="text-xl font-black text-amber-700">0</span></div>
                 <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-center shadow-sm"><span class="block text-xs font-black text-amber-600 uppercase tracking-wider mb-1">Incasso Coperti</span><span id="rep-incasso-coperti" class="text-xl font-black text-amber-700">€ 0.00</span></div>
 
-                <!-- BOX METODI PAGAMENTO -->
                 <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da Contanti</span><span id="rep-tot-contanti" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
                 <div class="bg-white border border-slate-200 p-3 rounded-xl text-center shadow-sm"><span class="block text-xs font-bold text-slate-400 uppercase mb-1">Da POS/Carta</span><span id="rep-tot-carta" class="text-lg font-bold text-slate-700">€ 0.00</span></div>
             </div>
@@ -339,7 +325,7 @@
         let anagrafica = { nome: '', indirizzo: '', tel: '', piva: '', note: '' };
         let menuPietanze = [];
         let listaCamerieri = [];
-        let comandaCorrente = [];
+        let comandaCorrente = []; // Ogni item avrà formato { qta, desc, prezzo, nota }
         let comandeAttive = []; 
         let archivioComandeParsed = [];
         let htmlComandaSelezionata = "";
@@ -633,9 +619,10 @@
             window.scrollTo({ top: document.getElementById('area-comanda').offsetTop - 20, behavior: 'smooth' });
         }
 
+        // AGGIUNTA NOTE E SMART GROUPING
         function selezionaEAggiungiRapido(desc, prezzo) {
-            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo);
-            if(ext) ext.qta += 1; else comandaCorrente.push({ qta: 1, desc, prezzo });
+            const ext = comandaCorrente.find(i => i.desc === desc && i.prezzo === prezzo && (!i.nota || i.nota === ''));
+            if(ext) ext.qta += 1; else comandaCorrente.push({ qta: 1, desc, prezzo, nota: '' });
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
         
@@ -643,10 +630,19 @@
             const qta = parseInt(document.getElementById('cmd-qta').value) || 1; const desc = document.getElementById('cmd-desc').value.trim();
             if(!desc) return;
             const p = document.getElementById('cmd-prezzo-manuale').value.trim() ? normalizzaPrezzo(document.getElementById('cmd-prezzo-manuale').value.trim()) : trovaInfoPiatto(desc).prezzo;
-            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p);
-            if(ext) ext.qta += qta; else comandaCorrente.push({ qta, desc, prezzo: p });
+            const ext = comandaCorrente.find(i => i.desc.toLowerCase() === desc.toLowerCase() && i.prezzo === p && (!i.nota || i.nota === ''));
+            if(ext) ext.qta += qta; else comandaCorrente.push({ qta, desc, prezzo: p, nota: '' });
             document.getElementById('cmd-desc').value = ''; document.getElementById('cmd-prezzo-manuale').value = ''; document.getElementById('cmd-qta').value = '1';
             renderizzaMenuGUI(); renderizzaComandaGUI();
+        }
+
+        function aggiungiNotaRiga(idx) {
+            const notaAttuale = comandaCorrente[idx].nota || '';
+            const nuovaNota = prompt(`Inserisci variante/nota per: ${comandaCorrente[idx].desc}`, notaAttuale);
+            if(nuovaNota !== null) {
+                comandaCorrente[idx].nota = nuovaNota.trim();
+                renderizzaComandaGUI();
+            }
         }
         
         function decrementaRigaComanda(idx) { if(comandaCorrente[idx].qta > 1) comandaCorrente[idx].qta -= 1; else comandaCorrente.splice(idx, 1); renderizzaMenuGUI(); renderizzaComandaGUI(); }
@@ -672,13 +668,26 @@
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ ${cat}</div>`;
                     raggruppati[cat].forEach(item => {
-                        div.innerHTML += `<div class="flex justify-between items-center text-slate-800 text-xs py-1.5"><span><b class="text-slate-900">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px]">(€ ${item.prezzo} cad.)</span>`:''}</span><div class="flex items-center gap-1 sm:gap-2"><span class="text-slate-800 font-bold pr-2">€ ${item.totRiga.toFixed(2)}</span><button onclick="decrementaRigaComanda(${item.originalIdx})" class="bg-slate-200 hover:bg-slate-300 rounded-md w-6 h-6 flex items-center justify-center font-bold">-</button><button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:bg-red-100 rounded-md w-6 h-6 flex items-center justify-center font-bold">✕</button></div></div>`;
+                        div.innerHTML += `
+                            <div class="flex justify-between items-start text-slate-800 text-xs py-1.5 border-b border-slate-50 last:border-0">
+                                <div class="flex flex-col pr-2">
+                                    <span><b class="text-slate-900">${item.qta}x</b> ${item.desc} ${item.qta>1?`<span class="text-slate-400 text-[10px]">(€ ${item.prezzo} cad.)</span>`:''}</span>
+                                    ${item.nota ? `<span class="text-orange-500 text-[10.5px] font-bold italic mt-0.5">↳ Nota: ${item.nota}</span>` : ''}
+                                </div>
+                                <div class="flex items-center gap-1 sm:gap-1.5 shrink-0 mt-0.5">
+                                    <span class="text-slate-800 font-bold pr-1 sm:pr-2">€ ${item.totRiga.toFixed(2)}</span>
+                                    <button onclick="aggiungiNotaRiga(${item.originalIdx})" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm" title="Aggiungi Nota">✎</button>
+                                    <button onclick="decrementaRigaComanda(${item.originalIdx})" class="bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">-</button>
+                                    <button onclick="rimuoviRigaComanda(${item.originalIdx})" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-md w-6 h-6 flex items-center justify-center font-bold transition shadow-sm">✕</button>
+                                </div>
+                            </div>
+                        `;
                     });
                 }
             });
 
             if(numPersone > 0) {
-                div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div><div class="flex justify-between items-center text-slate-800 text-xs py-1.5"><span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00)</span></span><span class="text-slate-800 font-bold pr-16">€ ${totaleCoperto.toFixed(2)}</span></div>`;
+                div.innerHTML += `<div class="text-indigo-500 font-black text-[10px] uppercase tracking-widest mt-4 mb-1 border-b border-slate-200 pb-0.5">▪ SERVIZIO</div><div class="flex justify-between items-center text-slate-800 text-xs py-1.5"><span><b class="text-slate-900">${numPersone}x</b> Coperto <span class="text-slate-400 text-[10px]">(€ 2.00)</span></span><span class="text-slate-800 font-bold pr-28">€ ${totaleCoperto.toFixed(2)}</span></div>`;
             }
             div.innerHTML += `<div class="mt-5 pt-3 border-t-2 border-slate-300 flex justify-between items-center font-black"><span class="text-slate-600">TOTALE:</span><span class="text-emerald-600 text-xl">€ ${totaleGenerale.toFixed(2)}</span></div>`;
         }
@@ -756,14 +765,24 @@
                 if (raggruppati[cat] && raggruppati[cat].length > 0) {
                     html += `<tr><td colspan="3" class="cat-header">--- ${cat} ---</td></tr>`;
                     raggruppati[cat].forEach(item => {
-                        html += `<tr><td class="text-center bold">${item.qta}</td><td>${item.desc} ${item.qta>1?`<br><span class="unit-price">(€ ${parseFloat(item.prezzo).toFixed(2)} cad.)</span>`:''}</td><td class="text-right">€ ${item.totRiga.toFixed(2)}</td></tr>`;
+                        html += `
+                            <tr>
+                                <td class="text-center bold">${item.qta}</td>
+                                <td>
+                                    ${item.desc}
+                                    ${item.qta>1 ? `<br><span class="unit-price">(€ ${parseFloat(item.prezzo).toFixed(2)} cad.)</span>` : ''}
+                                    ${item.nota ? `<br><span style="font-size: 10px; font-weight: bold; font-style: italic;">↳ Nota: ${item.nota}</span>` : ''}
+                                </td>
+                                <td class="text-right">€ ${item.totRiga.toFixed(2)}</td>
+                            </tr>
+                        `;
                     });
                 }
             });
 
             if(numPersone > 0) html += `<tr><td colspan="3" class="cat-header">--- SERVIZIO ---</td></tr><tr><td class="text-center bold">${numPersone}</td><td>Coperto <br><span class="unit-price">(€ 2.00 cad.)</span></td><td class="text-right">€ ${totaleCoperto.toFixed(2)}</td></tr>`;
             html += `</tbody></table><div style="border-top: 2px dashed black; margin-top: 10px; padding-top: 10px; text-align: right; font-size: 16px;"><span class="bold">TOTALE: € ${totaleGenerale.toFixed(2)}</span></div>`;
-            if(note) html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE CUCINA:</span><br>${note}</div>`;
+            if(note) html += `<div style="margin-top: 15px; border: 1px solid black; padding: 5px;"><span class="bold">NOTE GENERALI:</span><br>${note}</div>`;
             return html;
         }
 
@@ -797,7 +816,12 @@
             let countCucina = 0; let countCassa = 0;
 
             comandeAttive.forEach(c => {
-                let listArticoli = c.articoli.map(a => `<div class="flex justify-between border-b border-slate-100 py-1 text-sm"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>`).join('');
+                let listArticoli = c.articoli.map(a => `
+                    <div class="flex flex-col border-b border-slate-100 py-1 text-sm">
+                        <div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>
+                        ${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}
+                    </div>
+                `).join('');
                 let totaleGen = (parseInt(c.persone) * PREZZO_COPERTO_UNITARIO) + c.articoli.reduce((acc, a) => acc + (parseFloat(a.prezzo) * a.qta), 0);
                 
                 const cardHTML = `
@@ -861,9 +885,15 @@
 
             let txtCloud = `Tavolo: ${comanda.tavolo}\nCoperti: ${comanda.persone}\nCameriere: ${comanda.cameriere}\nStato: ${pagamento}\nData: ${comanda.data}\n\n`;
             let totaleGen = parseInt(comanda.persone) * PREZZO_COPERTO_UNITARIO;
-            comanda.articoli.forEach(i => { const tot = parseFloat(i.prezzo) * i.qta; totaleGen += tot; txtCloud += `${i.qta} x ${i.desc} (€ ${i.prezzo}) = € ${tot.toFixed(2)}\n`; });
+            comanda.articoli.forEach(i => { 
+                const tot = parseFloat(i.prezzo) * i.qta; 
+                totaleGen += tot; 
+                txtCloud += `${i.qta} x ${i.desc} (€ ${i.prezzo}) = € ${tot.toFixed(2)}\n`; 
+                if(i.nota) txtCloud += `   ↳ Nota: ${i.nota}\n`;
+            });
             if(parseInt(comanda.persone) > 0) txtCloud += `${comanda.persone} x Coperto (€ 2.00) = € ${(parseInt(comanda.persone)*2).toFixed(2)}\n`;
             txtCloud += `\nTOTALE COMANDA: € ${totaleGen.toFixed(2)}\n`;
+            if(comanda.note) txtCloud += `\nNOTE GENERALI: ${comanda.note}\n`;
             
             const timestamp = Date.now();
             await salvaFileSuGitHub(`archivio_comande/Comanda_Tav${comanda.tavolo}_${comanda.data}_${timestamp}.txt`, txtCloud, `Archiviata Comanda Tavolo ${comanda.tavolo}`);
@@ -898,7 +928,6 @@
         function parseSingleComandaText(filename, text) {
             let tavolo = "ND", cameriere = "ND", pagamento = "Contanti", data = "", articoli = [];
             
-            // Nuova RegExp che cerca la riga che INIZIA per "Coperti:" o contiene la stringa "Coperti:"
             let personeMatch = text.match(/Coperti:\s*([0-9]+)/);
             let persone = personeMatch ? parseInt(personeMatch[1]) : 0;
 
@@ -950,8 +979,6 @@
             let pietanzeCountMap = {};
 
             targetComande.forEach(c => {
-                
-                // Conteggio Coperti e Incasso Coperti
                 totalePersone += c.persone;
                 let incassoCopertoComanda = c.persone * PREZZO_COPERTO_UNITARIO;
                 totaleIncassoCoperti += incassoCopertoComanda;
