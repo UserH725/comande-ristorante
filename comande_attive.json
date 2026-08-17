@@ -30,7 +30,7 @@
         "prezzo": "11.00",
         "nota": "no cozze",
         "uscita": 2,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -38,7 +38,7 @@
         "prezzo": "8.50",
         "nota": "",
         "uscita": 3,
-        "stato": "in_attesa"
+        "stato": "pronto"
       }
     ]
   }
