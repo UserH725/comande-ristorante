@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "id": "I7R5",
+    "tavolo": "3",
+    "persone": "1",
+    "cameriere": "Asia (DIRETTRICE RISTORANTE)",
+    "note": "",
+    "data": "17-08-2026",
+    "ora": "15:24",
+    "articoli": [
+      {
+        "qta": 1,
+        "desc": "Bibite lattina",
+        "prezzo": "4.00",
+        "nota": "Fanta fredda",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Bibite lattina",
+        "prezzo": "4.00",
+        "nota": "Ichnusa fredda",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 2,
+        "desc": "Vino bianco frizzantino ½ litro",
+        "prezzo": "5.50",
+        "nota": "",
+        "uscita": 1,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Antipasto Misto Mare",
+        "prezzo": "10,00",
+        "nota": "",
+        "uscita": 2,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Cocktail di gamberi",
+        "prezzo": "8.00",
+        "nota": "",
+        "uscita": 2,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Cozze alla marinara",
+        "prezzo": "7.50",
+        "nota": "",
+        "uscita": 2,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Lasagne zucchine gamberetti e salmone",
+        "prezzo": "9.50",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Polpette di pesce",
+        "prezzo": "10.00",
+        "nota": "",
+        "uscita": 4,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Patate fritte",
+        "prezzo": "3.50",
+        "nota": "",
+        "uscita": 4,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Aragosta flambè",
+        "prezzo": "18.50",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Ostriche",
+        "prezzo": "35.00",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
+      }
+    ]
+  }
+]
