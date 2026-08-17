@@ -31,6 +31,14 @@
         "nota": "no cozze",
         "uscita": 2,
         "stato": "in_attesa"
+      },
+      {
+        "qta": 1,
+        "desc": "Tortelli al ragù di pesce",
+        "prezzo": "8.50",
+        "nota": "",
+        "uscita": 3,
+        "stato": "in_attesa"
       }
     ]
   }
