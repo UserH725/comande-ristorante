@@ -58,10 +58,10 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- MENU PRINCIPALE AGGIORNATO                                   -->
+        <!-- MENU PRINCIPALE                                              -->
         <!-- ============================================================ -->
         <div id="sec-menu-principale" class="space-y-3 max-w-xl mx-auto">
-            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro</p>
+            <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider text-center">Flusso di Lavoro Operativo</p>
             
             <button onclick="apriSezione('sec-nuova-comanda')" class="w-full text-left p-4 bg-indigo-600 hover:bg-indigo-700 rounded-xl border border-indigo-500 font-bold text-white flex items-center gap-4 shadow-lg transition-transform transform hover:-translate-y-0.5">
                 <span class="bg-white/20 text-white px-3 py-1.5 rounded-lg text-sm font-black shadow-sm">[1]</span> 
@@ -153,7 +153,6 @@
                     </div>
                 </div>
 
-                <!-- SELEZIONE PIETANZE CON CONTROLLI RIMOOZIONE IN ALTO -->
                 <div class="mb-6">
                     <label class="block text-sm font-black text-slate-700 uppercase tracking-widest mb-3 text-center">👇 Gestisci pietanze e quantità 👇</label>
                     <div id="cmd-menu-categorizzato" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -193,7 +192,7 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Da Preparare</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Da Preparare per Uscite</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-orange-100 text-orange-700 hover:bg-orange-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
             <div id="grid-cucina" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -208,7 +207,7 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Piatti Pronti al Pass</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Uscite Pronte al Pass</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-cyan-100 text-cyan-700 hover:bg-cyan-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
             <div id="grid-consegne" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -223,14 +222,14 @@
                 <button onclick="tornaMenu()" class="text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 px-3 py-1 rounded-lg">✕ Torna al Menu</button>
             </div>
             <div class="flex justify-between items-center mb-4">
-                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tavoli Aperti</p>
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-widest">Tavoli Aperti & Avanzamento</p>
                 <button onclick="caricaComandeAttive()" class="text-xs bg-emerald-100 text-emerald-700 hover:bg-emerald-200 font-bold py-1.5 px-3 rounded-lg shadow-sm">🔄 Aggiorna</button>
             </div>
             <div id="grid-cassa" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- SEZIONI AMMINISTRAZIONE                                      -->
+        <!-- SEZIONI AMMINISTRAZIONE (5, 6, 7, 8)                         -->
         <!-- ============================================================ -->
         
         <div id="sec-anagrafica" class="sezione hidden max-w-xl mx-auto">
@@ -333,7 +332,7 @@
     </div> <!-- FINE #main-app -->
 
     <!-- ============================================================ -->
-    <!-- STICKY FOOTER (BARRA INFERIORE FISSA PER LA COMANDA)         -->
+    <!-- STICKY FOOTER                                                -->
     <!-- ============================================================ -->
     <div id="sticky-footer" class="fixed bottom-0 left-0 w-full bg-slate-900 border-t-4 border-indigo-500 text-white p-3 sm:p-4 z-50 transition-transform duration-300 transform translate-y-full shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.4)]">
         <div class="max-w-4xl mx-auto flex justify-between items-center px-2">
@@ -354,9 +353,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA                     -->
-    <!-- ============================================================ -->
+    <!-- AREA DEDICATA ESCLUSIVAMENTE ALLA STAMPA -->
     <div id="printable-area"></div>
 
     <!-- LOGICA JAVASCRIPT -->
@@ -558,7 +555,6 @@
                     gridDiv.innerHTML += `<div class="bg-white border border-slate-200 shadow-sm rounded-xl p-4"><h4 class="text-xs font-black text-indigo-600 uppercase tracking-widest mb-2 border-b border-slate-100 pb-1">${cat}</h4><div class="space-y-0.5">${listHtml}</div></div>`;
                 }
 
-                // TASTIERINO IN ALTO CON CONTROLLI INSERIMENTO / RIMOZIONE DEDICATI
                 if (cmdMenuCategorizzato && piattiCat.length > 0) {
                     let btnsHtml = piattiCat.map(p => {
                         let totQ = 0; 
@@ -608,7 +604,7 @@
         }
 
         /* --------------------------------------------------------
-           [1] MAPPA TAVOLI E NUOVA COMANDA
+           [1] MAPPA TAVOLI E NUOVA COMANDA CON GESTIONE USCITE
         -------------------------------------------------------- */
         
         function impostaUscita(num) {
@@ -716,7 +712,6 @@
             renderizzaMenuGUI(); renderizzaComandaGUI();
         }
 
-        // FUNZIONE DEDICATA PER RIMUOVERE / DECREMENTARE DAL MENU IN ALTO
         function decrementaPiattoDaMenu(desc, prezzo) {
             let idx = comandaCorrente.findIndex(i => i.desc === desc && i.prezzo === prezzo && i.uscita === uscitaCorrenteSelezionata && !i.stato);
             if(idx === -1) {
@@ -808,7 +803,6 @@
                             else if (item.stato === 'consegnato') labelStato = '<span class="text-[9px] bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-emerald-200">✅ Servito</span>';
                             else labelStato = '<span class="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded ml-2 whitespace-nowrap shadow-sm border border-indigo-200 animate-pulse">🆕 Nuovo</span>';
 
-                            // RIMOZIONE PULSANTI "-" E "✕" DAL RIEPILOGO SCONTRINO (SPOSTATI IN ALTO)
                             div.innerHTML += `
                                 <div class="flex justify-between items-start text-slate-800 text-xs py-1.5 border-b border-slate-50 last:border-0">
                                     <div class="flex flex-col pr-2">
@@ -958,13 +952,15 @@
         async function apriSezioneConsegne() { apriSezione('sec-consegne'); await caricaComandeAttive(); }
         async function apriSezioneCassa() { apriSezione('sec-cassa'); await caricaComandeAttive(); }
 
-        async function avanzaStatoArticoli(idComanda, statoCorrente, nuovoStato) {
+        async function avanzaStatoArticoliUscita(idComanda, statoCorrente, nuovoStato, numUscita) {
             const idx = comandeAttive.findIndex(c => c.id === idComanda);
             if(idx > -1) {
                 comandeAttive[idx].articoli.forEach(a => {
-                    if(a.stato === statoCorrente) a.stato = nuovoStato;
+                    if(a.stato === statoCorrente && (a.uscita || 1) == numUscita) {
+                        a.stato = nuovoStato;
+                    }
                 });
-                await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), `Avanzamento #${idComanda} -> ${nuovoStato}`);
+                await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), `Avanzamento #${idComanda} Uscita ${numUscita} -> ${nuovoStato}`);
                 renderizzaDashboardCucinaCassa();
             }
         }
@@ -1022,10 +1018,14 @@
 
             let countCucina = 0; let countConsegne = 0; let countCassa = 0;
 
-            comandeAttive.forEach(c => {
+            comandeAttive.sort((a,b) => parseInt(a.tavolo) - parseInt(b.tavolo)).forEach(c => {
                 let itemsAttesa = c.articoli.filter(a => a.stato === 'in_attesa');
                 let itemsPronto = c.articoli.filter(a => a.stato === 'pronto');
                 let hasNonConsegnati = c.articoli.some(a => a.stato !== 'consegnato');
+
+                let qtaInAttesa = c.articoli.filter(a => a.stato === 'in_attesa').reduce((acc, a) => acc + parseInt(a.qta), 0);
+                let qtaPronto = c.articoli.filter(a => a.stato === 'pronto').reduce((acc, a) => acc + parseInt(a.qta), 0);
+                let qtaConsegnato = c.articoli.filter(a => a.stato === 'consegnato').reduce((acc, a) => acc + parseInt(a.qta), 0);
 
                 let totaleGen = (parseInt(c.persone) * PREZZO_COPERTO_UNITARIO) + c.articoli.reduce((acc, a) => acc + (parseFloat(a.prezzo) * a.qta), 0);
                 
@@ -1037,56 +1037,130 @@
                     <div class="text-xs text-slate-500 mb-2 font-semibold">Cam: ${c.cameriere} &nbsp;|&nbsp; Ore: ${c.ora} &nbsp;|&nbsp; Coperti: ${c.persone}</div>
                 `;
 
-                const renderItemsByUscita = (itemsArray) => {
-                    let usciteMap = {};
-                    itemsArray.forEach(a => { const u = a.uscita||1; if(!usciteMap[u]) usciteMap[u] = []; usciteMap[u].push(a); });
-                    let resHtml = '';
-                    Object.keys(usciteMap).sort().forEach(u => {
-                        resHtml += `<div class="font-black text-indigo-500 text-[10px] uppercase mt-2 border-b border-slate-100 pb-0.5">${u}° Uscita</div>`;
-                        usciteMap[u].forEach(a => {
-                            resHtml += `<div class="flex flex-col py-1 text-sm"><div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}</div>`;
-                        });
-                    });
-                    return resHtml;
-                };
-
                 // 1. DASHBOARD CUCINA
                 if(itemsAttesa.length > 0 && gridCucina) {
+                    let usciteMap = {};
+                    itemsAttesa.forEach(a => { const u = a.uscita||1; if(!usciteMap[u]) usciteMap[u] = []; usciteMap[u].push(a); });
+                    
+                    let usciteBlocksHtml = '';
+                    Object.keys(usciteMap).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(u => {
+                        let itemsListHtml = usciteMap[u].map(a => `
+                            <div class="flex flex-col border-b border-slate-100 py-1 text-sm">
+                                <div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>
+                                ${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}
+                            </div>
+                        `).join('');
+
+                        usciteBlocksHtml += `
+                            <div class="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-2 shadow-sm">
+                                <div class="flex justify-between items-center mb-2 border-b border-orange-200 pb-1">
+                                    <span class="font-black text-xs text-orange-800 uppercase tracking-widest">${u}° USCITA</span>
+                                    <button onclick="avanzaStatoArticoliUscita('${c.id}', 'in_attesa', 'pronto', ${u})" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition transform hover:-translate-y-0.5">
+                                        Segna Pronta ${u}° Uscita ➔
+                                    </button>
+                                </div>
+                                <div>${itemsListHtml}</div>
+                            </div>
+                        `;
+                    });
+
                     gridCucina.innerHTML += `
                         <div class="bg-white border border-orange-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-                            <div>${cardHeader}<div class="mb-3">${renderItemsByUscita(itemsAttesa)}</div></div>
-                            <button onclick="avanzaStatoArticoli('${c.id}', 'in_attesa', 'pronto')" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Segna come PRONTI ➔</button>
+                            <div>${cardHeader}<div class="mb-1">${usciteBlocksHtml}</div></div>
+                            ${c.note ? `<div class="bg-amber-50 text-amber-800 p-2 rounded text-xs font-bold mt-2 border border-amber-200">NOTE GENERALI: ${c.note}</div>` : ''}
                         </div>
                     `;
                     countCucina++;
                 }
 
-                // 2. DASHBOARD CONSEGNE (SALA)
+                // 2. DASHBOARD CONSEGNE SALA
                 if(itemsPronto.length > 0 && gridConsegne) {
+                    let usciteMap = {};
+                    itemsPronto.forEach(a => { const u = a.uscita||1; if(!usciteMap[u]) usciteMap[u] = []; usciteMap[u].push(a); });
+                    
+                    let usciteBlocksHtml = '';
+                    Object.keys(usciteMap).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(u => {
+                        let itemsListHtml = usciteMap[u].map(a => `
+                            <div class="flex flex-col border-b border-slate-100 py-1 text-sm">
+                                <div class="flex justify-between items-center"><span class="font-bold text-slate-700">${a.qta}x ${a.desc}</span></div>
+                                ${a.nota ? `<span class="text-orange-500 text-xs font-bold italic ml-4">↳ Nota: ${a.nota}</span>` : ''}
+                            </div>
+                        `).join('');
+
+                        usciteBlocksHtml += `
+                            <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-3 mb-2 shadow-sm">
+                                <div class="flex justify-between items-center mb-2 border-b border-cyan-200 pb-1">
+                                    <span class="font-black text-xs text-cyan-800 uppercase tracking-widest">${u}° USCITA</span>
+                                    <button onclick="avanzaStatoArticoliUscita('${c.id}', 'pronto', 'consegnato', ${u})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition transform hover:-translate-y-0.5">
+                                        Consegnata ${u}° Uscita ✅
+                                    </button>
+                                </div>
+                                <div>${itemsListHtml}</div>
+                            </div>
+                        `;
+                    });
+
                     gridConsegne.innerHTML += `
                         <div class="bg-white border border-cyan-200 rounded-xl p-4 shadow-sm flex flex-col justify-between">
-                            <div>${cardHeader}<div class="mb-3">${renderItemsByUscita(itemsPronto)}</div></div>
-                            <button onclick="avanzaStatoArticoli('${c.id}', 'pronto', 'consegnato')" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg mt-auto shadow-md transition transform hover:-translate-y-0.5">Consegnati al Tavolo ✅</button>
+                            <div>${cardHeader}<div class="mb-1">${usciteBlocksHtml}</div></div>
+                            ${c.note ? `<div class="bg-amber-50 text-amber-800 p-2 rounded text-xs font-bold mt-2 border border-amber-200">NOTE GENERALI: ${c.note}</div>` : ''}
                         </div>
                     `;
                     countConsegne++;
                 }
 
-                // 3. DASHBOARD CASSA
+                // 3. DASHBOARD CASSA CON TRACCIAMENTO AVANZATO
                 if(gridCassa) {
-                    let badgeCassa = hasNonConsegnati ? `<div class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">⚠️ IN SERVIZIO</div>` : `<div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">✅ CONSEGNATO</div>`;
+                    let badgeCassa = '';
+                    if (qtaInAttesa > 0) {
+                        badgeCassa = `<div class="absolute top-0 right-0 bg-orange-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">⏳ IN CUCINA (${qtaInAttesa})</div>`;
+                    } else if (qtaPronto > 0) {
+                        badgeCassa = `<div class="absolute top-0 right-0 bg-cyan-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">🛎️ PRONTO PASS (${qtaPronto})</div>`;
+                    } else {
+                        badgeCassa = `<div class="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-lg shadow-sm">✅ TUTTO SERVITO</div>`;
+                    }
                     
-                    let listAll = c.articoli.map(a => {
-                        let iconStato = a.stato === 'consegnato' ? '✅' : (a.stato === 'pronto' ? '🛎️' : '⏳');
-                        return `<div class="flex justify-between border-b border-slate-100 py-1 text-xs"><span class="text-slate-700">${a.qta}x ${a.desc} <span class="text-[10px] text-slate-400">(${a.uscita||1}°U)</span></span><span title="Stato">${iconStato}</span></div>`;
-                    }).join('');
+                    let usciteCassaMap = {};
+                    c.articoli.forEach(a => {
+                        const u = a.uscita || 1;
+                        if(!usciteCassaMap[u]) usciteCassaMap[u] = [];
+                        usciteCassaMap[u].push(a);
+                    });
+                    
+                    let listAll = '';
+                    Object.keys(usciteCassaMap).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(u => {
+                        listAll += `<div class="font-bold text-indigo-600 text-[10px] uppercase mt-2 border-b border-slate-100 pb-0.5">${u}° Uscita</div>`;
+                        usciteCassaMap[u].forEach(a => {
+                            let tagStato = '';
+                            if (a.stato === 'in_attesa') tagStato = '<span class="text-[9px] bg-orange-100 text-orange-700 font-bold px-1.5 py-0.5 rounded border border-orange-200">⏳ Cucina</span>';
+                            else if (a.stato === 'pronto') tagStato = '<span class="text-[9px] bg-cyan-100 text-cyan-700 font-bold px-1.5 py-0.5 rounded border border-cyan-200">🛎️ In Consegna</span>';
+                            else tagStato = '<span class="text-[9px] bg-emerald-100 text-emerald-700 font-bold px-1.5 py-0.5 rounded border border-emerald-200">✅ Servito</span>';
+
+                            listAll += `
+                                <div class="flex flex-col border-b border-slate-50 py-1 text-xs">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-slate-700 font-semibold">${a.qta}x ${a.desc}</span>
+                                        ${tagStato}
+                                    </div>
+                                    ${a.nota ? `<span class="text-orange-500 text-[10px] font-bold italic ml-2">↳ Nota: ${a.nota}</span>` : ''}
+                                </div>
+                            `;
+                        });
+                    });
 
                     gridCassa.innerHTML += `
                         <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col justify-between relative overflow-hidden">
                             ${badgeCassa}
                             <div>
                                 ${cardHeader}
-                                <div class="mb-3 max-h-24 overflow-y-auto pr-1">${listAll}</div>
+                                <!-- BARRA AVANZAMENTO SERVIZIO PER LA CASSA -->
+                                <div class="flex gap-1.5 my-2 text-[10px] font-bold flex-wrap">
+                                    <span class="bg-orange-50 text-orange-700 px-2 py-0.5 rounded border border-orange-200">⏳ Cucina: ${qtaInAttesa}</span>
+                                    <span class="bg-cyan-50 text-cyan-700 px-2 py-0.5 rounded border border-cyan-200">🛎️ Sala: ${qtaPronto}</span>
+                                    <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded border border-emerald-200">✅ Serviti: ${qtaConsegnato}</span>
+                                </div>
+                                <div class="mb-3 max-h-36 overflow-y-auto pr-1">${listAll}</div>
+                                ${c.note ? `<div class="bg-amber-50 text-amber-800 p-2 rounded text-xs font-bold mb-3 border border-amber-200">NOTE GENERALI: ${c.note}</div>` : ''}
                             </div>
                             <div class="border-t border-slate-200 pt-3 mt-auto">
                                 <div class="flex justify-between items-end mb-3">
@@ -1131,34 +1205,80 @@
             const idx = comandeAttive.findIndex(c => c.id === id);
             if(idx === -1) return;
             const comanda = comandeAttive[idx];
-            
-            const hasNonConsegnati = comanda.articoli.some(a => a.stato !== 'consegnato');
-            if (hasNonConsegnati) {
-                if(!confirm("⚠️ ATTENZIONE:\nQuesto tavolo ha pietanze non ancora consegnate o in preparazione!\n\nVuoi FORZARE l'incasso e chiudere il tavolo comunque?")) return;
+
+            let articoliDaIncassare = [...comanda.articoli];
+            let stornati = [];
+            const haNonConsegnati = comanda.articoli.some(a => a.stato !== 'consegnato');
+
+            if (haNonConsegnati) {
+                const sceltaStorno = confirm(
+                    "⚠️ ATTENZIONE:\nCi sono pietanze non ancora servite al tavolo in carico alla cucina o al pass!\n\n" +
+                    "• Premere 'OK' per STORNARE le pietanze non servite (Annulla l'ordine in cucina e NON le fa pagare).\n" +
+                    "• Premere 'ANNULLA' per decidere se incassare tutto comunque o fermarsi."
+                );
+
+                if (sceltaStorno) {
+                    articoliDaIncassare = comanda.articoli.filter(a => a.stato === 'consegnato');
+                    stornati = comanda.articoli.filter(a => a.stato !== 'consegnato');
+                } else {
+                    if(!confirm("Vuoi FORZARE l'incasso di TUTTE le pietanze (anche quelle non servite) e chiudere il conto?")) {
+                        return;
+                    }
+                }
             }
 
             const pagamento = document.getElementById(`pag-${id}`).value;
             const btnIncassa = document.getElementById(`btn-incassa-${id}`);
             
             let totaleGenLordo = parseInt(comanda.persone) * PREZZO_COPERTO_UNITARIO;
-            comanda.articoli.forEach(i => { totaleGenLordo += (parseFloat(i.prezzo) * i.qta); });
+            articoliDaIncassare.forEach(i => { totaleGenLordo += (parseFloat(i.prezzo) * i.qta); });
             
             const scontoTipo = btnIncassa.dataset.scontoTipo || null;
             const scontoVal = btnIncassa.dataset.scontoVal ? parseFloat(btnIncassa.dataset.scontoVal) : 0;
-            const totaleNetto = btnIncassa.dataset.totaleNetto ? parseFloat(btnIncassa.dataset.totaleNetto) : totaleGenLordo;
+            let totaleNetto = totaleGenLordo;
+
+            if (scontoTipo === 'percentuale') {
+                totaleNetto = totaleGenLordo - (totaleGenLordo * (scontoVal / 100));
+            } else if (scontoTipo === 'importo') {
+                totaleNetto = Math.max(0, totaleGenLordo - scontoVal);
+            }
             
             comandeAttive.splice(idx, 1);
             await salvaFileSuGitHub("comande_attive.json", JSON.stringify(comandeAttive, null, 2), `Comanda #${id} Incassata`);
 
-            let txtCloud = `Tavolo: ${comanda.tavolo}\nCoperti: ${comanda.persone}\nCameriere: ${comanda.cameriere}\nStato: ${pagamento}\nData: ${comanda.data}\n\n`;
+            let txtCloud = `COMANDA #${comanda.id}\n`;
+            txtCloud += `Tavolo: ${comanda.tavolo}\nCoperti: ${comanda.persone}\nCameriere: ${comanda.cameriere}\nStato: ${pagamento}\nData: ${comanda.data} - Ora: ${comanda.ora}\n\n`;
             
-            comanda.articoli.forEach(i => { 
-                const tot = parseFloat(i.prezzo) * i.qta; 
-                txtCloud += `${i.qta} x ${i.desc} (€ ${i.prezzo}) = € ${tot.toFixed(2)}\n`; 
-                if(i.nota) txtCloud += `   ↳ Nota: ${i.nota}\n`;
+            let usciteCloudMap = {};
+            articoliDaIncassare.forEach(i => {
+                const u = i.uscita || 1;
+                if(!usciteCloudMap[u]) usciteCloudMap[u] = [];
+                usciteCloudMap[u].push(i);
             });
-            if(parseInt(comanda.persone) > 0) txtCloud += `${comanda.persone} x Coperto (€ 2.00) = € ${(parseInt(comanda.persone)*2).toFixed(2)}\n`;
-            
+
+            Object.keys(usciteCloudMap).sort((a,b)=>parseInt(a)-parseInt(b)).forEach(u => {
+                txtCloud += `--- ${u}° USCITA ---\n`;
+                usciteCloudMap[u].forEach(i => {
+                    const tot = parseFloat(i.prezzo) * i.qta;
+                    txtCloud += `${i.qta} x ${i.desc} (€ ${parseFloat(i.prezzo).toFixed(2)} cad.) = € ${tot.toFixed(2)}\n`;
+                    if(i.nota) txtCloud += `   ↳ Nota: ${i.nota}\n`;
+                });
+                txtCloud += `\n`;
+            });
+
+            if(stornati.length > 0) {
+                txtCloud += `--- PIETANZE STORNATE / ANNULLATE IN CUCINA ---\n`;
+                stornati.forEach(i => {
+                    txtCloud += `[STORNO] ${i.qta} x ${i.desc} (€ ${parseFloat(i.prezzo).toFixed(2)} cad.)\n`;
+                    if(i.nota) txtCloud += `   ↳ Nota: ${i.nota}\n`;
+                });
+                txtCloud += `\n`;
+            }
+
+            if(parseInt(comanda.persone) > 0) {
+                txtCloud += `Servizio: ${comanda.persone} x Coperto (€ ${PREZZO_COPERTO_UNITARIO.toFixed(2)}) = € ${(parseInt(comanda.persone)*PREZZO_COPERTO_UNITARIO).toFixed(2)}\n\n`;
+            }
+
             txtCloud += `---------------------------\n`;
             txtCloud += `TOTALE LORDO: € ${totaleGenLordo.toFixed(2)}\n`;
             if(scontoTipo) {
@@ -1167,13 +1287,12 @@
                 txtCloud += `${testoSc}: -€ ${valoreScEuro.toFixed(2)}\n`;
             }
             txtCloud += `TOTALE INCASSATO: € ${totaleNetto.toFixed(2)}\n`;
-            
             if(comanda.note) txtCloud += `\nNOTE GENERALI: ${comanda.note}\n`;
             
             const timestamp = Date.now();
             await salvaFileSuGitHub(`archivio_comande/Comanda_${timestamp}_Tav${comanda.tavolo}_${comanda.data}.txt`, txtCloud, `Archiviata Comanda Tavolo ${comanda.tavolo}`);
             
-            alert(`Comanda incassata (${pagamento}) e archiviata con successo!`);
+            alert(`Comanda incassata (${pagamento}) e archiviata con successo!` + (stornati.length > 0 ? " (Pietanze non servite stornate e annullate in cucina)" : ""));
             renderizzaDashboardCucinaCassa();
         }
 
