@@ -1,0 +1,25 @@
+Tavolo: 1
+Coperti: 1
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: Contanti
+Data: 17-08-2026
+
+1 x Acqua Nat. 1 lt (€ 2.00) = € 2.00
+1 x Caffè (€ 1,50) = € 1.00
+1 x Caffè macchiato (€ 1.50) = € 1.50
+2 x Limoncello (€ 4.50) = € 9.00
+1 x Antipasto Misto Mare (€ 10,00) = € 10.00
+2 x Aragosta flambè (€ 18.50) = € 37.00
+1 x Bruschette all'olio (€ 5.00) = € 5.00
+1 x Frittura mista (€ 13.00) = € 13.00
+1 x Pennette al salmone (€ 9,50) = € 9.00
+1 x Lasagne al ragù di carne (€ 7.50) = € 7.50
+1 x Patate arrosto (€ 4.00) = € 4.00
+1 x Insalata verde (€ 3.00) = € 3.00
+1 x Gelato 3 palline (€ 5.00) = € 5.00
+1 x Sorbetto al limone (€ 5.00) = € 5.00
+1 x Cheesecake fragola (€ 5.00) = € 5.00
+1 x Coperto (€ 2.00) = € 2.00
+---------------------------
+TOTALE LORDO: € 119.00
+TOTALE INCASSATO: € 119.00
