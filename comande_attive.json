@@ -78,7 +78,7 @@
         "prezzo": "5.00",
         "nota": "",
         "uscita": 4,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -86,7 +86,7 @@
         "prezzo": "5.00",
         "nota": "",
         "uscita": 4,
-        "stato": "in_attesa"
+        "stato": "pronto"
       }
     ]
   }
