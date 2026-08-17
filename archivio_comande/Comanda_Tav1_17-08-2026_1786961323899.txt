@@ -1,0 +1,13 @@
+Tavolo: 1
+Coperti: 2
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: POS
+Data: 17-08-2026
+
+1 x Gelato 3 palline (€ 5.00) = € 5.00
+   ↳ Nota: fragola
+1 x Gelato 3 palline (€ 5.00) = € 5.00
+   ↳ Nota: limone
+2 x Coperto (€ 2.00) = € 4.00
+
+TOTALE COMANDA: € 14.00
