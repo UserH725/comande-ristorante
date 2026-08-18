@@ -1,0 +1,56 @@
+COMANDA #3DSD
+Tavolo: 14
+Coperti: 6
+Cameriere: Mauro (TITOLARE E DIRETTORE CUCINA)
+Stato: POS
+Data: 18-08-2026 - Ora: 13:10
+
+--- 1° USCITA ---
+1 x Acqua Frizzante 1 lt (€ 2.00 cad.) = € 2.00
+1 x Acqua Nat. 1 lt (€ 2.00 cad.) = € 2.00
+1 x Bibite lattina (€ 4.00 cad.) = € 4.00
+1 x Birra Moretti 66cl. (€ 4.00 cad.) = € 4.00
+1 x Caffè (€ 1.00 cad.) = € 1.00
+8 x Caffè macchiato (€ 1.50 cad.) = € 12.00
+10 x Champagne Moët & Chandon (€ 49.00 cad.) = € 490.00
+1 x Grappa (€ 3.00 cad.) = € 3.00
+1 x Limoncello (€ 4.50 cad.) = € 4.50
+1 x Liquori (€ 3.00 cad.) = € 3.00
+1 x Sgroppino (€ 6.50 cad.) = € 6.50
+1 x Vino bianco frizzantino ½ litro (€ 5.50 cad.) = € 5.50
+1 x Vino rosso ½ litro (€ 5.50 cad.) = € 5.50
+1 x Antipasto Misto Mare (€ 10.00 cad.) = € 10.00
+1 x Aragosta flambè (€ 18.50 cad.) = € 18.50
+1 x Bruschette all'olio (€ 5.00 cad.) = € 5.00
+1 x Bruschette con olio e pomodori (€ 5.50 cad.) = € 5.50
+1 x Cocktail di gamberi (€ 8.00 cad.) = € 8.00
+1 x Cozze alla marinara (€ 7.50 cad.) = € 7.50
+10 x Ostriche (€ 35.00 cad.) = € 350.00
+1 x Insalata di mare (€ 11.00 cad.) = € 11.00
+1 x Lasagne al ragù di carne (€ 7.50 cad.) = € 7.50
+1 x Lasagne zucchine gamberetti e salmone (€ 9.50 cad.) = € 9.50
+1 x Penne al pomodoro (€ 7.00 cad.) = € 7.00
+1 x Pennette al salmone (€ 9.00 cad.) = € 9.00
+1 x Tortelli al ragù di pesce (€ 8.50 cad.) = € 8.50
+1 x Schiacciata bianca (€ 4.00 cad.) = € 4.00
+1 x Prosciutto e funghi (€ 7.00 cad.) = € 7.00
+1 x Margherita (€ 5.00 cad.) = € 5.00
+3 x Capricciosa (€ 7.00 cad.) = € 21.00
+1 x Bufalina (€ 7.00 cad.) = € 7.00
+2 x Cheesecake caramello (€ 5.00 cad.) = € 10.00
+1 x Gelato 3 palline (€ 5.00 cad.) = € 5.00
+1 x Panna cotta (€ 5.00 cad.) = € 5.00
+1 x Tartufo nero (€ 4.00 cad.) = € 4.00
+1 x Tartufo bianco (€ 4.00 cad.) = € 4.00
+1 x Sorbetto al limone (€ 5.00 cad.) = € 5.00
+2 x Caffè normale (€ 1.50 cad.) = € 3.00
+2 x Cappuccino (€ 1.80 cad.) = € 3.60
+7 x Amaro del capo (€ 3.00 cad.) = € 21.00
+1 x Limoncello (€ 3.00 cad.) = € 3.00
+
+Servizio: 6 x Coperto (€ 2.00) = € 12.00
+
+---------------------------
+TOTALE LORDO: € 1119.60
+Sconto (25%): -€ 279.90
+TOTALE INCASSATO: € 839.70
