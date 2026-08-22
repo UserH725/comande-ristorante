@@ -14,7 +14,7 @@
         "prezzo": "2.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -22,7 +22,7 @@
         "prezzo": "2.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -30,7 +30,7 @@
         "prezzo": "11.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -38,7 +38,7 @@
         "prezzo": "9.50",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -46,7 +46,7 @@
         "prezzo": "13.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -54,7 +54,7 @@
         "prezzo": "3.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -62,7 +62,7 @@
         "prezzo": "7.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -70,7 +70,7 @@
         "prezzo": "1.50",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       },
       {
         "qta": 1,
@@ -78,7 +78,7 @@
         "prezzo": "3.00",
         "nota": "",
         "uscita": 1,
-        "stato": "in_attesa"
+        "stato": "pronto"
       }
     ]
   }
