@@ -1,0 +1,24 @@
+COMANDA #D50Z
+Tavolo: 5
+Coperti: 1
+Cameriere: Asia (DIRETTRICE RISTORANTE)
+Stato: POS
+Data: 22-08-2026 - Ora: 14:08
+
+--- 1° USCITA ---
+1 x Acqua Frizzante 1 lt (€ 2.00 cad.) = € 2.00
+1 x Acqua Nat. 1 lt (€ 2.00 cad.) = € 2.00
+1 x Insalata di mare (€ 11.00 cad.) = € 11.00
+1 x Lasagne zucchine gamberetti e salmone (€ 9.50 cad.) = € 9.50
+1 x Frittura mista (€ 13.00 cad.) = € 13.00
+1 x Insalata verde (€ 3.00 cad.) = € 3.00
+1 x Prosciutto e funghi (€ 7.00 cad.) = € 7.00
+1 x Caffè macchiato (€ 1.50 cad.) = € 1.50
+1 x Limoncello (€ 3.00 cad.) = € 3.00
+
+Servizio: 1 x Coperto (€ 2.00) = € 2.00
+
+---------------------------
+TOTALE LORDO: € 54.00
+Sconto (25%): -€ 13.50
+TOTALE INCASSATO: € 40.50
